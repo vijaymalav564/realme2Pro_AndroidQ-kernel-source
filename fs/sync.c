@@ -23,7 +23,7 @@
 #include <soc/oppo/oppo_healthinfo.h>
 #endif /*CONFIG_VENDOR_REALME*/
 
-bool fsync_enabled = true;
+bool fsync_enabled = false;
 module_param(fsync_enabled, bool, 0755);
 
 #define VALID_FLAGS (SYNC_FILE_RANGE_WAIT_BEFORE|SYNC_FILE_RANGE_WRITE| \

@@ -1,4 +1,4 @@
-/* Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -46,7 +46,7 @@ static int sleepstate_pm_notifier(struct notifier_block *nb,
 //Qiang.zhang@BSP.Sensor 2017/11/30 modify for notify sensor suspend forward
 		gpio_set_value(slst_gpio_base_id + PROC_AWAKE_ID, 0);
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-		msleep(25); /* To be tuned based on SMP2P latencies */
+		usleep_range(10000, 10500); /* Tuned based on SMP2P latencies */
 		msm_ipc_router_set_ws_allowed(true);
 		break;
 
@@ -55,7 +55,6 @@ static int sleepstate_pm_notifier(struct notifier_block *nb,
 //Qiang.zhang@BSP.Sensor 2017/11/30 modify for notify sensor suspend forward
 		gpio_set_value(slst_gpio_base_id + PROC_AWAKE_ID, 1);
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-		usleep_range(10000, 10500); /* Tuned based on SMP2P latencies */
 		msm_ipc_router_set_ws_allowed(false);
 		break;
 	}

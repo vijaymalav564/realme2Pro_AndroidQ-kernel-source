@@ -764,21 +764,9 @@ int pm_suspend(suspend_state_t state)
 		return -EINVAL;
 
 	pm_suspend_marker("entry");
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//Qiang.zhang@BSP.Sensor 2017/11/30 modify for notify sensor suspend forward
 	gpio_set_value(slst_gpio_base_id + PROC_AWAKE_ID, 0);
-	pr_err("notify adsp suspend in the beging of pm suspend before file system.\n");
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
 	error = enter_state(state);
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//Qiang.zhang@BSP.Sensor 2017/11/30 modify for notify sensor suspend forward
 	gpio_set_value(slst_gpio_base_id + PROC_AWAKE_ID, 1);
-	pr_err("notify adsp resume in the end.\n");
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
 	if (error) {
 		suspend_stats.fail++;
 		dpm_save_failed_errno(error);

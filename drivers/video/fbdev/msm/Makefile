@@ -70,3 +70,4 @@ subdir-ccflags-y += \
 	-Wno-parentheses-equality \
 	-Wno-duplicate-decl-specifier
 obj-$(CONFIG_FB_MSM_MDSS_KCAL_CTRL) += mdss_mdp_kcal_ctrl.o
+obj-$(CONFIG_KLAPSE) += klapse.o

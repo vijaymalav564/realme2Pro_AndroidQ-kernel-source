@@ -150,6 +150,7 @@ void lpm_use_governor(bool is_use);
 void lpm_disable_sleep(bool is_use);
 #endif
 extern struct lpm_cluster *lpm_root_node;
+void lpm_cluster_use_deepest_state(bool enable);
 
 #ifdef CONFIG_SMP
 extern DEFINE_PER_CPU(bool, pending_ipi);

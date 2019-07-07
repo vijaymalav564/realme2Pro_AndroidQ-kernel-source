@@ -111,3 +111,5 @@ obj-$(CONFIG_OPPO_MEM_MONITOR) += memory_monitor.o
 #/* Kui.Zhang@TEC.Kernel.Performance, 2019-03-13, add new interface for process memory reclaim*/
 obj-$(CONFIG_PROCESS_RECLAIM) += process_mm_reclaim.o
 #endif /*defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_VIRTUAL_RESERVE_MEMORY)*/
+
+CFLAGS_kmemleak.o += -DCONFIG_DEBUG_FS

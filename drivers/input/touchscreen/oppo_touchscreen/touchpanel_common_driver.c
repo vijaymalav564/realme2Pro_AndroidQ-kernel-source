@@ -452,10 +452,10 @@ static void tp_gesture_handle(struct touchpanel_data *ts)
         if(ts->geature_ignore)
             return;
         #endif
-		input_report_key(ts->input_dev, key, 1);
-		input_sync(ts->input_dev);
-		input_report_key(ts->input_dev, key, 0);
-		input_sync(ts->input_dev);
+        input_report_key(ts->input_dev, KEY_WAKEUP, 1);
+        input_sync(ts->input_dev);
+        input_report_key(ts->input_dev, KEY_WAKEUP, 0);
+        input_sync(ts->input_dev);
     } else if (gesture_info_temp.gesture_type == FingerprintDown) {
         ts->fp_info.touch_state = 1;
         opticalfp_irq_handler(&ts->fp_info);
@@ -3889,22 +3889,7 @@ static int init_input_device(struct touchpanel_data *ts)
     set_bit(INPUT_PROP_DIRECT, ts->input_dev->propbit);
     set_bit(BTN_TOUCH, ts->input_dev->keybit);
     if (ts->black_gesture_support) {
-        set_bit(KEY_F4, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_W, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_M, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_S, ts->input_dev->keybit);
-        set_bit(KEY_DOUBLE_TAP, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_CIRCLE, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_TWO_SWIPE, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_UP_ARROW, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_LEFT_ARROW, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_RIGHT_ARROW, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_DOWN_ARROW, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_SWIPE_LEFT, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_SWIPE_DOWN, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_SWIPE_RIGHT, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_SWIPE_UP, ts->input_dev->keybit);
-        set_bit(KEY_GESTURE_SINGLE_TAP, ts->input_dev->keybit);
+        set_bit(KEY_WAKEUP, ts->input_dev->keybit);
     }
 
     ts->kpd_input_dev->name = TPD_DEVICE"_kpd";

@@ -107,7 +107,7 @@ module_param_named(agrlmk_totalram_ratio, agrlmk_totalram_ratio, uint, S_IRUGO |
 module_param_named(agrlmk_enable, agrlmk_enable, bool, S_IRUGO | S_IWUSR);
 #endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
-static uint32_t lowmem_debug_level = 1;
+static uint32_t lowmem_debug_level = 0;
 static short lowmem_adj[6] = {
 	0,
 	1,

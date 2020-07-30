@@ -155,8 +155,6 @@ module_param_named(
 );
 
 static bool sleep_disabled;
-module_param_named(sleep_disabled,
-	sleep_disabled, bool, S_IRUGO | S_IWUSR | S_IWGRP);
 
 #ifdef CONFIG_PRODUCT_REALME_RMX1801
 //xiaocheng.li@Swdp.shanghai, 2015/11/9, Enable scoring lpm governor

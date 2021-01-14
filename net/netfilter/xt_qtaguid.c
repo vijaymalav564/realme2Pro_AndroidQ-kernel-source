@@ -413,14 +413,14 @@ static struct uid_tag_data *uid_tag_data_tree_search(struct rb_root *root,
 	return NULL;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Yunqing.Zeng@BSP.Power.Basic 2018/01/11 add for backup of netstat before sleep
 struct proc_dir_entry * get_xt_qtaguid_procdir(void)
 {
 	return xt_qtaguid_procdir;
 }
 EXPORT_SYMBOL(get_xt_qtaguid_procdir);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /*
  * Allocates a new uid_tag_data struct if needed.

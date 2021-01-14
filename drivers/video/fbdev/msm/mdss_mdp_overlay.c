@@ -54,7 +54,7 @@
 #define DFPS_DATA_MAX_FPS 0x7fffffff
 #define DFPS_DATA_MAX_CLK_RATE 250000
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* W9001377@PSW.MM.Display.Feature, 2019/9/9,
  * add for SAU
 */
@@ -2509,7 +2509,7 @@ static int __overlay_secure_ctrl(struct msm_fb_data_type *mfd)
 	return ret;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for support fingerprint feature */
 extern int hbm_delay;
 extern bool request_enter_aod;
@@ -2522,7 +2522,7 @@ extern void set_hbm_level(struct mdss_panel_data *pdata, int hbm_level, bool hbm
 static int bpp_value = 24;
 static int last_bpp_value = 24;
 extern int mdss_mdp_panel_default_dither_config(struct msm_fb_data_type *mfd, u32 panel_bpp);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 int mdss_mdp_overlay_kickoff(struct msm_fb_data_type *mfd,
 				struct mdp_display_commit *data)
@@ -2532,10 +2532,10 @@ int mdss_mdp_overlay_kickoff(struct msm_fb_data_type *mfd,
 	struct mdss_mdp_ctl *ctl = mfd_to_ctl(mfd);
 	int ret = 0;
 	struct mdss_mdp_commit_cb commit_cb;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for support fingerprint feature */
 	struct mdss_panel_data *pdata = dev_get_platdata(&mfd->pdev->dev);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	if (!ctl || !ctl->mixer_left)
 		return -ENODEV;
@@ -2631,7 +2631,7 @@ int mdss_mdp_overlay_kickoff(struct msm_fb_data_type *mfd,
 		commit_cb.commit_cb_fnc = mdss_mdp_commit_cb;
 		commit_cb.data = mfd;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for support fingerprint feature */
 		if (mfd->oppo_commit_info && (!fingerprint_icon_shows)) {
 			fingerprint_icon_shows = true;
@@ -2651,9 +2651,9 @@ int mdss_mdp_overlay_kickoff(struct msm_fb_data_type *mfd,
 				set_hbm_level(pdata, 0, false);
 			}
 		}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-		#ifdef VENDOR_EDIT
+		#ifdef CONFIG_VENDOR_REALME
 		/* add for set dither config in screen lock to solve water ripple */
 		if (fingerprint_icon_shows){
 			bpp_value = 18;
@@ -2668,7 +2668,7 @@ int mdss_mdp_overlay_kickoff(struct msm_fb_data_type *mfd,
 					mfd->index, ret);
 			last_bpp_value = bpp_value;
 		}
-		#endif /* VENDOR_EDIT */
+		#endif /* CONFIG_VENDOR_REALME */
 
 		ret = mdss_mdp_display_commit(mdp5_data->ctl, NULL,
 			&commit_cb);
@@ -3373,15 +3373,15 @@ int mdss_mdp_overlay_vsync_ctrl(struct msm_fb_data_type *mfd, int en)
 		goto end;
 	}
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Jie.Hu@PSW.MultiMedia.Display.Service.Feature.fix Bug 1292128, 2018/02/25, Add for solve color temprature abnormal
 	if (!ctl->panel_data->panel_info.cont_splash_enabled
 			&& (!mdss_mdp_ctl_is_power_on(ctl) ||
 			mdss_panel_is_power_on_ulp(ctl->power_state))) {
-#else /* VENDOR_EDIT */
+#else /* CONFIG_VENDOR_REALME */
 	if (!ctl->panel_data->panel_info.cont_splash_enabled
 		&& (!mdss_mdp_ctl_is_power_on(ctl))) {
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 		pr_debug("fb%d vsync pending first update en=%d, ctl power state:%d\n",
 				mfd->index, en, ctl->power_state);
 		rc = 0;
@@ -3614,7 +3614,7 @@ int mdss_mdp_dfps_update_params(struct msm_fb_data_type *mfd,
 	return 0;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for dynamic fps switch */
 extern bool oppo_dynamic_fps_disable_switch;
 ssize_t oppo_dynamic_fps_contrl(struct mdss_panel_data *pdata,
@@ -3643,7 +3643,7 @@ ssize_t oppo_dynamic_fps_contrl(struct mdss_panel_data *pdata,
 
 	return rc;
 } /* oppo_dynamic_fps_contrl */
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static ssize_t dynamic_fps_sysfs_wta_dfps(struct device *dev,
 	struct device_attribute *attr, const char *buf, size_t count)
@@ -3667,12 +3667,12 @@ static ssize_t dynamic_fps_sysfs_wta_dfps(struct device *dev,
 		return -ENODEV;
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for dynamic fps switch */
 	if (oppo_dynamic_fps_disable_switch) {
 		return count;
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	if (!pdata->panel_info.dynamic_fps) {
 		pr_err_once("%s: Dynamic fps not enabled for this panel\n",
@@ -3725,7 +3725,7 @@ static ssize_t dynamic_fps_sysfs_wta_dfps(struct device *dev,
 	return count;
 } /* dynamic_fps_sysfs_wta_dfps */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 static ssize_t dynamic_dsitiming_sysfs_rda(struct device *dev,
 	struct device_attribute *attr, char *buf)
@@ -3828,7 +3828,7 @@ static struct attribute *dynamic_dsitiming_fs_attrs[] = {
 static struct attribute_group dynamic_dsitiming_fs_attrs_group = {
 	.attrs = dynamic_dsitiming_fs_attrs,
 };
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static DEVICE_ATTR(dynamic_fps, S_IRUGO | S_IWUSR, dynamic_fps_sysfs_rda_dfps,
 	dynamic_fps_sysfs_wta_dfps);
@@ -6691,11 +6691,11 @@ int mdss_mdp_overlay_init(struct msm_fb_data_type *mfd)
 	mutex_init(&mdp5_data->ov_lock);
 	mutex_init(&mdp5_data->dfps_lock);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Shengjun.Gou@PSW.MM.Display.LCD.Feature, 2018/01/03,
 //add for dynamic mipi dsi clk
 	mutex_init(&mdp5_data->dynamic_dsitiming_lock);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	mfd->mdp.private1 = mdp5_data;
 	mfd->wait_for_kickoff = true;
@@ -6819,7 +6819,7 @@ int mdss_mdp_overlay_init(struct msm_fb_data_type *mfd)
 		}
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Shengjun.Gou@PSW.MM.Display.LCD.Feature, 2018/01/03,
 //add for dynamic mipi dsi clk
 	if (mfd->panel_info->type == MIPI_CMD_PANEL) {
@@ -6830,7 +6830,7 @@ int mdss_mdp_overlay_init(struct msm_fb_data_type *mfd)
 			goto init_fail;
 		}
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	if (mfd->panel_info->mipi.dms_mode ||
 			mfd->panel_info->type == MIPI_CMD_PANEL) {

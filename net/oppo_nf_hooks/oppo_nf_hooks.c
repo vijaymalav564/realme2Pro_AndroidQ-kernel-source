@@ -1,6 +1,6 @@
 /***********************************************************
 ** Copyright (C), 2008-2018, OPPO Mobile Comm Corp., Ltd.
-** VENDOR_EDIT
+** CONFIG_VENDOR_REALME
 ** File: oppo_nf_hooks.c
 ** Description: Add for WeChat lucky money recognition
 **

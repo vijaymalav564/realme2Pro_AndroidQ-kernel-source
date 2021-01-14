@@ -134,11 +134,11 @@ static ssize_t pm_test_store(struct kobject *kobj, struct kobj_attribute *attr,
 		}
 
 	unlock_system_sleep();
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/04/05 add for power debug
 	pr_info("%s buf:%s, pm_test_level:%d,level:%d\n", __func__, buf,
 		pm_test_level, level);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 	return error ? error : n;
 }
@@ -535,7 +535,7 @@ power_attr(wake_unlock);
 #endif /* CONFIG_PM_WAKELOCKS */
 #endif /* CONFIG_PM_SLEEP */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* OPPO 2012-11-05 heiwei Modify begin for add interface start reason and boot_mode begin */
 extern char pwron_event[];
 
@@ -566,7 +566,7 @@ static ssize_t app_boot_store(struct kobject *kobj, struct kobj_attribute *attr,
 }
 power_attr(app_boot);
 /* OPPO 2012-11-05 Van heiwei begin for add interface start reason and boot_mode end */
-#endif //VENDOR_EDIT
+#endif //CONFIG_VENDOR_REALME
 
 
 #ifdef CONFIG_PM_TRACE
@@ -632,7 +632,7 @@ power_attr(pm_freeze_timeout);
 
 #endif	/* CONFIG_FREEZER*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* fanhui@PhoneSW.BSP, 2016/05/16, interface to read PMIC reg PON_REASON and POFF_REASON */
 char pon_reason[128];
 static ssize_t pon_reason_show(struct kobject *kobj,
@@ -663,7 +663,7 @@ static ssize_t poff_reason_store(struct kobject *kobj,
 	return -EINVAL;
 }
 power_attr(poff_reason);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static struct attribute * g[] = {
 	&state_attr.attr,
@@ -692,17 +692,17 @@ static struct attribute * g[] = {
 #ifdef CONFIG_FREEZER
 	&pm_freeze_timeout_attr.attr,
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* OPPO 2012-11-05 heiwei Modify begin for add interface start reason and boot_mode begin */
 	&app_boot_attr.attr,
 	&startup_mode_attr.attr,
 /* OPPO 2012-11-05 heiwei Modify begin for add interface start reason and boot_mode end */
-#endif //VENDOR_EDIT
-#ifdef VENDOR_EDIT
+#endif //CONFIG_VENDOR_REALME
+#ifdef CONFIG_VENDOR_REALME
 /* fanhui@PhoneSW.BSP, 2016/05/16, interface to read PMIC reg PON_REASON and POFF_REASON */
 	&pon_reason_attr.attr,
 	&poff_reason_attr.attr,
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	NULL,
 };
 

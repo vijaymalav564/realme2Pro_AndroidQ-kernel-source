@@ -29,10 +29,10 @@
 
 &int_codec {
 	qcom,model = "sdm660-snd-card-mtp";
-	//#ifndef VENDOR_EDIT
+	//#ifndef CONFIG_VENDOR_REALME
 	/*Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/09/21,
 	 *Delete for audio config.
 	 */
 	//status = "okay";
-	//#endif /* VENDOR_EDIT */
+	//#endif /* CONFIG_VENDOR_REALME */
 };

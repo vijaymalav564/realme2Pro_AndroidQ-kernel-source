@@ -233,7 +233,7 @@ config RIONET_RX_SIZE
 	int "Number of inbound queue entries"
 	depends on RIONET
 	default "128"
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 #Add for limit speed function
 config IMQ
@@ -266,7 +266,7 @@ config IMQ_NUM_DEVS
 	  More information can be found at: https://github.com/imq/linuximq
 
 	  If not sure leave the default settings alone.
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 config TUN
 	tristate "Universal TUN/TAP device driver support"

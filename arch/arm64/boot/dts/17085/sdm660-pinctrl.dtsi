@@ -20,7 +20,7 @@
 		interrupt-controller;
 		#interrupt-cells = <2>;
 
-//ifdef VENDOR_EDIT
+//ifdef CONFIG_VENDOR_REALME
 /*ziqing.guo@phone.bsp 2017-01-20 add for fingerprint compatibility */
     oppo_fp_common{
         gpio_id1_default: gpio_id1_default {
@@ -60,9 +60,9 @@
             };
         };
     };
-//#endif/*VENDOR_EDIT*/
+//#endif/*CONFIG_VENDOR_REALME*/
 
-//ifdef VENDOR_EDIT
+//ifdef CONFIG_VENDOR_REALME
 /*ziqing.guo@phone.bsp 2017-01-20 add for fingerprint compatibility */
 	fpc_fpc1020{
 		gpio_vdd_en_default: gpio_vdd_en_default {
@@ -90,9 +90,9 @@
 			};
 		};
     };
-//#endif/*VENDOR_EDIT*/
+//#endif/*CONFIG_VENDOR_REALME*/
 
-//ifdef VENDOR_EDIT
+//ifdef CONFIG_VENDOR_REALME
 /* ziqing.guo@BSP.Fingerprint.Basic, 2017/04/19, add for goodix 3268 && 5288 */
     goodix_fp{
         gpio_goodix_irq_default: gpio_goodix_irq_default {
@@ -108,9 +108,9 @@
             };
         };
     };
-//#endif/*VENDOR_EDIT*/
+//#endif/*CONFIG_VENDOR_REALME*/
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 /*rendong.shi@bsp.bootloder.bootflow,2017/4/9, add for audio suboard identify */
 		hw_sub_gpio_active: hw_sub_gpio_active {
 			/* active state */
@@ -152,7 +152,7 @@
 			};
 		};
 
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/04/10, sjc Add for console */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/04/10, sjc Add for console */
 		uart_console_disable: uart_console_disable {
 			mux {
 				pins = "gpio4", "gpio5";
@@ -166,7 +166,7 @@
 				bias-disable;
 			};
 		};
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 
 		led_enable: led_enable {
 			mux {
@@ -196,7 +196,7 @@
 			};
 		};
 
-		//#ifndef VENDOR_EDIT
+		//#ifndef CONFIG_VENDOR_REALME
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26,
 		 *Delete for audio config.
 		 */
@@ -215,7 +215,7 @@
 			};
 		};
 		*/
-		//#endif /* VENDOR_EDIT */
+		//#endif /* CONFIG_VENDOR_REALME */
 		ufs_dev_reset_assert: ufs_dev_reset_assert {
 			config {
 				pins = "ufs_reset";
@@ -267,7 +267,7 @@
 			config {
 				pins = "sdc1_clk";
 				bias-disable;		/* NO pull */
-//#ifndef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/03/03, sjc Modify for SDC1_CLK */
+//#ifndef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/03/03, sjc Modify for SDC1_CLK */
 				//drive-strength = <16>;	/* 16 MA */
 //#else
 				drive-strength = <10>;	/* 10 MA */
@@ -391,7 +391,7 @@
 			};
 		};
 
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_VENDOR_REALME
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26,
 		 *Add for audio config.
 		 */
@@ -583,7 +583,7 @@
 				};
 			};
 		};
-		//#endif /* VENDOR_EDIT */
+		//#endif /* CONFIG_VENDOR_REALME */
 
 		sdc2_cd_off: cd_off {
 			mux {
@@ -598,7 +598,7 @@
 			};
 		};
 		
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //rendong.shi@Bsp.Storage.card ,2016/12/21,Added for t-card identify
 		sim1_cd_on: sim1_cd_on {
 			mux {
@@ -699,7 +699,7 @@
 			};
 		};
 
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_VENDOR_REALME
 		/* Wanghao@BSP.group 2017-09-20 add for tp int and reset pin*/
 		pmx_ts_int_active {
 			ts_int_active: ts_int_active {
@@ -812,7 +812,7 @@
 			};
 		};
 
-		//#ifndef VENDOR_EDIT
+		//#ifndef CONFIG_VENDOR_REALME
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26,
 		 *Delete for audio config.
 		 */
@@ -857,7 +857,7 @@
 			};
 		};
 		*/
-		//#endif /* VENDOR_EDIT */
+		//#endif /* CONFIG_VENDOR_REALME */
 
 		i2c_5 {
 			i2c_5_active: i2c_5_active {
@@ -1180,7 +1180,7 @@
 			};
 		};
 
-		//#ifndef VENDOR_EDIT
+		//#ifndef CONFIG_VENDOR_REALME
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26,
 		 *Delete for audio config.
 		 */
@@ -1217,7 +1217,7 @@
 			};
 		};
 		*/
-		//#endif /* VENDOR_EDIT */
+		//#endif /* CONFIG_VENDOR_REALME */
 
 		spi_5 {
 			spi_5_active: spi_5_active {
@@ -1250,7 +1250,7 @@
 				};
 			};
 		};
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/08/07, sjc Modify for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/08/07, sjc Modify for charging */
 		spi_6 {
 			spi_6_active: spi_6_active {
 				mux {
@@ -1282,7 +1282,7 @@
 				};
 			};
 		};
-//#endif //VENDOR_EDIT
+//#endif //CONFIG_VENDOR_REALME
 		spi_7 {
 			spi_7_active: spi_7_active {
 				mux {
@@ -1664,7 +1664,7 @@
 		cam_actuator_vaf_active: cam_actuator_vaf_active {
 			/* ACTUATOR POWER */
 			mux {
-				//#ifndef VENDOR_EDIT
+				//#ifndef CONFIG_VENDOR_REALME
 				/*oppo hufeng 20170213 modify for rear camera af config*/
 				/*
 				pins = "gpio50";
@@ -1676,7 +1676,7 @@
 			};
 
 			config {
-				//#ifndef VENDOR_EDIT
+				//#ifndef CONFIG_VENDOR_REALME
 				/*oppo hufeng 20170213 modify for rear camera af config*/
 				/*
 				pins = "gpio50";
@@ -1692,7 +1692,7 @@
 		cam_actuator_vaf_suspend: cam_actuator_vaf_suspend {
 			/* ACTUATOR POWER */
 			mux {
-				//#ifndef VENDOR_EDIT
+				//#ifndef CONFIG_VENDOR_REALME
 				/*oppo hufeng 20170213 modify for rear camera af config*/
 				/*
 				pins = "gpio50";
@@ -1704,7 +1704,7 @@
 			};
 
 			config {
-				//#ifndef VENDOR_EDIT
+				//#ifndef CONFIG_VENDOR_REALME
 				/*oppo hufeng 20170213 modify for rear camera af config*/
 				/*
 				pins = "gpio50";
@@ -1716,7 +1716,7 @@
 				drive-strength = <2>; /* 2 MA */
 			};
 		};
-		/*#ifdef VENDOR_EDIT*/
+		/*#ifdef CONFIG_VENDOR_REALME*/
 		/*oppo hufeng 20170122 add for second rear camera af*/
 		cam_actuator_vaf2_active: cam_actuator_vaf2_active {
 			/* ACTUATOR POWER */
@@ -1807,7 +1807,7 @@
 		cam_sensor_rear_active: cam_sensor_rear_active {
 			/* RESET, STANDBY */
 			mux {
-				/*#ifdef VENDOR_EDIT*/
+				/*#ifdef CONFIG_VENDOR_REALME*/
 				/*modify by hongbo.dai@camera,20170926*/
 				/*
 				pins = "gpio46","gpio44";
@@ -1819,7 +1819,7 @@
 			};
 
 			config {
-				/*#ifdef VENDOR_EDIT*/
+				/*#ifdef CONFIG_VENDOR_REALME*/
 				/*modify by hongbo.dai@camera,20170926*/
 				/*
 				pins = "gpio46","gpio44";
@@ -1836,7 +1836,7 @@
 			/* RESET, STANDBY */
 			mux {
 				/*modify by hongbo.dai@camera,20170926*/
-				/*#ifdef VENDOR_EDIT*/
+				/*#ifdef CONFIG_VENDOR_REALME*/
 				/*
 				pins = "gpio46","gpio44";
 				*/
@@ -1848,7 +1848,7 @@
 
 			config {
 				/*modify by hongbo.dai@camera,20170926*/
-				/*#ifdef VENDOR_EDIT*/
+				/*#ifdef CONFIG_VENDOR_REALME*/
 				/*
 				pins = "gpio46","gpio44";
 				*/
@@ -1894,7 +1894,7 @@
 			/* RESET, STANDBY */
 			mux {
 				/*modify by hongbo.dai@camera,20170926*/
-				/*#ifdef VENDOR_EDIT*/
+				/*#ifdef CONFIG_VENDOR_REALME*/
 				/*
 				pins = "gpio48","gpio51";
 				*/
@@ -1906,7 +1906,7 @@
 
 			config {
 				/*modify by hongbo.dai@camera,20170926*/
-			        /*#ifdef VENDOR_EDIT*/
+			        /*#ifdef CONFIG_VENDOR_REALME*/
 				/*
 				pins = "gpio48","gpio51";
 				*/
@@ -1922,7 +1922,7 @@
 			/* RESET, STANDBY */
 			mux {
 				/*modify by hongbo.dai@camera,20170926*/
-				/*#ifdef VENDOR_EDIT*/
+				/*#ifdef CONFIG_VENDOR_REALME*/
 				/*
 				pins = "gpio48","gpio51";
 				*/
@@ -1933,7 +1933,7 @@
 			};
 			config {
 				/*modify by hongbo.dai@camera,20170926*/
-			        /*#ifdef VENDOR_EDIT*/
+			        /*#ifdef CONFIG_VENDOR_REALME*/
 				/*
 				pins = "gpio48","gpio51";
 				*/
@@ -2219,7 +2219,7 @@
 				bias-disable;
 			};
 		};
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 //rendong.shi@Bsp.boot.devices,2016/12/21,Added for vol_down & vol_up
 /*		tlmm_gpio_key {
 			gpio_key_active: gpio_key_active {
@@ -2408,7 +2408,7 @@
 				output-low;
 			};
 		};
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 
 		mdss_dp_usbplug_cc_active: mdss_dp_usbplug_cc_active {
 			mux {
@@ -2476,7 +2476,7 @@
 				};
 			};
 		};
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/22, sjc Add for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/22, sjc Add for charging */
 		charger: charger {
 			charging_switch1_active: charging_switch1_active {
 				mux {
@@ -2663,9 +2663,9 @@
 				};
 			};
 		};
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Xing.xiong@BSP.TP, 2017/11/21, Add for ship mode
 		pmx_ship_sleep {
 			 ship_sleep: ship_sleep {

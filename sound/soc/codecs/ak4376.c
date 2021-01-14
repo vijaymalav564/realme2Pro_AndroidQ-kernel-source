@@ -1,5 +1,5 @@
 /*
- * VENDOR_EDIT
+ * CONFIG_VENDOR_REALME
  * ak4376.c  --  audio driver for AK4376
  *
  * Copyright (C) 2015 Asahi Kasei Microdevices Corporation
@@ -31,23 +31,23 @@
 #include <sound/initval.h>
 #include <sound/tlv.h>
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ping.Zhang@PSW.MM.AudioDriver.HeadsetDAC, 2016/06/23, Add for ak4376 */
 #include <linux/regulator/consumer.h>
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 #include "ak4376.h"
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDAC, 2017/03/22,
   * Add for change LDO regulator */
 #include <soc/oppo/oppo_project.h>
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* John.Xu@PSW.MM.AudioDriver.HeadsetDAC, 2016/05/11, Add for one MM Key log */
 //#include <soc/oppo/mmkey_log.h>
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 //#define AK4376_DEBUG                //used at debug mode
 //#define AK4376_CONTIF_DEBUG      //used at debug mode
@@ -80,12 +80,12 @@ struct ak4376_priv {
     int nDACOn;
     struct i2c_client *i2c;
     struct regmap *regmap;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/* Ping.Zhang@PSW.MM.AudioDriver.HeadsetDAC, 2016/06/23, Add for ak4376 */
 	int audio_vdd_en_gpio;
 	struct regulator *ak4376_tvdd;
 	struct regulator *ak4376_avdd;
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 };
 
 /* ak4376 register cache & default register settings */
@@ -632,7 +632,7 @@ struct snd_ctl_elem_value  *ucontrol)
 
     return 0;
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*John.Xu@PSW.MM.AudioDriver.HeadsetDAC, 2017/01/03, Add for get spk revsion*/
 static char const *ftm_hp_rev_text[] = {"NG", "OK"};
 static const struct soc_enum ftm_hp_rev_enum  = SOC_ENUM_SINGLE_EXT(2, ftm_hp_rev_text);
@@ -680,7 +680,7 @@ static int ftm_hp_rev_put(struct snd_kcontrol *kcontrol,
 {
     return 0;
 }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 #ifdef AK4376_DEBUG
 
@@ -762,11 +762,11 @@ static const struct snd_kcontrol_new ak4376_snd_controls[] = {
 #ifdef AK4376_DEBUG
     SOC_ENUM_EXT("Reg Read", ak4376_enum[0], get_test_reg, set_test_reg),
 #endif
-    #ifdef VENDOR_EDIT
+    #ifdef CONFIG_VENDOR_REALME
     /*John.Xu@PSW.MM.AudioDriver.HeadsetDAC, 2017/01/03, Add for get spk revsion*/
     SOC_ENUM_EXT("HP_Pa Revision", ftm_hp_rev_enum,
             ftm_hp_rev_get, ftm_hp_rev_put),
-    #endif /* VENDOR_EDIT */
+    #endif /* CONFIG_VENDOR_REALME */
 };
 
 
@@ -1365,10 +1365,10 @@ unsigned int ak4376_i2c_read(struct snd_soc_codec *codec, unsigned int reg)
     struct ak4376_priv *ak4376 = snd_soc_codec_get_drvdata(codec);
     int ret = -1;
     unsigned char tx[1], rx[1];
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*John.Xu@PSW.MM.AudioDriver.HeadsetDAC, 2016/05/11, Add for one MM Key log*/
     //char ret_str[30];
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
     struct i2c_msg xfer[2];
     struct i2c_client *client = ak4376->i2c;
@@ -1392,11 +1392,11 @@ unsigned int ak4376_i2c_read(struct snd_soc_codec *codec, unsigned int reg)
 
     if( ret != 2 ){
         akdbgprt("\t[ak4376] %s error ret = %d \n", __FUNCTION__, ret );
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*John.Xu@PSW.MM.AudioDriver.HeadsetDAC, 2016/05/11, Add for one MM Key log*/
         //snprintf(ret_str, sizeof(ret_str), "%d", ret);
         //mm_keylog_write("hp pa i2c read failed", ret_str, TYPE_HP_PA_EXCEPTION);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
     }
 
     return (unsigned int)rx[0];
@@ -1665,7 +1665,7 @@ static int ak4376_init_reg(struct snd_soc_codec *codec)
     return 0;
 }
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /* Ping.Zhang@PSW.MM.AudioDriver.HeadsetDAC, 2016/06/23, Remove for custom ak4376 */
 static int ak4376_parse_dt(struct ak4376_priv *ak4376)
 {
@@ -1694,7 +1694,7 @@ static int ak4376_parse_dt(struct ak4376_priv *ak4376)
 
     return 0;
 }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 static int ak4376_probe(struct snd_soc_codec *codec)
 {
@@ -1703,7 +1703,7 @@ static int ak4376_probe(struct snd_soc_codec *codec)
 
     akdbgprt("\t[AK4376] %s(%d)\n",__FUNCTION__,__LINE__);
 
-	#ifndef VENDOR_EDIT
+	#ifndef CONFIG_VENDOR_REALME
 	/* Ping.Zhang@PSW.MM.AudioDriver.HeadsetDAC, 2016/06/23, Remove for custom ak4376 */
     ret = ak4376_parse_dt(ak4376);
     akdbgprt("\t[AK4376] %s(%d) ret=%d\n",__FUNCTION__,__LINE__,ret);
@@ -1723,7 +1723,7 @@ static int ak4376_probe(struct snd_soc_codec *codec)
     } else {
         akdbgprt("\t[AK4376] %s(%d) pdn_en=0\n", __FUNCTION__,__LINE__);
     }
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 
 #ifdef CONFIG_DEBUG_FS_CODEC
     mutex_init(&io_lock);
@@ -1876,7 +1876,7 @@ static int ak4376_i2c_probe(struct i2c_client *i2c,
     ak4376->pdn2 = 0;
     ak4376->priv_pdn_en = 0;
 
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/* Ping.Zhang@PSW.MM.AudioDriver.HeadsetDAC, 2016/06/23, Add for ak4376 */
     ak4376->audio_vdd_en_gpio = of_get_named_gpio(i2c->dev.of_node,
                     "audio-vdd-enable-gpio", 0);
@@ -1899,17 +1899,17 @@ static int ak4376_i2c_probe(struct i2c_client *i2c,
     }
 
 	if (is_project(OPPO_16051) || is_project(OPPO_17011) || is_project(OPPO_17021)) {
-		#ifndef VENDOR_EDIT
+		#ifndef CONFIG_VENDOR_REALME
 		/* Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDAC, 2017/03/22,
 		* Modify for change LDO regulator */
 		ak4376->ak4376_tvdd = regulator_get(&i2c->dev, "ak4376-tvdd");
-		#else /* VENDOR_EDIT */
+		#else /* CONFIG_VENDOR_REALME */
 		if (get_PCB_Version() == HW_VERSION__10) {
 			ak4376->ak4376_tvdd = regulator_get(&i2c->dev, "ak4376-tvdd");
 		} else {
 			ak4376->ak4376_tvdd = regulator_get(&i2c->dev, "ak4376-tvdd-L8");
 		}
-		#endif /* VENDOR_EDIT */
+		#endif /* CONFIG_VENDOR_REALME */
 
 		if (IS_ERR(ak4376->ak4376_tvdd)) {
 			pr_warning("[AK4376] %s(%d) cannot get tvdd regulator!\n",
@@ -1922,7 +1922,7 @@ static int ak4376_i2c_probe(struct i2c_client *i2c,
 					dev_err(&i2c->dev, "Regulator set tvdd failed ret=%d\n", ret);
 					return ret;
 				}
-				#ifdef VENDOR_EDIT
+				#ifdef CONFIG_VENDOR_REALME
 				/*xiang.fei@PSW.MM.AudioDriver.HeadsetDAC, 2017/03/01,
 				 *Add for regulator mode
 				 */
@@ -1932,7 +1932,7 @@ static int ak4376_i2c_probe(struct i2c_client *i2c,
 						"failed to set ak4376-tvdd mode ret = %d\n", ret);
 					return ret;
 				}
-				#endif /* VENDOR_EDIT */
+				#endif /* CONFIG_VENDOR_REALME */
 			}
 
 			ret = regulator_enable(ak4376->ak4376_tvdd);
@@ -1943,17 +1943,17 @@ static int ak4376_i2c_probe(struct i2c_client *i2c,
 			}
 		}
 
-		#ifndef VENDOR_EDIT
+		#ifndef CONFIG_VENDOR_REALME
 		/* Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDAC, 2017/03/22,
 		 * Modify for change LDO regulator*/
 		ak4376->ak4376_avdd = regulator_get(&i2c->dev, "ak4376-avdd");
-		#else /* VENDOR_EDIT */
+		#else /* CONFIG_VENDOR_REALME */
 		if (get_PCB_Version() == HW_VERSION__10) {
 			ak4376->ak4376_avdd = regulator_get(&i2c->dev, "ak4376-avdd");
 		} else {
 			ak4376->ak4376_avdd = regulator_get(&i2c->dev, "ak4376-avdd-L8");
 		}
-		#endif /* VENDOR_EDIT */
+		#endif /* CONFIG_VENDOR_REALME */
 
 		if (IS_ERR(ak4376->ak4376_avdd)) {
 			pr_warning("[AK4376] %s(%d) cannot get avdd regulator\n",
@@ -1966,7 +1966,7 @@ static int ak4376_i2c_probe(struct i2c_client *i2c,
 					dev_err(&i2c->dev, "Regulator set avdd failed ret=%d\n", ret);
 					return ret;
 				}
-				#ifdef VENDOR_EDIT
+				#ifdef CONFIG_VENDOR_REALME
 				/*xiang.fei@PSW.MM.AudioDriver.HeadsetDAC, Add for regulator mode*/
 				ret = regulator_set_load(ak4376->ak4376_avdd, 200000);
 				if (ret < 0) {
@@ -1974,7 +1974,7 @@ static int ak4376_i2c_probe(struct i2c_client *i2c,
 						"failed to set ak4376-avdd mode ret = %d\n", ret);
 					return ret;
 				}
-				#endif /* VENDOR_EDIT */
+				#endif /* CONFIG_VENDOR_REALME */
 			}
 
 			ret = regulator_enable(ak4376->ak4376_avdd);
@@ -2034,7 +2034,7 @@ static int ak4376_i2c_probe(struct i2c_client *i2c,
     }
 
 	printk("ak4376_i2c_probe ak4376->pdn1 = %d\n",ak4376->pdn1);
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 
     ret = snd_soc_register_codec(&i2c->dev,
             &soc_codec_dev_ak4376, &ak4376_dai[0], ARRAY_SIZE(ak4376_dai));

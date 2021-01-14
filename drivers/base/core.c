@@ -56,19 +56,19 @@ void lock_device_hotplug(void)
 {
 	mutex_lock(&device_hotplug_lock);
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //jie.cheng@swdp.shanghai, 2016/06/24, export some symbol
 EXPORT_SYMBOL(lock_device_hotplug);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 void unlock_device_hotplug(void)
 {
 	mutex_unlock(&device_hotplug_lock);
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //jie.cheng@swdp.shanghai, 2016/06/24, export some symbol
 EXPORT_SYMBOL(unlock_device_hotplug);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 int lock_device_hotplug_sysfs(void)
 {
@@ -1632,10 +1632,10 @@ int device_offline(struct device *dev)
 
 	return ret;
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //jie.cheng@swdp.shanghai, 2016/06/24, export some symbol
 EXPORT_SYMBOL(device_offline);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /**
  * device_online - Put the device back online after successful device_offline().
@@ -1667,10 +1667,10 @@ int device_online(struct device *dev)
 
 	return ret;
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //jie.cheng@swdp.shanghai, 2016/06/24, export some symbol
 EXPORT_SYMBOL(device_online);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 struct root_device {
 	struct device dev;

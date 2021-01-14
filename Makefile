@@ -409,12 +409,12 @@ KBUILD_AFLAGS_MODULE  := -DMODULE
 KBUILD_CFLAGS_MODULE  := -DMODULE
 KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Bin.Yan@Swdp.Android.BuildConfig, 2017/01/07, Add for kernel Build FLAGS
-KBUILD_CFLAGS +=   -DVENDOR_EDIT
-KBUILD_CPPFLAGS += -DVENDOR_EDIT
-CFLAGS_KERNEL +=   -DVENDOR_EDIT
-CFLAGS_MODULE +=   -DVENDOR_EDIT
+KBUILD_CFLAGS +=   -DCONFIG_VENDOR_REALME
+KBUILD_CPPFLAGS += -DCONFIG_VENDOR_REALME
+CFLAGS_KERNEL +=   -DCONFIG_VENDOR_REALME
+CFLAGS_MODULE +=   -DCONFIG_VENDOR_REALME
 
 #ye.zhang@BSP.Kernel.Debug , 2019/10/1, add for remove compile macro
 ifeq ($(TARGET_BUILD_VARIANT), user)
@@ -464,14 +464,14 @@ KBUILD_CFLAGS += -DCONFIG_OPPO_DAILY_BUILD
 endif
 endif
 endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #YongPeng.Yi@MultiMedia.Display.LCD.Stability, 2017/02/22, add for cmcc test bl level
 ifneq ($(filter cmccfield cmcctest allnetcmcctest allnetcmccfield allnetcttest allnetctfield,$(NET_BUILD_TYPE)),)
 KBUILD_CFLAGS += -DOPPO_CTTEST_FLAG
 endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 ifeq ($(NET_BUILD_TYPE),cmcctest)
 KBUILD_CFLAGS += -DOPPO_CMCC_TEST
@@ -504,16 +504,16 @@ CFLAGS_KERNEL +=   -DCONFIG_ENHANCED_LMK
 CFLAGS_MODULE +=   -DCONFIG_ENHANCED_LMK
 KBUILD_CPPFLAGS += -DCONFIG_ENHANCED_LMK
 endif
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Haiping.Zhong@PSW.AD.BuildConfig.BaseConfig.0, 2019/01/08, Add for build root disable dm verity
 ifeq ($(OPPO_BUILD_ROOT_DISABLE_DM_VERITY),true)
     KBUILD_CFLAGS += -DOPPO_BUILD_ROOT_DISABLE_DM_VERITY
 endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
-#ifdef  VENDOR_EDIT
+#ifdef  CONFIG_VENDOR_REALME
 #ye.zhang@Sensor.config,2016-09-09, add for CTSI support external storage or not
 $(info @@@@@@@@@@@ 111 OPPO_BUILD_CUSTOMIZE is $(OPPO_BUILD_CUSTOMIZE))
 ifneq ($(OPPO_BUILD_CUSTOMIZE),)
@@ -523,13 +523,13 @@ KBUILD_CPPFLAGS += -DMOUNT_EXSTORAGE_IF
 CFLAGS_KERNEL += -DMOUNT_EXSTORAGE_IF
 CFLAGS_MODULE += -DMOUNT_EXSTORAGE_IF
 endif
-#endif//VENDOR_EDIT
+#endif//CONFIG_VENDOR_REALME
 
 # Read KERNELRELEASE from include/config/kernel.release (if it exists)
 KERNELRELEASE = $(shell cat include/config/kernel.release 2> /dev/null)
 KERNELVERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Wen.Luo@Bsp.Kernel.Stability, 2018/12/05, Add for aging test, slub debug config
 export VERSION PATCHLEVEL SUBLEVEL KERNELRELEASE KERNELVERSION OPPO_AGINGTEST
 #else
@@ -1786,7 +1786,7 @@ endif
 
 endif	# skip-makefile
 
-# ifdef VENDOR_EDIT
+# ifdef CONFIG_VENDOR_REALME
 # Guoqiang.Jiang@PSW.MM.Display.LCD.Feature, 2018/10/12,
 # add for for mm customize version
 ifneq ($(OPPO_BUILD_CUSTOMIZE),)
@@ -1796,7 +1796,7 @@ ifneq ($(OPPO_BUILD_CUSTOMIZE),)
   CFLAGS_KERNEL += -DMM_CUSTOMIZE_TYPE
   CFLAGS_MODULE += -DMM_CUSTOMIZE_TYPE
 endif
-# endif /*VENDOR_EDIT*/
+# endif /*CONFIG_VENDOR_REALME*/
 
 PHONY += FORCE
 FORCE:

@@ -516,12 +516,12 @@ static int ipv6_frag_rcv(struct sk_buff *skb)
 		return 1;
 	}
 
-//ifndef VENDOR_EDIT
+//ifndef CONFIG_VENDOR_REALME
 //Pranava.Ritwik@PSW.NW.IMS.2707634 2020/04/23 Fix for MT call failure
 //if (skb->len - skb_network_offset(skb) < IPV6_MIN_MTU &&
 //    fhdr->frag_off & htons(IP6_MF))
 //goto fail_hdr;
-//endif VENDOR_EDIT
+//endif CONFIG_VENDOR_REALME
 
 	iif = skb->dev ? skb->dev->ifindex : 0;
 	fq = fq_find(net, fhdr->identification, hdr, iif);

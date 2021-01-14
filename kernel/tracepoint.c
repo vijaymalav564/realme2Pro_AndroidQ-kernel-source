@@ -326,7 +326,7 @@ EXPORT_SYMBOL_GPL(tracepoint_probe_unregister);
 bool trace_module_has_bad_taint(struct module *mod)
 {
 /* Swdp@yan.chen modifies taints masks for force installed kernel module */
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 	return mod->taints & ~((1 << TAINT_OOT_MODULE) | (1 << TAINT_CRAP) |
 			       (1 << TAINT_FORCED_MODULE) |
 			       (1 << TAINT_UNSIGNED_MODULE));

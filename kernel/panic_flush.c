@@ -1,6 +1,6 @@
 /***********************************************************
 ** Copyright (C), 2008-2019, OPPO Mobile Comm Corp., Ltd.
-** VENDOR_EDIT
+** CONFIG_VENDOR_REALME
 ** File: - panic_flush.c
 ** Description:  code to flush device cache in panic
 **

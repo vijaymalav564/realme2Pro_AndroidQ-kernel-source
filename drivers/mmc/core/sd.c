@@ -102,7 +102,7 @@ void mmc_decode_cid(struct mmc_card *card)
 	card->cid.month			= UNSTUFF_BITS(resp, 8, 4);
 
 	card->cid.year += 2000; /* SD cards year offset */
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //yh@PhoneSW.BSP, 2016-09-18, add print cid info for possible quick use
 	pr_info("name:%s,manfid:%x,oemid:%x\n", card->cid.prod_name, card->cid.manfid, card->cid.oemid);
 #endif
@@ -1179,16 +1179,16 @@ static void mmc_sd_remove(struct mmc_host *host)
 	mmc_exit_clk_scaling(host);
 	mmc_sd_dereg_temp_control_clk_scaling(host);
 	mmc_remove_card(host->card);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*yixue.ge@psw.bsp.kernel 2017-07-31
    modify for bug 1061371 bad tcard can make system creash
 */
 	host->card = NULL;
     mmc_claim_host(host);
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 	mmc_claim_host(host);
 	host->card = NULL;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	mmc_release_host(host);
 }
 
@@ -1488,13 +1488,13 @@ int mmc_attach_sd(struct mmc_host *host)
 	BUG_ON(!host);
 	WARN_ON(!host->claimed);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
     //Lycan.Wang@Prd.BasicDrv, 2014-07-10 Add for retry 5 times when new sdcard init error
 	if (!host->detect_change_retry) {
         pr_err("%s have init error 5 times\n", __func__);
         return -ETIMEDOUT;
     }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	err = mmc_send_app_op_cond(host, 0, &ocr);
 	if (err)
 		return err;
@@ -1537,15 +1537,15 @@ int mmc_attach_sd(struct mmc_host *host)
 	 * Detect and init the card.
 	 */
 #ifdef CONFIG_MMC_PARANOID_SD_INIT
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
     //Lycan.Wang@Prd.BasicDrv, 2014-07-10 Modify for init retry only once when have init error before
 	retries = 5;
-#else /* VENDOR_EDIT */
+#else /* CONFIG_VENDOR_REALME */
     if (host->detect_change_retry < 5) 
         retries = 1;
     else
         retries = 5;
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	while (retries) {
 		err = mmc_sd_init_card(host, rocr, NULL);
 		if (err) {
@@ -1582,10 +1582,10 @@ int mmc_attach_sd(struct mmc_host *host)
 		mmc_release_host(host);
 		goto remove_card;
 	}
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
     //Tong.han@Bsp.group.Tp, 2015-02-03 Add for retry 5 times when new sdcard init error
     host->detect_change_retry = 5;
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	return 0;
 
 remove_card:
@@ -1594,12 +1594,12 @@ remove_card:
 	mmc_claim_host(host);
 err:
 	mmc_detach_bus(host);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
     //Lycan.Wang@Prd.BasicDrv, 2014-07-10 Add for retry 5 times when new sdcard init error
         if (err)//yh@bsp, 2016-03-17, this err could be caused by rescan disable, here reserve this aborted retry oppotunity.
     host->detect_change_retry--;
     pr_err("detect_change_retry = %d !!!,err = %d\n", host->detect_change_retry,err);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	pr_err("%s: error %d whilst initialising SD card\n",
 		mmc_hostname(host), err);
 

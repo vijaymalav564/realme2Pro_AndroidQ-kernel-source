@@ -42,11 +42,11 @@
 #include <linux/msm_dma_iommu_mapping.h>
 #include <trace/events/kmem.h>
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 // wenbin.liu@PSW.BSP.MM, 2018/07/11
 // Add for ion used cnt
 #include <linux/module.h>
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 #include "ion.h"
 #include "ion_priv.h"
@@ -184,7 +184,7 @@ static void ion_buffer_add(struct ion_device *dev,
 	rb_insert_color(&buffer->node, &dev->buffers);
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
 static atomic_long_t ion_total_size;
 bool ion_cnt_enable = true;
@@ -194,7 +194,7 @@ unsigned long ion_total(void)
 		return 0;
 	return (unsigned long)atomic_long_read(&ion_total_size);
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 /* this function should only be called while dev->lock is held */
 static struct ion_buffer *ion_buffer_create(struct ion_heap *heap,
@@ -282,7 +282,7 @@ static struct ion_buffer *ion_buffer_create(struct ion_heap *heap,
 	ion_buffer_add(dev, buffer);
 	mutex_unlock(&dev->buffer_lock);
 	atomic_long_add(len, &heap->total_allocated);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
 	if (ion_cnt_enable)
 		atomic_long_add(buffer->size, &ion_total_size);
@@ -305,11 +305,11 @@ void ion_buffer_destroy(struct ion_buffer *buffer)
 	buffer->heap->ops->unmap_dma(buffer->heap, buffer);
 
 	atomic_long_sub(buffer->size, &buffer->heap->total_allocated);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
 	if (ion_cnt_enable)
 		atomic_long_sub(buffer->size, &ion_total_size);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	buffer->heap->ops->free(buffer);
 	vfree(buffer->pages);
 	kfree(buffer);
@@ -2265,8 +2265,8 @@ struct ion_buffer *get_buffer(struct ion_handle *handle)
 	return handle->buffer;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 // wenbin.liu@PSW.BSP.MM, 2018/07/11
 // Add for ion show switch
 module_param_named(ion_cnt_enable, ion_cnt_enable, bool, S_IRUGO | S_IWUSR);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/

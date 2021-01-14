@@ -1,6 +1,6 @@
 /***************************************************
  * File:sec_drivers_s6d7at0.h
- * VENDOR_EDIT
+ * CONFIG_VENDOR_REALME
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd.
  * Description:
  *             samsung s6d7at0 driver

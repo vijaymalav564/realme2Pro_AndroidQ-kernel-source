@@ -153,7 +153,7 @@ enum dsi_pm_type {
 	DSI_MAX_PM
 };
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for panel vendor check */
 enum OPPO_LCD{
 	OPPO16103_JDI_R63452_1080P_CMD_PANEL,
@@ -170,7 +170,7 @@ enum OPPO_LCD{
 };
 typedef enum OPPO_LCD OPPO_LCD;
 int is_lcd(OPPO_LCD lcd_num);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 
 /*
@@ -473,14 +473,14 @@ struct mdss_dsi_ctrl_pdata {
 	int rst_gpio;
 	int disp_en_gpio;
 	int bklt_en_gpio;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for panel 1.8v power
 	int lcd_1v8_en_gpio;
-#endif /*VENDOR_EDIT*/
-#ifdef VENDOR_EDIT
+#endif /*CONFIG_VENDOR_REALME*/
+#ifdef CONFIG_VENDOR_REALME
 //add for -5v
 	int disp_enn_gpio;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	bool bklt_en_gpio_invert;
 	bool bklt_en_gpio_state;
 	int avdd_en_gpio;
@@ -529,19 +529,19 @@ struct mdss_dsi_ctrl_pdata {
 	struct dsi_panel_cmds lp_off_cmds;
 	struct dsi_panel_cmds status_cmds;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for support aod feature,solve Bug:1264744 */
 	struct dsi_panel_cmds aod_on_cmds;
 	struct dsi_panel_cmds aod_off_cmds;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for LBR and HBM */
 	struct dsi_panel_cmds lbr_cmds;
 	struct dsi_panel_cmds hbm_cmds;
 /* solve AOD flicker issue */
 	struct dsi_panel_cmds aod_backlight_cmds;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	u32 *status_valid_params;
 	u32 *status_cmds_rlen;
 	u32 *status_value;
@@ -561,20 +561,20 @@ struct mdss_dsi_ctrl_pdata {
 	struct completion video_comp;
 	struct completion dynamic_comp;
 	struct completion bta_comp;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/* solve mdp dump error in monkey test */
 	struct completion db_mode_wait;
-	#endif /*VENDOR_EDIT*/
+	#endif /*CONFIG_VENDOR_REALME*/
 	spinlock_t irq_lock;
 	spinlock_t mdp_lock;
 	int mdp_busy;
 	struct mutex mutex;
 	struct mutex cmd_mutex;
 	struct mutex cmdlist_mutex;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/* solve mdp dump error in monkey test */
 	spinlock_t db_mode_mutex;
-	#endif /*VENDOR_EDIT*/
+	#endif /*CONFIG_VENDOR_REALME*/
 	struct regulator *lab; /* vreg handle */
 	struct regulator *ibb; /* vreg handle */
 	struct mutex clk_lane_mutex;
@@ -642,10 +642,10 @@ struct mdss_dsi_ctrl_pdata {
 
 	bool phy_power_off;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 	atomic_t clkrate_change_pending;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 };
 
@@ -717,10 +717,10 @@ int mdss_dsi_pre_clkon_cb(void *priv,
 			  enum mdss_dsi_clk_type clk_type,
 			  enum mdss_dsi_clk_state new_state);
 int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for lcd rst before lp11 */
 int oppo_reset_before_lp11(struct mdss_panel_data *pdata);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 void mdss_dsi_phy_disable(struct mdss_dsi_ctrl_pdata *ctrl);
 void mdss_dsi_cmd_test_pattern(struct mdss_dsi_ctrl_pdata *ctrl);
 void mdss_dsi_video_test_pattern(struct mdss_dsi_ctrl_pdata *ctrl);

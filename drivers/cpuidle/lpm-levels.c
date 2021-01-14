@@ -157,7 +157,7 @@ static bool sleep_disabled;
 module_param_named(sleep_disabled,
 	sleep_disabled, bool, S_IRUGO | S_IWUSR | S_IWGRP);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //xiaocheng.li@Swdp.shanghai, 2015/11/9, Enable scoring lpm governor
 static bool use_governor;
 module_param_named(use_governor,

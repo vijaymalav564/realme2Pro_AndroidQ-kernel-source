@@ -1795,7 +1795,7 @@ long _do_fork(unsigned long clone_flags,
 	struct task_struct *p;
 	int trace = 0;
 	long nr;
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/04/19, add process_event_notifier support
 	struct process_event_data pe_data;
 #endif
@@ -1835,7 +1835,7 @@ long _do_fork(unsigned long clone_flags,
 		pid = get_task_pid(p, PIDTYPE_PID);
 		nr = pid_vnr(pid);
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/04/19, add process_event_notifier support
 //zhoumingjun@Swdp.shanghai, 2018/01/04, move these before wake_up_new_task to avoid compete
 		pe_data.pid = nr;

@@ -1,6 +1,6 @@
 /**********************************************************************************
 * Copyright (c)  2008-2015  Guangdong OPPO Mobile Comm Corp., Ltd
-* VENDOR_EDIT
+* CONFIG_VENDOR_REALME
 * Description:     shutdown_detect Monitor  Kernel Driver
 *
 * Version   : 1.0

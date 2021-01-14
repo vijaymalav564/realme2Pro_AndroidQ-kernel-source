@@ -212,7 +212,7 @@ static int32_t msm_camera_cci_i2c_write_table_cmd(
 	cci_ctrl.cfg.cci_i2c_write_cfg.reg_setting =
 		write_setting->reg_setting;
 	cci_ctrl.cfg.cci_i2c_write_cfg.data_type = write_setting->data_type;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Modified by Zhengrong.Zhang@Camera 20160612 for camera cci*/
 	if (client->addr_type != MSM_CAMERA_I2C_BYTE_ADDR
 		&& client->addr_type != MSM_CAMERA_I2C_WORD_ADDR) {

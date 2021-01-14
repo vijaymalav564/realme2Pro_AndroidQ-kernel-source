@@ -100,7 +100,7 @@ struct nf_conn {
 	/* all members below initialized via memset */
 	u8 __nfct_init_offset[0];
 
-	//#ifdef VENDOR_EDIT
+	//#ifdef CONFIG_VENDOR_REALME
 	//Junyuan.Huang@PSW.CN.WiFi.Network.internet.1197891, 2018/04/10,
 	//Add code for appo sla function
 	u32 oppo_game_skb_len;
@@ -115,13 +115,13 @@ struct nf_conn {
 	int oppo_app_type;
 	s64 oppo_game_timestamp;
 	s64 oppo_game_last_timestamp;
-	//#endif /* VENDOR_EDIT */
+	//#endif /* CONFIG_VENDOR_REALME */
 
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	//Yuan.Huang@PSW.CN.WiFi.Network.internet.1461349, 2018/06/18,
 	//Add for WeChat lucky money recognition
 	u32 oppo_app_uid;
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 
 	/* If we were expected by an expectation, this will be it */
 	struct nf_conn *master;

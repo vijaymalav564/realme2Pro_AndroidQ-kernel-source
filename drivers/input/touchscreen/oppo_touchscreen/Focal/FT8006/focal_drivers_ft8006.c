@@ -1,6 +1,6 @@
 /*****************************************************************************************
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd.
- * VENDOR_EDIT
+ * CONFIG_VENDOR_REALME
  * File       : focal_drivers_ft8006.c
  * Description: Source file for focal FT8006 driver
  * Version   : 1.0

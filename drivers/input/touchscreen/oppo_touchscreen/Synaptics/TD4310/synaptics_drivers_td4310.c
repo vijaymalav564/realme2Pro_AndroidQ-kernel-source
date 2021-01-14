@@ -1,6 +1,6 @@
 /**************************************************************
 * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd
-* VENDOR_EDIT
+* CONFIG_VENDOR_REALME
 * File       : synaptics_drivers_td4310.c
 * Description: Source file for synaptics TD4310 driver
 * Version   : 1.0

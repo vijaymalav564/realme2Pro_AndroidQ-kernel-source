@@ -17,7 +17,7 @@
 #include <net/inet_sock.h>
 #include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_owner.h>
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Shangjin.Tang@PSW.NW.DATA, 2019/09/05
 //add for BUG 2212301
 #include <net/netfilter/ipv4/nf_defrag_ipv4.h>
@@ -30,7 +30,7 @@
 #include <linux/netfilter/xt_socket.h>
 #define XT_SOCKET_SUPPORTED_HOOKS \
     ((1 << NF_INET_PRE_ROUTING) | (1 << NF_INET_LOCAL_IN))
-//#endif  /*VENDOR_EDIT*/
+//#endif  /*CONFIG_VENDOR_REALME*/
 static int owner_check(const struct xt_mtchk_param *par)
 {
 	struct xt_owner_match_info *info = par->matchinfo;
@@ -41,7 +41,7 @@ static int owner_check(const struct xt_mtchk_param *par)
 		return -EINVAL;
 	return 0;
 }
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Shangjin.Tang@PSW.NW.DATA, 2019/09/05
 //add for BUG 2212301
 static struct sock *oem_qtaguid_find_sk(const struct sk_buff *skb,
@@ -78,7 +78,7 @@ static struct sock *oem_qtaguid_find_sk(const struct sk_buff *skb,
         }
         return sk;
     }
-//#endif  /*VENDOR_EDIT*/
+//#endif  /*CONFIG_VENDOR_REALME*/
 static bool
 owner_mt(const struct sk_buff *skb, struct xt_action_param *par)
 {
@@ -86,7 +86,7 @@ owner_mt(const struct sk_buff *skb, struct xt_action_param *par)
 	const struct file *filp;
 	struct sock *sk = skb_to_full_sk(skb);
 	struct net *net = xt_net(par);
-    //#ifdef VENDOR_EDIT
+    //#ifdef CONFIG_VENDOR_REALME
     //Shangjin.Tang@PSW.NW.DATA, 2019/09/05
     //add for BUG 2212301
     /*
@@ -120,7 +120,7 @@ owner_mt(const struct sk_buff *skb, struct xt_action_param *par)
             sock_gen_put(sk);
             sk = NULL;
          }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Wen.Luo@BSP.Kernel.Stability 2019/12/20 add for bug-id:2710161, sock memleak, add WRAN_ON follow other sk_state */
          else if (sk && sk->sk_state == TCP_CLOSE) {
             sock_gen_put(sk);
@@ -132,7 +132,7 @@ owner_mt(const struct sk_buff *skb, struct xt_action_param *par)
     if(sk) {
         pr_debug("owner_mt: sk: %p, sk->sk_state: %d, sk->sk_socket: %p\n", sk, sk->sk_state, sk->sk_socket);
     }
-    //#endif  /*VENDOR_EDIT*/
+    //#endif  /*CONFIG_VENDOR_REALME*/
 	if (sk == NULL || sk->sk_socket == NULL)
 		return (info->match ^ info->invert) == 0;
 	else if (info->match & info->invert & XT_OWNER_SOCKET)
@@ -175,7 +175,7 @@ static struct xt_match owner_mt_reg __read_mostly = {
 	.checkentry = owner_check,
 	.match      = owner_mt,
 	.matchsize  = sizeof(struct xt_owner_match_info),
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Yuanhua.Du@PSW.NW.DATA.2180713, 2019/07/20, Add NF_INET_LOCAL_IN for iptables owner match rules
 	.hooks      = (1 << NF_INET_LOCAL_OUT) |
 	              (1 << NF_INET_POST_ROUTING),

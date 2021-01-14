@@ -1,6 +1,6 @@
 /***************************************************
  * File:synaptics_touch_key.c
- * VENDOR_EDIT
+ * CONFIG_VENDOR_REALME
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd.
  * Description:
  *             synaptics s1302 touch key driver

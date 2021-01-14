@@ -38,13 +38,13 @@
 #include <linux/splice.h>
 #include <linux/in6.h>
 #include <net/flow.h>
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 #include <linux/imq.h>
 #endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /* A. Checksumming of received packets by device.
  *
@@ -580,13 +580,13 @@ struct sk_buff {
 	 * first. This is owned by whoever has the skb queued ATM.
 	 */
 	char			cb[48] __aligned(8);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 	void			*cb_next;
 #endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 	unsigned long		_skb_refdst;
 	void			(*destructor)(struct sk_buff *skb);
@@ -596,13 +596,13 @@ struct sk_buff {
 #if defined(CONFIG_NF_CONNTRACK) || defined(CONFIG_NF_CONNTRACK_MODULE)
 	struct nf_conntrack	*nfct;
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
        struct nf_queue_entry   *nf_queue_entry;
 #endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 #if IS_ENABLED(CONFIG_BRIDGE_NETFILTER)
 	struct nf_bridge_info	*nf_bridge;
 #endif
@@ -669,13 +669,13 @@ struct sk_buff {
 	__u8			inner_protocol_type:1;
 	__u8			remcsum_offload:1;
 	/* 3 or 5 bit hole */
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	//Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 	//Add for limit speed function
 	#if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 	__u8                    imq_flags:IMQ_F_BITS;
 	#endif
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 
 #ifdef CONFIG_NET_SCHED
 	__u16			tc_index;	/* traffic control index */
@@ -833,14 +833,14 @@ void skb_tx_error(struct sk_buff *skb);
 void consume_skb(struct sk_buff *skb);
 void  __kfree_skb(struct sk_buff *skb);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 int skb_save_cb(struct sk_buff *skb);
 int skb_restore_cb(struct sk_buff *skb);
 #endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 extern struct kmem_cache *skbuff_head_cache;
 
@@ -3300,13 +3300,13 @@ static inline __sum16 __skb_checksum_validate_complete(struct sk_buff *skb,
 
 	skb->csum = psum;
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
     //Wei.Wang@Connectivity.WiFi.Network.internet.1015237, 2017/05/30,
     //Modify for [1015237] avoid sending wrong data to app
     if (complete || skb->len <= CHECKSUM_BREAK) {
-#else /* VENDOR_EDIT */
+#else /* CONFIG_VENDOR_REALME */
     if (complete) {
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 		__sum16 csum;
 
 		csum = __skb_checksum_complete(skb);
@@ -3474,14 +3474,14 @@ static inline void __nf_copy(struct sk_buff *dst, const struct sk_buff *src,
 	if (copy)
 		dst->nfctinfo = src->nfctinfo;
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
        dst->imq_flags = src->imq_flags;
        dst->nf_queue_entry = src->nf_queue_entry;
 #endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 #if IS_ENABLED(CONFIG_BRIDGE_NETFILTER)
 	dst->nf_bridge  = src->nf_bridge;
 	nf_bridge_get(src->nf_bridge);

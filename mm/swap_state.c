@@ -58,7 +58,7 @@ unsigned long total_swapcache_pages(void)
 		ret += swapper_spaces[i].nrpages;
 	return ret;
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //fangpan@Swdp.shanghai, 2015/11/26, add interface for resmon module
 EXPORT_SYMBOL(total_swapcache_pages);
 #endif

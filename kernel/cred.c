@@ -427,7 +427,7 @@ int commit_creds(struct cred *new)
 {
 	struct task_struct *task = current;
 	const struct cred *old = task->real_cred;
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/05/02, add process_event_notifier support
 	struct process_event_data pe_data;
 #endif
@@ -499,7 +499,7 @@ int commit_creds(struct cred *new)
 	    !gid_eq(new->fsgid, old->fsgid))
 		proc_id_connector(task, PROC_EVENT_GID);
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/05/02, add process_event_notifier support
 	if (!uid_eq(new->uid, old->uid)) {
 		pe_data.pid = task->pid;

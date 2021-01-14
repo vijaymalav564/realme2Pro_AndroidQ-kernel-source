@@ -227,7 +227,7 @@ static void msm_pm_qos_add_request(void)
 
 static void msm_pm_qos_remove_request(void)
 {
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /*modified by Jinshui.Liu@Camera 20160827 for [less log]*/
 	pr_info("%s: remove request", __func__);
 #else
@@ -238,7 +238,7 @@ static void msm_pm_qos_remove_request(void)
 
 void msm_pm_qos_update_request(int val)
 {
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /*modified by Jinshui.Liu@Camera 20160827 for [less log]*/
 	pr_info("%s: update request %d", __func__, val);
 #else
@@ -1315,7 +1315,7 @@ static const struct file_operations logsync_fops = {
 		.write = write_logsync,
 };
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #define O_CAM_DBG_BUF_SIZE 64
 #define O_CAM_DBG_FILE "o_cam_dbg"
 #define O_CAM_DBG_STRING "o_cam_dbg_type"
@@ -1364,7 +1364,7 @@ static int msm_probe(struct platform_device *pdev)
 	struct msm_video_device *pvdev = NULL;
 	static struct dentry *cam_debugfs_root;
 	int rc = 0;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 	/*Jinshui.Liu@Camera.Driver, 2017/08/21, add for [oppo camera debug dump]*/
 	struct proc_dir_entry *proc_entry = NULL;
 #endif
@@ -1472,7 +1472,7 @@ static int msm_probe(struct platform_device *pdev)
 	of_property_read_u32(pdev->dev.of_node,
 		"qcom,gpu-limit", &gpu_limit);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 	/*Jinshui.Liu@Camera.Driver, 2017/08/21, add for [oppo camera debug dump]*/
 	proc_entry = proc_create_data(O_CAM_DBG_FILE, 0666, NULL,&o_camera_debug_fops, NULL);
 	if (proc_entry == NULL) {

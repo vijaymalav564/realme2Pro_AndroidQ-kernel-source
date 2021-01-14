@@ -521,7 +521,7 @@ config AXP20X_POWER
 	  This driver provides support for the power supply features of
 	  AXP20x PMIC.
 
-#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/20, sjc Delete for charging */
+#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/20, sjc Delete for charging */
 config OPPO_MSM8998P_CHARGER
 	tristate "OPPO MSM8998P charger driver"
 	depends on MFD_SPMI_PMIC

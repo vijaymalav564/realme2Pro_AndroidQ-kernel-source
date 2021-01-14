@@ -626,7 +626,7 @@
 		clock-names = "core_clk", "core_a_clk";
 
 		qcom,cti-gpio-trigout = <4>;
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_VENDOR_REALME
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26,
 		 *Delete for audio config.
 		 */
@@ -634,7 +634,7 @@
 		pinctrl-names = "cti-trigout-pctrl";
 		pinctrl-0 = <&trigout_a>;
 		*/
-		//#endif /* VENDOR_EDIT */
+		//#endif /* CONFIG_VENDOR_REALME */
 	};
 
 	cti3: cti@6013000 {

@@ -134,7 +134,7 @@ static struct notifier_block msm_ion_nb = {
 	.notifier_call = msm_ion_lowmem_notifier,
 };
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //fangpan@Swdp.shanghai, 2016/02/02, add ion memory status interface
 struct ion_heap* get_system_ion_heap(enum ion_heap_type heap_type)
 {

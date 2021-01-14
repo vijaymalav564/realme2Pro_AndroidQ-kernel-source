@@ -803,7 +803,7 @@ long msm_vfe47_reset_hardware(struct vfe_device *vfe_dev,
 			reload_wm(vfe_dev, vfe_dev->vfe_base, 0x0011FFFF);
 	}
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 	if (blocking_call) {
 		rc = wait_for_completion_interruptible_timeout(
 			&vfe_dev->reset_complete, msecs_to_jiffies(100));
@@ -2035,7 +2035,7 @@ int msm_vfe47_axi_halt(struct vfe_device *vfe_dev,
 		spin_unlock_irqrestore(&vfe_dev->halt_completion_lock, flags);
 		/* Halt AXI Bus Bridge */
 		msm_camera_io_w_mb(0x1, vfe_dev->vfe_base + 0x400);
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /*modified by Jinshui.Liu@Camera 20170404 for [wait more time]*/
 		rc = wait_for_completion_interruptible_timeout(
 			&vfe_dev->halt_complete, msecs_to_jiffies(500));

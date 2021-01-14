@@ -112,7 +112,7 @@ struct scan_control {
 	 */
 	struct vm_area_struct *target_vma;
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_PROCESS_RECLAIM)
 	/* robin.ren@PSW.BSP.Kernel.Performance, 2019-03-13,
 	 * use mm_walk to regonize the behaviour of process reclaim.
 	 */
@@ -155,7 +155,7 @@ struct scan_control {
  */
 int vm_swappiness = 60;
 
-#ifdef VENDOR_EDIT //yixue.ge@psw.bsp.kernel 20170720 add for add direct_vm_swappiness
+#ifdef CONFIG_VENDOR_REALME //yixue.ge@psw.bsp.kernel 20170720 add for add direct_vm_swappiness
 /*
  * Direct reclaim swappiness, exptct 0 - 60. Higher means more swappy and slower.
  */
@@ -982,7 +982,7 @@ static unsigned long shrink_page_list(struct list_head *page_list,
 		enum page_references references = PAGEREF_RECLAIM;
 		bool dirty, writeback;
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_PROCESS_RECLAIM)
 		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, check whether the
 		 * reclaim process should cancel*/
 		if (sc->walk && is_reclaim_should_cancel(sc->walk))
@@ -1354,7 +1354,7 @@ unsigned long reclaim_clean_pages_from_list(struct zone *zone,
 }
 
 #ifdef CONFIG_PROCESS_RECLAIM
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, record the scaned task*/
 unsigned long reclaim_pages_from_list(struct list_head *page_list,
 			struct vm_area_struct *vma, struct mm_walk *walk)
@@ -1370,7 +1370,7 @@ unsigned long reclaim_pages_from_list(struct list_head *page_list,
 		.may_unmap = 1,
 		.may_swap = 1,
 		.target_vma = vma,
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, record the scaned task*/
 		.walk = walk,
 #endif
@@ -1576,7 +1576,7 @@ int isolate_lru_page(struct page *page)
 	int ret = -EBUSY;
 
 	VM_BUG_ON_PAGE(!page_count(page), page);
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_PROCESS_RECLAIM)
 	/* Kui.Zhang@PSW.TEC.Kernel.Performance, 2019-01-08, Because process reclaim is doing page by
 	 * page, so there many compound pages are relcaimed, so too many warning msg on this case. */
 	WARN_RATELIMIT((!current_is_reclaimer() && PageTail(page)), "trying to isolate tail page");
@@ -1738,7 +1738,7 @@ static int current_may_throttle(void)
 		bdi_write_congested(current->backing_dev_info);
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-04-28, fix direct reclaim slow issue*/
 #ifdef CONFIG_OPPO_FG_OPT
 extern bool is_fg(int uid);
@@ -1899,7 +1899,7 @@ shrink_inactive_list(unsigned long nr_to_scan, struct lruvec *lruvec,
 	 * is congested. Allow kswapd to continue until it starts encountering
 	 * unqueued dirty pages or cycling through the LRU too quickly.
 	 */
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-04-28, fix direct reclaim slow issue*/
 	if (!sc->hibernation_mode && !current_is_kswapd() &&
 	    current_may_throttle() && get_current_adj())
@@ -2090,12 +2090,12 @@ static bool inactive_anon_is_low_global(struct zone *zone)
 
 	active = zone_page_state(zone, NR_ACTIVE_ANON);
 	inactive = zone_page_state(zone, NR_INACTIVE_ANON);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-07-21, try to shrink more anon pages*/
 	return inactive < active;
 #else
 	return inactive * zone->inactive_ratio < active;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 }
 
 /**
@@ -2142,7 +2142,7 @@ static inline bool inactive_anon_is_low(struct lruvec *lruvec)
  */
 static bool inactive_file_is_low(struct lruvec *lruvec)
 {
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Huacai.Zhou@PSW.BSP.Tech.Performance, 2018-07-30, keep more file pages*/
 	unsigned long gb;
 	unsigned long inactive;
@@ -2168,7 +2168,7 @@ static bool inactive_file_is_low(struct lruvec *lruvec)
 	active = get_lru_size(lruvec, LRU_ACTIVE_FILE);
 
 	return active > inactive;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 }
 
 static bool inactive_list_is_low(struct lruvec *lruvec, enum lru_list lru)
@@ -2240,7 +2240,7 @@ static void get_scan_count(struct lruvec *lruvec, int swappiness,
 		if (!mem_cgroup_lruvec_online(lruvec))
 			force_scan = true;
 	}
-#ifdef VENDOR_EDIT //yixue.ge@psw.bsp.kernel 20170720 add for add direct_vm_swappiness
+#ifdef CONFIG_VENDOR_REALME //yixue.ge@psw.bsp.kernel 20170720 add for add direct_vm_swappiness
 	else {
 		swappiness = direct_vm_swappiness;
 	}
@@ -2249,7 +2249,7 @@ static void get_scan_count(struct lruvec *lruvec, int swappiness,
 		force_scan = true;
 
 	/* If we have no swap space, do not bother scanning anon pages. */
-#ifndef VENDOR_EDIT //yixue.ge@psw.bsp.kernel.driver 20170810 modify for reserver some zram disk size
+#ifndef CONFIG_VENDOR_REALME //yixue.ge@psw.bsp.kernel.driver 20170810 modify for reserver some zram disk size
 	if (!sc->may_swap || (get_nr_swap_pages() <= 0)) {
 #else
 	if (!sc->may_swap || (get_nr_swap_pages() <= total_swap_pages>>6)) {

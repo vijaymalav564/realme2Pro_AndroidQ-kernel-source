@@ -23,7 +23,7 @@
 #include "fg-core.h"
 #include "fg-reg.h"
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu  PSW.BSP.CHG  2018-06-27  Porting code for charge function */
 #include "../../oppo/oppo_gauge.h"
 #include "../../oppo/oppo_charger.h"
@@ -34,7 +34,7 @@ static bool use_fg_chip = true;
 static struct fg_chip *fg_gen3_chip = NULL;
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-23  Save battery capacity to persist partition */
 static bool healthd_ready = false;
 
@@ -902,7 +902,7 @@ static bool is_debug_batt_id(struct fg_chip *chip)
 	return false;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-23  Save battery capacity to persist partition */
 #define DEBUG_BATT_SOC	67
 #define BATT_MISS_SOC	50
@@ -948,7 +948,7 @@ static int fg_get_prop_capacity(struct fg_chip *chip, int *val)
 }
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 static int fg_set_battery_info(struct fg_chip *chip, int val)
 {
 	if (chip->batt_info_id < 0 ||
@@ -1029,7 +1029,7 @@ out:
 	return rc;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-13  Add for anthenticate battery */
 static void register_gauge_devinfo(struct fg_chip *chip)
 {
@@ -1054,7 +1054,7 @@ static void register_gauge_devinfo(struct fg_chip *chip)
 }
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-13  Add for anthenticate battery */
 #define DEFAULT_BATTID_RESISTANCE		105000
 #define BATTID_ATL_RESISTANCE		105
@@ -1073,7 +1073,7 @@ static int fg_get_batt_profile(struct fg_chip *chip)
 		return -ENXIO;
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-13  Add for anthenticate battery */
 	if(chip->profile_not_available)
 		profile_node = of_batterydata_get_best_profile(batt_node,
@@ -1098,7 +1098,7 @@ static int fg_get_batt_profile(struct fg_chip *chip)
 		return rc;
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-13  Add for anthenticate battery */
 	rc = of_property_read_u32(profile_node, "qcom,batt-id-kohm",
 			&chip->bp.batt_id);
@@ -1148,7 +1148,7 @@ static int fg_get_batt_profile(struct fg_chip *chip)
 		return -EINVAL;
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-13  Add for anthenticate battery */
 	register_gauge_devinfo(chip);
 	chip->profile_not_available = false;
@@ -3118,7 +3118,7 @@ static void profile_load_work(struct work_struct *work)
 	if (rc < 0) {
 		pr_warn("profile for batt_id=%dKOhms not found..using OTP, rc:%d\n",
 			chip->batt_id_ohms / 1000, rc);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-13  Add for anthenticate battery */
 		chip->profile_not_available = true;
 #endif
@@ -3200,7 +3200,7 @@ done:
 	chip->profile_loaded = true;
 	fg_dbg(chip, FG_STATUS, "profile loaded successfully");
 out:
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-13  Add for anthenticate battery */
 	if(chip->profile_not_available)
 		schedule_delayed_work(&chip->profile_load_work, 0);
@@ -3952,7 +3952,7 @@ static int fg_psy_get_property(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_SOC_REPORTING_READY:
 		pval->intval = chip->soc_reporting_ready;
 		break;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-23  Save battery capacity to persist partition */
 	case POWER_SUPPLY_PROP_BATTERY_INFO:
 		if (chip->batt_info_id < 0 || chip->batt_info_id >= BATT_INFO_MAX)
@@ -4012,7 +4012,7 @@ static int fg_psy_set_property(struct power_supply *psy,
 	int rc = 0;
 
 	switch (psp) {
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-23  Save battery capacity to persist partition */
 	case POWER_SUPPLY_PROP_BATTERY_INFO:
 		rc = fg_set_battery_info(chip, pval->intval);
@@ -4117,7 +4117,7 @@ static int fg_property_is_writeable(struct power_supply *psy,
 						enum power_supply_property psp)
 {
 	switch (psp) {
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-23  Save battery capacity to persist partition */
 	case POWER_SUPPLY_PROP_BATTERY_INFO:
 	case POWER_SUPPLY_PROP_BATTERY_INFO_ID:
@@ -4206,7 +4206,7 @@ static enum power_supply_property fg_psy_props[] = {
 	POWER_SUPPLY_PROP_TIME_TO_FULL_AVG,
 	POWER_SUPPLY_PROP_TIME_TO_EMPTY_AVG,
 	POWER_SUPPLY_PROP_SOC_REPORTING_READY,
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-23  Save battery capacity to persist partition */
 	POWER_SUPPLY_PROP_SOC_NOTIFY_READY,
 	POWER_SUPPLY_PROP_BATTERY_INFO,
@@ -4505,7 +4505,7 @@ static int fg_hw_init(struct fg_chip *chip)
 		}
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-08-27  Add for battery goes down fast in -15 temperature */
 	buf[0] = 0x33;
 	buf[1] = 0x3;
@@ -5440,7 +5440,7 @@ static void fg_cleanup(struct fg_chip *chip)
 	dev_set_drvdata(chip->dev, NULL);
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu  PSW.BSP.CHG  2018-06-27  Porting code for charge function */
 #define DEFAULT_BATT_TEMP            250
 #define DEFAULT_BATT_VOLT            3800
@@ -5591,7 +5591,7 @@ static int fg_gen3_probe(struct platform_device *pdev)
 	struct fg_chip *chip;
 	struct power_supply_config fg_psy_cfg;
 	int rc, msoc, volt_uv, batt_temp;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu  PSW.BSP.CHG  2018-06-27  Porting code for charge function */
 	struct oppo_gauge_chip *fg_oppo_gauge_chip = NULL;
 #endif
@@ -5742,7 +5742,7 @@ static int fg_gen3_probe(struct platform_device *pdev)
 	/* Keep BATT_MISSING_IRQ disabled until we require it */
 	vote(chip->batt_miss_irq_en_votable, BATT_MISS_IRQ_VOTER, false, 0);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu  PSW.BSP.CHG  2018-06-27  Porting code for charge function */
 	fg_gen3_chip = chip;
 	if(use_fg_chip) {
@@ -5786,7 +5786,7 @@ static int fg_gen3_probe(struct platform_device *pdev)
 	device_init_wakeup(chip->dev, true);
 	schedule_delayed_work(&chip->profile_load_work, 0);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-23  Save battery capacity to persist partition */
 	chip->batt_range_ocv = &fg_batt_valid_ocv;
 	chip->batt_range_pct = &fg_batt_range_pct;

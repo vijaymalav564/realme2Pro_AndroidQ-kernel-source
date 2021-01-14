@@ -2,7 +2,7 @@
 #** Copyright (C), 2016-2020, OPPO Mobile Comm Corp., Ltd
 #** All rights reserved.
 #**
-#** VENDOR_EDIT
+#** CONFIG_VENDOR_REALME
 #**
 #** Description: -
 #**      add for max989xx driver

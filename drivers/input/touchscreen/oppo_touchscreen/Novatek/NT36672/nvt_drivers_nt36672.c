@@ -1,6 +1,6 @@
 /*****************************************************************************************
  * Copyright (c)  2017 - 2030  Oppo Mobile communication Corp.ltd.
- * VENDOR_EDIT
+ * CONFIG_VENDOR_REALME
  * File       : novatek_drivers_nt36672.c
  * Description: Source file for novatek nt36672 driver
  * Version   : 1.0

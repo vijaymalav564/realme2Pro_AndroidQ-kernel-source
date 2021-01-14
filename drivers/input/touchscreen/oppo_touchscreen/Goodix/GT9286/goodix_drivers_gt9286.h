@@ -1,6 +1,6 @@
 /**************************************************************
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd.
- * VENDOR_EDIT
+ * CONFIG_VENDOR_REALME
  * File       : goodix_drivers_gt9286.h
  * Description: header file for Goodix GT9286 driver
  * Version   : 1.0

@@ -30,7 +30,7 @@ static DEFINE_PER_CPU(u64, nr_max);
 
 static DEFINE_PER_CPU(unsigned long, iowait_prod_sum);
 static DEFINE_PER_CPU(spinlock_t, nr_lock) = __SPIN_LOCK_UNLOCKED(nr_lock);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //xiaocheng.li@Swdp.shanghai, 2016/4/19, Add error handling to avoid BUG_ON()
 static u64 last_get_time;
 #else
@@ -111,7 +111,7 @@ void sched_get_nr_running_avg(int *avg, int *iowait_avg, int *big_avg,
 	 * cluster when BIG CPUs are available but isolated. Round up the
 	 * average values so that core_ctl aggressively unisolate BIG CPUs.
 	 */
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 	tmp_avg = DIV64_U64_ROUNDUP(tmp_avg, diff);
 	tmp_big_avg = DIV64_U64_ROUNDUP(tmp_big_avg, diff);
 	tmp_iowait = DIV64_U64_ROUNDUP(tmp_iowait, diff);

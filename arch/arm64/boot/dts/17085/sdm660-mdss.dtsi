@@ -370,7 +370,7 @@
 			reg-names = "dsi_ctrl", "dsi_phy", "mmss_misc_phys";
 
 			qcom,timing-db-mode;
-			/*#ifdef VENDOR_EDIT*/
+			/*#ifdef CONFIG_VENDOR_REALME*/
 			/* remove by hongbo.dai@camera 20171116, this ldo only use for camera */
 			/* wqhd-vddio-supply = <&pm660_l11>; */
 			/*#endif*/
@@ -415,7 +415,7 @@
 			reg-names = "dsi_ctrl", "dsi_phy", "mmss_misc_phys";
 
 			qcom,timing-db-mode;
-			/*#ifdef VENDOR_EDIT*/
+			/*#ifdef CONFIG_VENDOR_REALME*/
 			/* remove by hongbo.dai@camera 20171116, this ldo only use for camera */
 			/* wqhd-vddio-supply = <&pm660_l11>; */
 			/*#endif*/

@@ -133,7 +133,7 @@
 			 <&clock_gcc GCC_BLSP1_QUP4_I2C_APPS_CLK>;
 		qcom,i2c-dat = <&tlmm 14 0x00>;
 		qcom,i2c-clk = <&tlmm 15 0x00>;
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_VENDOR_REALME
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26,
 		 *Delete for audio config.
 		 */
@@ -143,7 +143,7 @@
 		pinctrl-1 = <&i2c_4_sleep>;
 		pinctrl-2 = <&i2c_4_bitbang>;
 		*/
-		//#endif /* VENDOR_EDIT */
+		//#endif /* CONFIG_VENDOR_REALME */
 		status = "disabled";
 	};
 
@@ -196,10 +196,10 @@
 		pinctrl-0 = <&i2c_6_active>;
 		pinctrl-1 = <&i2c_6_sleep>;
 		pinctrl-2 = <&i2c_6_bitbang>;
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_VENDOR_REALME
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26, Delete for audio config*/
 		//status = "disabled";
-		//#endif /* VENDOR_EDIT */
+		//#endif /* CONFIG_VENDOR_REALME */
 	};
 
 	i2c_7: i2c@c1b7000 { /* BLSP2 QUP3 */
@@ -345,7 +345,7 @@
 		qcom,bam-producer-pipe-index = <11>;
 		qcom,master-id = <86>;
 		qcom,use-pinctrl;
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_VENDOR_REALME
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26,
 		 *Delete for audio config.
 		 */
@@ -354,7 +354,7 @@
 		pinctrl-0 = <&spi_4_active>;
 		pinctrl-1 = <&spi_4_sleep>;
 		*/
-		//#endif /* VENDOR_EDIT */
+		//#endif /* CONFIG_VENDOR_REALME */
 		clock-names = "iface_clk", "core_clk";
 		clocks = <&clock_gcc GCC_BLSP1_AHB_CLK>,
 			 <&clock_gcc GCC_BLSP1_QUP4_SPI_APPS_CLK>;

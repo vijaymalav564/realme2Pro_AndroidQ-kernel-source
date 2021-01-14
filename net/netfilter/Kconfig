@@ -799,7 +799,7 @@ config NETFILTER_XT_TARGET_LOG
 
 	  To compile it as a module, choose M here.  If unsure, say N.
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 #Add for limit speed function
 config NETFILTER_XT_TARGET_IMQ
@@ -814,7 +814,7 @@ config NETFILTER_XT_TARGET_IMQ
           to which imq device packets should get enqueued/dequeued.
 
           To compile it as a module, choose M here.  If unsure, say N.
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 config NETFILTER_XT_TARGET_MARK
 	tristate '"MARK" target support'
@@ -1360,7 +1360,7 @@ config NETFILTER_XT_MATCH_QTAGUID
 
 	  If unsure, say `N'.
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 config XT_QTAGUID_OPPO_STATS
 	bool 'netstat backup support'
 	depends on NETFILTER_XT_MATCH_QTAGUID=y

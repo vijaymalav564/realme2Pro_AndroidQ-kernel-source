@@ -266,14 +266,14 @@ struct cpufreq_policy *cpufreq_cpu_get_raw(unsigned int cpu)
 }
 EXPORT_SYMBOL_GPL(cpufreq_cpu_get_raw);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //INDIA.Performance, Adding for Performance
 struct list_head *get_cpufreq_policy_list(void)
 {
     return &cpufreq_policy_list;
 }
 EXPORT_SYMBOL(get_cpufreq_policy_list);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 unsigned int cpufreq_generic_get(unsigned int cpu)
 {

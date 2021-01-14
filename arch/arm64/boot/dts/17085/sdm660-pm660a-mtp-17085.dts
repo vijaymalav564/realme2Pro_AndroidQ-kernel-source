@@ -16,12 +16,12 @@
 #include "sdm660.dtsi"
 #include "sdm660-mtp.dtsi"
 #include "msm-pm660a.dtsi"
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 /*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26, Mofidy for audio config*/
 //#include "sdm660-external-codec.dtsi"
-//#else /* VENDOR_EDIT */
+//#else /* CONFIG_VENDOR_REALME */
 #include "sdm660-internal-codec.dtsi"
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */
 
 / {
 	model = "Qualcomm Technologies, Inc. SDM 660 PM660 + PM660A MTP";
@@ -32,12 +32,12 @@
 			<0x0001001b 0x0202001a 0x0 0x0>;
 };
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 /*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26, Add for audio config*/
 &int_codec {
 	qcom,model = "sdm660-snd-card-mtp";
 };
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */
 
 &mdss_dsi {
 	hw-config = "single_dsi";

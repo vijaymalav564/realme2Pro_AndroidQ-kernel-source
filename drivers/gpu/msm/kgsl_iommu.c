@@ -37,15 +37,15 @@
 #include "kgsl_cffdump.h"
 #include "kgsl_pwrctrl.h"
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2017/11/25  Add for keylog */
 #include <soc/oppo/mmkey_log.h>
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm dcs for gpu. */
 #include <linux/oppo_mm_kevent_fb.h>
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 #define _IOMMU_PRIV(_mmu) (&((_mmu)->priv.iommu))
 
@@ -868,11 +868,11 @@ static int kgsl_iommu_fault_handler(struct iommu_domain *domain,
 
 	if (kgsl_iommu_suppress_pagefault(addr, write, context)) {
 		iommu->pagefault_suppression_count++;
-		#ifdef VENDOR_EDIT
+		#ifdef CONFIG_VENDOR_REALME
 		/* Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm kevent gpu. */
 		KGSL_CORE_ERR("kgsl_iommu_suppress_pagefault, falut_type=%s\n",
 			fault_type);
-		#endif /*VENDOR_EDIT*/
+		#endif /*CONFIG_VENDOR_REALME*/
 		kgsl_context_put(context);
 		return ret;
 	}
@@ -927,10 +927,10 @@ static int kgsl_iommu_fault_handler(struct iommu_domain *domain,
 
 		KGSL_MEM_CRIT(ctx->kgsldev,
 			"GPU PAGE FAULT: addr = %lX pid= %d\n", addr, ptname);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2017/11/25  Add for keylog */
 		mm_keylog_write("kgsl iommu fault\n", "GPU PAGE FAULT\n", TYPE_IOMMU_ERROR);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 		KGSL_MEM_CRIT(ctx->kgsldev,
 			"context=%s ctx_type=%s TTBR0=0x%llx CIDR=0x%x (%s %s fault)\n",
 			ctx->name, api_str, ptbase, contextidr,

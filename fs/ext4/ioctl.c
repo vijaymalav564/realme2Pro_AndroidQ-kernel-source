@@ -301,7 +301,7 @@ long ext4_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 		inode->i_ctime = ext4_current_time(inode);
 
 		err = ext4_mark_iloc_dirty(handle, inode, &iloc);
-#if defined(VENDOR_EDIT) && defined(CONFIG_EXT4_ASYNC_DISCARD_SUPPORT)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_EXT4_ASYNC_DISCARD_SUPPORT)
 //yh@PSW.BSP.Storage.EXT4, 2018-11-26 add for ext4 async discard suppot
 	ext4_update_time(EXT4_SB(inode->i_sb));
 #endif
@@ -598,7 +598,7 @@ resizefs_out:
 		struct fstrim_range range;
 		int ret = 0;
 		int flags  = cmd == FIDTRIM ? BLKDEV_DISCARD_SECURE : 0;
-#if defined(VENDOR_EDIT) && defined(CONFIG_EXT4_ASYNC_DISCARD_SUPPORT)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_EXT4_ASYNC_DISCARD_SUPPORT)
 //yh@PSW.BSP.Storage.EXT4, 2018-11-26 add for ext4 async discard suppot
 		if (test_opt(sb, ASYNC_DISCARD))  
 			return 0;

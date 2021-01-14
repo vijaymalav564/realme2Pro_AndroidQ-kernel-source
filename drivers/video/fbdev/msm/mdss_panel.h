@@ -309,10 +309,10 @@ enum mdss_intf_events {
 	MDSS_EVENT_AVR_MODE,
 	MDSS_EVENT_REGISTER_CLAMP_HANDLER,
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 	MDSS_EVENT_PANEL_UPDATE_DSI_TIMING,
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	MDSS_EVENT_DSI_DYNAMIC_BITCLK,
 	MDSS_EVENT_MAX,
@@ -813,11 +813,11 @@ struct mdss_panel_info {
 	int pwm_period;
 	bool dynamic_fps;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 	bool dynamic_dsitiming;
 	u32  cached_clk_rate;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	bool dynamic_bitclk;
 	u32 *supp_bitclks;
@@ -1022,11 +1022,11 @@ struct mdss_panel_data {
 	int panel_te_gpio;
 	struct completion te_done;
 
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/* add for fingerprint hbm */
 	int oppo_fingerprint_hbm_mode;
 	int sysfs_hbm_mode;
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 };
 
 struct mdss_panel_debugfs_info {

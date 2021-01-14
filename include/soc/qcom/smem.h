@@ -107,7 +107,7 @@ enum {
 	SMEM_ID_VENDOR0,
 	SMEM_ID_VENDOR1,
 	SMEM_ID_VENDOR2,
-	//#ifdef VENDOR_EDIT gyx for oppo common project
+	//#ifdef CONFIG_VENDOR_REALME gyx for oppo common project
 	SMEM_PROJECT = SMEM_ID_VENDOR1,
 	SMEM_DRAM_TYPE = SMEM_ID_VENDOR2,
 	//#endif

@@ -1,6 +1,6 @@
 /**********************************************************************************
 * Copyright (c)  2008-2015  Guangdong OPPO Mobile Comm Corp., Ltd
-* VENDOR_EDIT
+* CONFIG_VENDOR_REALME
 * Description:    OPPO Healthinfo Monitor
 *                          Record Kernel Resourse Abnormal Stat
 * Version    : 2.0

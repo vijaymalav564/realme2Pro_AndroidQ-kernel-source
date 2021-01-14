@@ -29,12 +29,12 @@ obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
 obj-$(CONFIG_INPUT_KEYRESET)	+= keyreset.o
 obj-$(CONFIG_INPUT_KEYCOMBO)	+= keycombo.o
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Haitao.Zhou@Prd.BaseDrv, 2017/02/16 Add for fingerprint compatibility
 obj-$(CONFIG_OPPO_FINGERPRINT) += oppo_fp_drivers/
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Dongnan.Wu@BSP.Fingerprint.Basic, 2018/11/06 Add for securecom
 obj-y += oppo_seccommon_drivers/
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */

@@ -14,20 +14,20 @@
 #include <linux/module.h>
 #include <linux/platform_device.h>
 #include <linux/of_device.h>
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/12/19, Add for card register fail*/
 #include <linux/workqueue.h>
 #include <linux/delay.h>
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 #include <sound/core.h>
 #include <sound/soc.h>
 #include <sound/pcm.h>
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/12/19, Add for card register fail*/
 #include <linux/qdsp6v2/apr.h>
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/12/19, Add for card register fail*/
 struct hostless_pdata {
 	struct work_struct msm_test_add_child_dev_work;
@@ -101,7 +101,7 @@ fail_pdev_add:
 err:
 	return;
 }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 
 
@@ -127,24 +127,24 @@ static struct snd_soc_platform_driver msm_soc_hostless_platform = {
 
 static int msm_pcm_hostless_probe(struct platform_device *pdev)
 {
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/12/19, Add for card register fail*/
 	struct hostless_pdata *pdata;
 
 	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
 	if (!pdata)
 		return -ENOMEM;
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 
 
 	pr_debug("%s: dev name %s\n", __func__, dev_name(&pdev->dev));
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/12/19, Add for card register fail*/
 	pdata->dev = &pdev->dev;
 	INIT_WORK(&pdata->msm_test_add_child_dev_work,
 		  msm_test_add_child_dev);
 	schedule_work(&pdata->msm_test_add_child_dev_work);
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 	return snd_soc_register_platform(&pdev->dev,
 				   &msm_soc_hostless_platform);
 }

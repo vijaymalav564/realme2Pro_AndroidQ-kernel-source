@@ -71,7 +71,7 @@ static void scm_disable_sdi(void);
 #endif
 
 static int in_panic;
-#ifndef VENDOR_EDIT //yixue.ge@bsp.drv add for minidump feature,we need enable dload_type as minidump except agingtest and daily build
+#ifndef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for minidump feature,we need enable dload_type as minidump except agingtest and daily build
 static int dload_type = SCM_DLOAD_FULLDUMP;
 #else
 	#if defined(CONFIG_OPPO_DAILY_BUILD)
@@ -94,7 +94,7 @@ static void *kaslr_imem_addr;
 #endif
 static bool scm_dload_supported;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*YiXue.Ge@PSW.BSP.Kernel.Driver,2017/05/15,
  * Add for can disable minidump by rom update
  */
@@ -108,7 +108,7 @@ static int __init minidump_disable_param(char *str)
 }
 __setup("minidump.disable", minidump_disable_param);
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Wanghao@BSP.Kernel.Function 2018/12/07, add for 5G modem dump issue
 int get_download_mode(void)
 {
@@ -116,7 +116,7 @@ int get_download_mode(void)
 }
 EXPORT_SYMBOL(get_download_mode);
 //#endif
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 
 static int dload_set(const char *val, struct kernel_param *kp);
@@ -339,7 +339,7 @@ static void msm_restart_prepare(const char *cmd)
 		qpnp_pon_system_pwr_off(PON_POWER_OFF_HARD_RESET);
 	}
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /* OPPO 2013.07.09 hewei modify begin for restart mode*/
 	if (cmd != NULL) {
 		if (!strncmp(cmd, "bootloader", 10)) {
@@ -396,7 +396,7 @@ static void msm_restart_prepare(const char *cmd)
 			__raw_writel(0x77665501, restart_reason);
 		}
 	}
-#else //VENDOR_EDIT
+#else //CONFIG_VENDOR_REALME
 	if (cmd != NULL) {
 		#ifndef DISABLE_FASTBOOT_CMDS //disable fastboot modem at release soft
 		if (!strncmp(cmd, "bootloader", 10)) {
@@ -492,7 +492,7 @@ static void msm_restart_prepare(const char *cmd)
 				PON_RESTART_REASON_NORMAL);
 	}
 /* OPPO 2013.07.09 hewei modify en for restart mode*/
-#endif //VENDOR_EDIT
+#endif //CONFIG_VENDOR_REALME
 	
 	flush_cache_all();
 
@@ -702,7 +702,7 @@ static int msm_restart_probe(struct platform_device *pdev)
 	struct device_node *np;
 	int ret = 0;
 
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*ziqing.guo@BSP.Kernel.Stability, 2017/05/22, Modify for disable sdi only for the secure enabled device stage 2*/
 	#define OEM_SEC_ENABLE_ANTIROLLBACK_REG 0x78019c //this address just for sdm660
 	void __iomem *oem_config_base = ioremap(OEM_SEC_ENABLE_ANTIROLLBACK_REG, 4);
@@ -711,7 +711,7 @@ static int msm_restart_probe(struct platform_device *pdev)
 	if (secure_oem_config) {
 		pr_debug("this is a secure stage 2 device\n");
 	}
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 
 #ifdef CONFIG_QCOM_DLOAD_MODE
 	if (scm_is_call_available(SCM_SVC_BOOT, SCM_DLOAD_CMD) > 0)
@@ -818,7 +818,7 @@ skip_sysfs_create:
 	if (scm_is_call_available(SCM_SVC_PWR, SCM_IO_DEASSERT_PS_HOLD) > 0)
 		scm_deassert_ps_hold_supported = true;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 	/*YiXue.Ge@PSW.BSP.Kernel.Driver,2017/05/15,
 	 * Add for can disable minidump by rom update
 	 */

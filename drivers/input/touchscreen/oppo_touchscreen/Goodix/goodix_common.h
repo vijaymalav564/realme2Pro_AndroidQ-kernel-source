@@ -1,6 +1,6 @@
 /***************************************************
  * File:goodix_common.h
- * VENDOR_EDIT
+ * CONFIG_VENDOR_REALME
  * Copyright(C) 2008-2012 OPPO Mobile Comm Corp., Ltd
  * Description:
  *             goodix common driver

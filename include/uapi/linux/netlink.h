@@ -30,31 +30,31 @@
 #define NETLINK_SOCKEV		22	/* Socket Administrative Events */
 #define NETLINK_INET_DIAG	NETLINK_SOCK_DIAG
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 #define NETLINK_OPPO_HANS 28 /* Socket for freezing solution*/
 #endif
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //#ifdef CONFIG_OPPO_KEVENT_UPLOAD
 //#define NETLINK_OPPO_KEVENT 34
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Yuan.Huang@PSW.CN.WiFi.Network.internet.1461349, 2018/06/18,
 //Add for WeChat lucky money recognition
 #define MAX_LINKS 33
-#else /* VENDOR_EDIT */
+#else /* CONFIG_VENDOR_REALME */
 #define NETLINK_OPPO_NF_HOOKS	32	/*OPPO netfilter hooks*/
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Junyuan.Huang@PSW.CN.WiFi.Network.internet.1197891, 2018/04/10,
 //Add code for appo sla function
 #define NETLINK_OPPO_SLA  33      /*SLA NETLINK SOCK*/
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */
 
 #define MAX_LINKS 36
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 struct sockaddr_nl {
 	__kernel_sa_family_t	nl_family;	/* AF_NETLINK	*/

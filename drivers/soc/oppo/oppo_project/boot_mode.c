@@ -106,7 +106,7 @@ static struct attribute_group attr_group = {
 	.attrs = g,
 };
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* OPPO 2013-09-03 heiwei add for add interface start reason and boot_mode begin */
 char pwron_event[MAX_CMD_LENGTH + 1];
 static int __init start_reason_init(void)
@@ -129,7 +129,7 @@ static int __init start_reason_init(void)
 
 char boot_mode[MAX_CMD_LENGTH + 1]  __ro_after_init;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fuchun.Liao@Mobile.BSP.CHG 2016-01-14 add for charge
 bool qpnp_is_power_off_charging(void)
 {
@@ -140,7 +140,7 @@ bool qpnp_is_power_off_charging(void)
 		return false;
 }
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //PengNan@SW.BSP add for detect charger when reboot 2016-04-22
 char charger_reboot[MAX_CMD_LENGTH + 1];
 bool qpnp_is_charger_reboot(void)
@@ -166,9 +166,9 @@ static int __init oppo_charger_reboot(void)
     printk(KERN_INFO "%s: parse charger_reboot %s\n", __func__, charger_reboot);
 	return 1;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Xianlin.Wu@ROM.Security add for detect bootloader unlock state 2019-10-28*/
 static int verified_boot_state __ro_after_init = VERIFIED_BOOT_STATE__GREEN;
 bool is_bootloader_unlocked(void)
@@ -193,7 +193,7 @@ static int __init verified_boot_state_init(void)
         }
         return 0;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 int __init  board_boot_mode_init(void)
 {	
@@ -223,22 +223,22 @@ static int __init boot_mode_init(void)
 	
 	board_boot_mode_init();
 	
-#ifdef VENDOR_EDIT		
+#ifdef CONFIG_VENDOR_REALME		
 	/* OPPO 2013.07.09 hewei add begin for factory mode*/
 	board_mfg_mode_init();
 	/* OPPO 2013.07.09 hewei add end */
-#endif //VENDOR_EDIT
+#endif //CONFIG_VENDOR_REALME
 
 /* OPPO 2013-09-03 heiwei add for add interface start reason and boot_mode begin */
     start_reason_init();
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //PengNan@SW.BSP add for detect charger when reboot 2016-04-22
 	oppo_charger_reboot();
-#endif /*VENDOR_EDIT*/
-#ifdef VENDOR_EDIT
+#endif /*CONFIG_VENDOR_REALME*/
+#ifdef CONFIG_VENDOR_REALME
 /*Xianlin.Wu@ROM.Security add for detect bootloader unlock state 2019-10-28*/
         verified_boot_state_init();
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 /* OPPO 2013-09-03 zhanglong add for add interface start reason and boot_mode end */
 	/* OPPO 2013.07.09 hewei add begin for factory mode*/
 	systeminfo_kobj = kobject_create_and_add("systeminfo", NULL);
@@ -251,7 +251,7 @@ static int __init boot_mode_init(void)
 }
 //__setup("androidboot.mode=", boot_mode_setup);
 /* OPPO 2013-09-03 zhanglong add for add interface start reason and boot_mode end */
-#endif //VENDOR_EDIT
+#endif //CONFIG_VENDOR_REALME
 
 //module_init(boot_mode_init);
 arch_initcall(boot_mode_init);

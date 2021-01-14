@@ -473,7 +473,7 @@ void thread_group_cputime_adjusted(struct task_struct *p, cputime_t *ut, cputime
 	*ut = cputime.utime;
 	*st = cputime.stime;
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //fangpan@Swdp.shanghai, 2015/11/26, add interface for resmon module
 EXPORT_SYMBOL(thread_group_cputime_adjusted);
 #endif
@@ -689,7 +689,7 @@ void thread_group_cputime_adjusted(struct task_struct *p, cputime_t *ut, cputime
 	thread_group_cputime(p, &cputime);
 	cputime_adjust(&cputime, &p->signal->prev_cputime, ut, st);
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //fangpan@Swdp.shanghai, 2015/11/26, add interface for resmon module
 EXPORT_SYMBOL(thread_group_cputime_adjusted);
 #endif

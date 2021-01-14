@@ -17,7 +17,7 @@
 #include "camera.h"
 #include "msm_cci.h"
 #include "msm_camera_dt_util.h"
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*add by hongbo.dai@camera 20170518*/
 #include <linux/proc_fs.h>
 #endif
@@ -29,7 +29,7 @@
 
 static struct v4l2_file_operations msm_sensor_v4l2_subdev_fops;
 static int32_t msm_sensor_driver_platform_probe(struct platform_device *pdev);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20160821 for [module vendor info]*/
 extern int size_of_module_list;
 extern int size_of_sensor_list;
@@ -169,7 +169,7 @@ static int32_t msm_sensor_driver_create_v4l_subdev
 	s_ctrl->msm_sd.sd.entity.group_id = MSM_CAMERA_SUBDEV_SENSOR;
 	s_ctrl->msm_sd.sd.entity.name = s_ctrl->msm_sd.sd.name;
 	s_ctrl->msm_sd.close_seq = MSM_SD_CLOSE_2ND_CATEGORY | 0x3;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	//LiuBin@Camera, 2015/07/05, Add for AT test
 	if (s_ctrl->sensordata->sensor_info->position == 0) //back sensor
 	    s_ctrl->msm_sd.sd.entity.revision = 1;
@@ -180,7 +180,7 @@ static int32_t msm_sensor_driver_create_v4l_subdev
 	    s_ctrl->msm_sd.sd.entity.revision = 3;
 	else
 	    s_ctrl->msm_sd.sd.entity.revision = 0;
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 	rc = msm_sd_register(&s_ctrl->msm_sd);
 	if (rc < 0) {
 		pr_err("failed: msm_sd_register rc %d", rc);
@@ -748,7 +748,7 @@ static void msm_sensor_fill_sensor_info(struct msm_sensor_ctrl_t *s_ctrl,
 		s_ctrl->sensordata->sensor_info->modes_supported;
 	sensor_info->position =
 		s_ctrl->sensordata->sensor_info->position;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*add by hongbo.dai@Camera 20180123, for support ES1 and ES2 sensor*/
 	sensor_info->chip_id = s_ctrl->chip_id;
 	sensor_info->chip_version = s_ctrl->chip_version;
@@ -775,7 +775,7 @@ static int32_t msm_sensor_driver_is_special_support(
 	return rc;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*add by hongbo.dai@camera 20170516*/
 #define FUSEID_MAX_LENGTH 64
 static char sensor_fuseid[FUSEID_MAX_LENGTH] = {'\0'};
@@ -818,7 +818,7 @@ int32_t msm_sensor_driver_probe(void *setting,
 
 	unsigned long                        mount_pos = 0;
 	uint32_t                             is_yuv;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20160821 for [module vendor info]*/
 	int i = 0;
 	struct proc_dir_entry *proc_entry;
@@ -987,7 +987,7 @@ int32_t msm_sensor_driver_probe(void *setting,
 			pr_err("slot %d has some other sensor\n",
 				slave_info->camera_id);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20160821 for [module vendor info]*/
 		/*need match sensorID in sensor and eeprom*/
 		for (i = 0; i < size_of_sensor_list; i++) {
@@ -1142,7 +1142,7 @@ CSID_TG:
 		pr_err("%s power up failed", slave_info->sensor_name);
 		goto free_camera_info;
 	}
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*add by hongbo.dai@Camera 20180115, modify for get chip id*/
 	if (s_ctrl->chip_id != 0x00)
 		probed_info->chip_id = s_ctrl->chip_id;
@@ -1151,7 +1151,7 @@ CSID_TG:
 
 	s_ctrl->bypass_video_node_creation =
 		slave_info->bypass_video_node_creation;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Add by Zhengrong.Zhang@Camera 20160621 for 3p8 and 3p3sp compatibility*/
 	if (strcmp(slave_info->sensor_name, "s5k3p3sp") == 0) {
 		int i = 0;
@@ -1209,7 +1209,7 @@ CSID_TG:
 
 	msm_sensor_fill_sensor_info(s_ctrl, probed_info, entity_name);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*add by hongbo.dai@camera 20170517 for read F-useID*/
 	if (strcmp(slave_info->sensor_name, "imx398") == 0
 		|| strcmp(slave_info->sensor_name, "s5k2p7sq") == 0

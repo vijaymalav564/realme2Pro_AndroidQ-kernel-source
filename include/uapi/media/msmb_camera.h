@@ -61,7 +61,7 @@
  * we return error to avoid integer overflow. Group processing
  * can have max of 9 groups of 8 bufs each. This value may be
  * configured in future*/
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 #define MSM_CAMERA_MAX_STREAM_BUF 72
 #else
 /*modify by hongbo.dai@camera, for support 240fps video record*/

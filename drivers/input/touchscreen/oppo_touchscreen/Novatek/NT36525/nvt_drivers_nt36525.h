@@ -1,6 +1,6 @@
 /***************************************************
  * File:novatek_drivers_nt36525.h
- * VENDOR_EDIT
+ * CONFIG_VENDOR_REALME
  * Copyright (c)  2017 - 2030  Oppo Mobile communication Corp.ltd.
  * Description:
  *             novatek nt36525 driver

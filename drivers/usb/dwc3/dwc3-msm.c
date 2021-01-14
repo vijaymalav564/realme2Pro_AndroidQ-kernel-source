@@ -241,12 +241,12 @@ struct dwc3_msm {
 	bool			suspend;
 	bool			disable_host_mode_pm;
 	enum dwc3_id_state	id_state;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Add for OTG sw */
 	bool			otg_switch;
 	bool			otg_online;
 	bool			otg_is_in;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	unsigned long		lpm_flags;
 #define MDWC3_SS_PHY_SUSPEND		BIT(0)
 #define MDWC3_ASYNC_IRQ_WAKE_CAPABILITY	BIT(1)
@@ -304,12 +304,12 @@ struct dwc3_msm {
 static void dwc3_pwr_event_handler(struct dwc3_msm *mdwc);
 static int dwc3_msm_gadget_vbus_draw(struct dwc3_msm *mdwc, unsigned mA);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/04/24, sjc Add for otg id value change support */
 extern void otg_enable_id_value(void);
 extern void otg_disable_id_value(void);
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Add for OTG sw */
 static struct dwc3_msm *oppodwc = NULL;
 static inline int oppo_test_id(struct dwc3_msm *mdwc)
@@ -320,7 +320,7 @@ static inline int oppo_test_id(struct dwc3_msm *mdwc)
 		return test_bit(ID, &mdwc->inputs);
 	}
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 /**
  *
@@ -2718,7 +2718,7 @@ static int dwc3_msm_id_notifier(struct notifier_block *nb,
 
 	id = event ? DWC3_ID_GROUND : DWC3_ID_FLOAT;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Add for OTG sw */
 	mdwc->otg_is_in = !id;
 #endif
@@ -2747,7 +2747,7 @@ static int dwc3_msm_id_notifier(struct notifier_block *nb,
 	}
 
 	if (mdwc->id_state != id) {
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Modify for OTG sw */
 /* Let OTG know about ID detection */
 		if (mdwc->otg_switch)
@@ -2990,7 +2990,7 @@ static DEVICE_ATTR_RW(speed);
 
 static void msm_dwc3_perf_vote_work(struct work_struct *w);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Add for OTG sw */
 bool oppo_get_otg_switch_status(void)
 {
@@ -3044,7 +3044,7 @@ void oppo_set_otg_switch_status(bool value)
 			__func__, oppodwc->otg_is_in, oppodwc->id_state, oppodwc->otg_switch, oppodwc->otg_online, dwc->is_drd);
 }
 EXPORT_SYMBOL(oppo_set_otg_switch_status);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static ssize_t xhci_link_compliance_show(struct device *dev,
 		struct device_attribute *attr, char *buf)
@@ -3158,7 +3158,7 @@ static int dwc3_msm_probe(struct platform_device *pdev)
 	}
 
 	mdwc->id_state = DWC3_ID_FLOAT;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Add for OTG sw */
 	mdwc->otg_is_in = false;
 #endif
@@ -3444,7 +3444,7 @@ static int dwc3_msm_probe(struct platform_device *pdev)
 			POWER_SUPPLY_PROP_PRESENT, &pval);
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Add for OTG sw */
 	oppodwc = mdwc;
 #endif
@@ -3743,12 +3743,12 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 				atomic_read(&mdwc->dev->power.usage_count));
 			return ret;
 		}
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Add for OTG sw */
 		mdwc->otg_online = true;
 		pr_err("[OPPO_CHG][%s] regulator_enable\n",__func__);
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/03/08, sjc Add for OTG */
 		msleep(50);
 #endif
@@ -3839,7 +3839,7 @@ static int dwc3_otg_start_host(struct dwc3_msm *mdwc, int on)
 			dev_err(mdwc->dev, "unable to disable vbus_reg\n");
 			return ret;
 		}
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Add for OTG sw */
 		mdwc->otg_online = false;
 		pr_err("[OPPO_CHG][%s] disable_regulator\n",__func__);
@@ -4014,7 +4014,7 @@ static int dwc3_msm_gadget_vbus_draw(struct dwc3_msm *mdwc, unsigned mA)
 	if (mdwc->max_power == mA || psy_type != POWER_SUPPLY_TYPE_USB)
 		return 0;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/05/04, sjc Add for charging */
 	if (psy_type == POWER_SUPPLY_TYPE_USB) {
 		dev_info(mdwc->dev, "Avail curr from USB = %u, max_power = %u\n", mA, mdwc->max_power);
@@ -4072,7 +4072,7 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 	switch (mdwc->drd_state) {
 	case DRD_STATE_UNDEFINED:
 		/* put controller and phy in suspend if no cable connected */
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Modify for OTG sw */
 		if (test_bit(ID, &mdwc->inputs) &&
 #else
@@ -4102,7 +4102,7 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 			break;
 		}
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Modify for OTG sw */
 		if (!test_bit(ID, &mdwc->inputs)) {
 #else
@@ -4153,7 +4153,7 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 		break;
 
 	case DRD_STATE_PERIPHERAL:
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Modify for OTG sw */
 		if (!test_bit(B_SESS_VLD, &mdwc->inputs) ||
 				!test_bit(ID, &mdwc->inputs)) {
@@ -4215,7 +4215,7 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 
 	case DRD_STATE_HOST_IDLE:
 		/* Switch to A-Device*/
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Modify for OTG sw */
 		if (test_bit(ID, &mdwc->inputs)) {
 #else
@@ -4256,7 +4256,7 @@ static void dwc3_otg_sm_work(struct work_struct *w)
 		break;
 
 	case DRD_STATE_HOST:
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/18, sjc Modify for OTG sw */
 		if (test_bit(ID, &mdwc->inputs) || mdwc->hc_died) {
 #else

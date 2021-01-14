@@ -1,6 +1,6 @@
 /*****************************************************************************************
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd.
- * VENDOR_EDIT
+ * CONFIG_VENDOR_REALME
  * File       : sec_drivers_s6sy761.c
  * Description: Source file for samsung s6sy761 driver
  * Version   : 1.0

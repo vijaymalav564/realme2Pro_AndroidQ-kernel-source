@@ -15,14 +15,14 @@
 	led_flash0: qcom,camera-flash@0 {
 		cell-index = <0>;
 		compatible = "qcom,camera-flash";
-		/*#ifdef VENDOR_EDIT Add by hongbo.dai for flash  20170925 */
+		/*#ifdef CONFIG_VENDOR_REALME Add by hongbo.dai for flash  20170925 */
 		qcom,flash-name = "pmic";
 		qcom,flash-source = <&pm660l_flash0 &pm660l_flash1>;
 		qcom,torch-source = <&pm660l_torch0 &pm660l_torch1>;
 		qcom,switch-source = <&pm660l_switch0>;
 		status = "ok";
 	};
-	/*#ifdef VENDOR_EDIT remove by hongbo.dai@Camera,20171114 for fix flash torch bug*/
+	/*#ifdef CONFIG_VENDOR_REALME remove by hongbo.dai@Camera,20171114 for fix flash torch bug*/
 	/*
 	led_flash1: qcom,camera-flash@1 {
 		cell-index = <1>;
@@ -40,10 +40,10 @@
 		regulator-min-microvolt = <3600000>;
 		regulator-max-microvolt = <3600000>;
 		enable-active-high;
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //wenbin.liu@BSP.CHG.Vooc, 2017/11/02 Add for USE FOR VOOC
 //		gpio = <&tlmm 51 0>;
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 		vin-supply = <&pm660l_bob>;
 	};
 
@@ -79,7 +79,7 @@
 };
 
 &cci {
-	/*#ifdef VENDOR_EDIT*/
+	/*#ifdef CONFIG_VENDOR_REALME*/
 	/*add by hongbo.dai for 16051 actuator,20170925*/
 	actuator0: qcom,actuator@0 {
 		cell-index = <0>;
@@ -185,7 +185,7 @@
 		qcom,gpio-req-tbl-flags = <0>;
 		qcom,gpio-req-tbl-label = "RNG_EN";
 	};
-	/*#ifndef VENDOR_EDIT*/
+	/*#ifndef CONFIG_VENDOR_REALME*/
 	/*add by hongbo.dai modify for eeprom,20170925*/
 	/*
 	eeprom0: qcom,eeprom@0 {
@@ -268,7 +268,7 @@
 		qcom,clock-rates = <24000000 0>;
 	};
 	/*#endif*/
-	//#ifdef VENDOR_EDIT
+	//#ifdef CONFIG_VENDOR_REALME
 	/*oppo hufeng 20170223 modify for front camera eeprom*/
 	/*
 	eeprom1: qcom,eeprom@1 {
@@ -346,7 +346,7 @@
 		qcom,clock-rates = <24000000 0>;
 	};
 	//#endif
-	//#ifndef VENDOR_EDIT
+	//#ifndef CONFIG_VENDOR_REALME
 	/*oppo hufeng 20170210 modify for eeprom*/
 	/*
 	eeprom2: qcom,eeprom@2 {
@@ -552,7 +552,7 @@
 		qcom,clock-rates = <24000000 0>;
 	};
 	//#endif
-	//#ifndef VENDOR_EDIT
+	//#ifndef CONFIG_VENDOR_REALME
 	//oppo hufeng 20170220 modify for camera driver
 	/*
 	qcom,camera@0 {

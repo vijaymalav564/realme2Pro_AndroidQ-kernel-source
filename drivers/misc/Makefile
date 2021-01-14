@@ -67,6 +67,6 @@ obj-y				+= qcom/
 obj-$(CONFIG_QPNP_MISC) 	+= qpnp-misc.o
 obj-$(CONFIG_MEMORY_STATE_TIME) += memory_state_time.o
 # Mengmeng.Wang@SRC.System, 2018/08/28, Add for oiface
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 obj-y		+= schedx.o
 #endif

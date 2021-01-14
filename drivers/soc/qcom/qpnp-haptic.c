@@ -32,7 +32,7 @@
 #include <linux/qpnp/qpnp-haptic.h>
 #include <linux/qpnp/qpnp-revid.h>
 #include "../../staging/android/timed_output.h"
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //rendong.shi@Bsp.drv,2016/04/16,add for  not enable vib in sau mode
 #include <soc/oppo/boot_mode.h>
 #endif
@@ -364,10 +364,10 @@ struct qpnp_hap {
 	u32				misc_clk_trim_error_reg;
 	u32				init_drive_period_code;
 	u32				timeout_ms;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 //Added by Tong.han@Bsp.group.Tp for vib min time setting,2015-07-07-07
 	u32 time_min;
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 	u32				time_required_to_generate_back_emf_us;
 	u32				vmax_mv;
 	u32				ilim_ma;
@@ -413,7 +413,7 @@ struct qpnp_hap {
 };
 
 static struct qpnp_hap *ghap;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Add by wanghao@Bsp.group.Tp for vib min time setting,2017-04-15
 static int gvalue = 0;
 #endif
@@ -990,10 +990,10 @@ static int qpnp_hap_brake_config(struct qpnp_hap *hap, u8 *brake_pat)
 	int rc, i;
 	u32 temp;
 	u8 *pat_ptr, val;
-#ifndef VENDOR_EDIT //Fanhong.Kong@PSW.BSP.CHG,add 2017/12/01 for O vbrator c048 brake
+#ifndef CONFIG_VENDOR_REALME //Fanhong.Kong@PSW.BSP.CHG,add 2017/12/01 for O vbrator c048 brake
 	if (!hap->en_brake)
 		return 0;
-#else/*VENDOR_EDIT*/
+#else/*CONFIG_VENDOR_REALME*/
 	if (!hap->en_brake)	
 	{
 	/* Configure BRAKE register */ 
@@ -1002,7 +1002,7 @@ static int qpnp_hap_brake_config(struct qpnp_hap *hap, u8 *brake_pat)
 		pr_err("en-brake not found\r\n");	
 		return 0;				
 	}
-#endif/*VENDOR_EDIT*/	
+#endif/*CONFIG_VENDOR_REALME*/	
 	/* Configure BRAKE register */
 	rc = qpnp_hap_masked_write_reg(hap, QPNP_HAP_EN_CTL2_REG(hap->base),
 			QPNP_HAP_BRAKE_MASK, (u8)hap->en_brake);
@@ -2258,13 +2258,13 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 		return;
 
 	mutex_lock(&hap->lock);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fanhong.Kong@PSW.BSP.CHG,add 2016/7/26 for vib
 	pr_err("vib on = %d\n",time_ms);
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 
 
-#ifndef VENDOR_EDIT//Fanhong.Kong@PSW.BSP.CHG, 2018/1/20, Add for vib stopped by timer before
+#ifndef CONFIG_VENDOR_REALME//Fanhong.Kong@PSW.BSP.CHG, 2018/1/20, Add for vib stopped by timer before
 	if (time_ms == 0) {
 		/* disable haptics */
 		hrtimer_cancel(&hap->hap_timer);
@@ -2276,10 +2276,10 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 	
 	if (time_ms < 10)
 		time_ms = 10;
-#else/*VENDOR_EDIT*/
+#else/*CONFIG_VENDOR_REALME*/
 		time_ms = (time_ms < hap->time_min ?
 				 hap->time_min : time_ms);
-#endif/*VENDOR_EDIT*/	
+#endif/*CONFIG_VENDOR_REALME*/	
 
 	if (is_sw_lra_auto_resonance_control(hap))
 		hrtimer_cancel(&hap->auto_res_err_poll_timer);
@@ -2300,7 +2300,7 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 	hap->play_time_ms = time_ms;
 	 
 	hap->state = 1;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Modified by wanghao@Bsp.group.Tp for vib min time setting,2017-04-15
         gvalue = hap->play_time_ms;
 /*
@@ -2308,9 +2308,9 @@ static void qpnp_hap_td_enable(struct timed_output_dev *dev, int time_ms)
 		ktime_set(time_ms / 1000, (time_ms % 1000) * 1000000),
 		HRTIMER_MODE_REL);
 */
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 	mutex_unlock(&hap->lock);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 	// fangpan@Swdp.shanghai 2016/10/25, fix sometimes the vibrator shake long time issue
 	queue_work(system_highpri_wq, &hap->work);
 #else
@@ -2387,7 +2387,7 @@ static void qpnp_hap_worker(struct work_struct *work)
 	u8 val = 0x00;
 	int rc;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Added by wanghao@Bsp.group.Tp for vib min time setting,2017-04-15
     if(hap->state) {
         hrtimer_start(&hap->hap_timer,
@@ -2448,7 +2448,7 @@ static enum hrtimer_restart qpnp_hap_timer(struct hrtimer *timer)
 							 hap_timer);
 
 	hap->state = 0;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 	// fangpan@Swdp.shanghai 2016/10/25, fix sometimes the vibrator shake long time issue
 	queue_work(system_highpri_wq, &hap->work);
 #else
@@ -2719,7 +2719,7 @@ static int qpnp_hap_parse_dt(struct qpnp_hap *hap)
 		pr_err("Unable to read timeout\n");
 		return rc;
 	}
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Added by Tong.han@Bsp.group.Tp for vib min time setting,2015-07-07-07
 	rc = of_property_read_u32(pdev->dev.of_node,
 			"qcom,vib-timemin-ms", &temp);
@@ -2729,7 +2729,7 @@ static int qpnp_hap_parse_dt(struct qpnp_hap *hap)
 		dev_err(&pdev->dev, "Unable to read vib time_min\n");
 		hap->time_min = 0;
 	}
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 	hap->act_type = QPNP_HAP_LRA;
 	rc = of_property_read_string(pdev->dev.of_node,
 			"qcom,actuator-type", &temp_str);
@@ -3035,7 +3035,7 @@ static int qpnp_haptic_probe(struct platform_device *pdev)
 	struct regulator *vcc_pon;
 	int rc, i;
 
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	//rendong.shi@Bsp.drv,2016/04/16,add for  not enable vib in sau mode
 	if(MSM_BOOT_MODE__SAU == get_boot_mode())
 	{

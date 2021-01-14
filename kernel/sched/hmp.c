@@ -868,10 +868,10 @@ unsigned int max_task_load(void)
  *	rq->hmp_stats.cumulative_runnable_avg > sched_spill_load
  */
 unsigned int __read_mostly sysctl_sched_spill_nr_run = 10;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* yan.chen@swdp.shanghai, 2016/10/12, export some symbol */
 EXPORT_SYMBOL(sysctl_sched_spill_nr_run);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /*
  * Place sync wakee tasks those have less than configured demand to the waker's
@@ -891,11 +891,11 @@ unsigned int __read_mostly sysctl_sched_big_waker_task_load_pct = 25;
  */
 unsigned int __read_mostly sched_spill_load;
 unsigned int __read_mostly sysctl_sched_spill_load_pct = 100;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* yan.chen@swdp.shanghai, 2016/10/12, export some symbol */
 EXPORT_SYMBOL(sched_spill_load);
 EXPORT_SYMBOL(sysctl_sched_spill_load_pct);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /*
  * Prefer the waker CPU for sync wakee task, if the CPU has only 1 runnable
@@ -927,10 +927,10 @@ unsigned int __read_mostly sysctl_sched_downmigrate_pct = 60;
  */
 unsigned int __read_mostly sched_group_upmigrate;
 unsigned int __read_mostly sysctl_sched_group_upmigrate_pct = 100;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Hui.Fan@SWDP.BSP.OPPOFeature.Hypnus, 2017-4-24, export some symbol */
 EXPORT_SYMBOL(sysctl_sched_group_upmigrate_pct);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /*
  * Task groups, once up-migrated, will need to drop their aggregate
@@ -939,10 +939,10 @@ EXPORT_SYMBOL(sysctl_sched_group_upmigrate_pct);
  */
 unsigned int __read_mostly sched_group_downmigrate;
 unsigned int __read_mostly sysctl_sched_group_downmigrate_pct = 95;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Hui.Fan@SWDP.BSP.OPPOFeature.Hypnus, 2017-4-24, export some symbol */
 EXPORT_SYMBOL(sysctl_sched_group_downmigrate_pct);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /*
  * The load scale factor of a CPU gets boosted when its max frequency
@@ -965,10 +965,10 @@ unsigned int __read_mostly
 sched_long_cpu_selection_threshold = 100 * NSEC_PER_MSEC;
 
 unsigned int __read_mostly sysctl_sched_restrict_cluster_spill;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* yan.chen@swdp.shanghai, 2016/10/12, export some symbol */
 EXPORT_SYMBOL(sysctl_sched_restrict_cluster_spill);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /*
  * Scheduler tries to avoid waking up idle CPUs for tasks running
@@ -979,10 +979,10 @@ EXPORT_SYMBOL(sysctl_sched_restrict_cluster_spill);
  */
 unsigned int __read_mostly sysctl_sched_short_burst;
 unsigned int __read_mostly sysctl_sched_short_sleep = 1 * NSEC_PER_MSEC;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Hui.Fan@SWDP.BSP.OPPOFeature.Hypnus, 2017-4-24, export some symbol */
 EXPORT_SYMBOL(sysctl_sched_short_burst);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 static void _update_up_down_migrate(unsigned int *up_migrate,
 			unsigned int *down_migrate, bool is_group)
@@ -1052,10 +1052,10 @@ void set_hmp_defaults(void)
 	sched_freq_aggregate_threshold =
 		pct_to_real(sysctl_sched_freq_aggregate_threshold_pct);
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Hui.Fan@SWDP.BSP.OPPOFeature.Hypnus, 2017-4-24, export some symbol */
 EXPORT_SYMBOL(set_hmp_defaults);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 u32 sched_get_init_task_load(struct task_struct *p)
 {
@@ -1401,10 +1401,10 @@ void post_big_task_count_change(const struct cpumask *cpus)
 }
 
 DEFINE_MUTEX(policy_mutex);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Hui.Fan@SWDP.BSP.OPPOFeature.Hypnus, 2017-4-24, export some symbol */
 EXPORT_SYMBOL(policy_mutex);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 unsigned int update_freq_aggregate_threshold(unsigned int threshold)
 {

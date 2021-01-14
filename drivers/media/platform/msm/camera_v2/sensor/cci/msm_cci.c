@@ -31,7 +31,7 @@
 #define CCI_I2C_Q1_SIZE_32W 32
 #define CYCLES_PER_MICRO_SEC_DEFAULT 4915
 #define CCI_MAX_DELAY 1000000
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*oppo hufeng modify to add cci timeout time*/
 #define CCI_TIMEOUT msecs_to_jiffies(500)
 #else
@@ -170,7 +170,7 @@ static void msm_cci_flush_queue(struct cci_device *cci_dev,
 	enum cci_i2c_master_t master)
 {
 	int32_t rc = 0;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20150604 start for debug cci init*/
 	uint32_t irq_status = 0;
 #endif
@@ -182,7 +182,7 @@ static void msm_cci_flush_queue(struct cci_device *cci_dev,
 		pr_err("%s:%d wait failed\n", __func__, __LINE__);
 	} else if (rc == 0) {
 		pr_err("%s:%d wait timeout\n", __func__, __LINE__);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20150609 start for debug cci*/
 		irq_status = msm_camera_io_r_mb(cci_dev->base + CCI_IRQ_STATUS_0_ADDR);
 		pr_err("%s %d: wait_for_completion_timeout,irq_status = 0x%X\n",
@@ -220,7 +220,7 @@ static int32_t msm_cci_validate_queue(struct cci_device *cci_dev,
 	unsigned long flags;
 	uint32_t read_val = 0;
 	uint32_t reg_offset = master * 0x200 + queue * 0x100;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20150604 start for debug cci init*/
 	uint32_t irq_status = 0;
 #endif
@@ -260,7 +260,7 @@ static int32_t msm_cci_validate_queue(struct cci_device *cci_dev,
 		if (rc <= 0) {
 			pr_err("%s: wait_for_completion_timeout %d\n",
 				 __func__, __LINE__);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20150609 start for debug cci*/
 		irq_status = msm_camera_io_r_mb(cci_dev->base + CCI_IRQ_STATUS_0_ADDR);
 		pr_err("%s %d: wait_for_completion_timeout,irq_status = 0x%X\n",
@@ -1332,7 +1332,7 @@ static int32_t msm_cci_i2c_set_sync_prms(struct v4l2_subdev *sd,
 static int32_t msm_cci_init(struct v4l2_subdev *sd,
 	struct msm_camera_cci_ctrl *c_ctrl)
 {
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20150604 start for debug cci init*/
 	uint32_t irq_status = 0;
 #endif
@@ -1388,7 +1388,7 @@ static int32_t msm_cci_init(struct v4l2_subdev *sd,
 				&cci_dev->cci_master_info[master].
 				reset_complete,
 				CCI_TIMEOUT);
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20150604 start for debug cci init*/
 			if (rc <= 0)
 				pr_err("%s:%d wait failed %d\n", __func__,
@@ -1478,7 +1478,7 @@ static int32_t msm_cci_init(struct v4l2_subdev *sd,
 		pr_err("%s: irq enable failed\n", __func__);
 	cci_dev->hw_version = msm_camera_io_r_mb(cci_dev->base +
 		CCI_HW_VERSION_ADDR);
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /*modified by Jinshui.Liu@Camera 20160827 for [less log]*/
 	pr_info("%s:%d: hw_version = 0x%x\n", __func__, __LINE__,
 		cci_dev->hw_version);
@@ -1531,7 +1531,7 @@ static int32_t msm_cci_init(struct v4l2_subdev *sd,
 		&cci_dev->cci_master_info[MASTER_0].reset_complete,
 		CCI_TIMEOUT);
 	if (rc <= 0) {
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20150604 start for debug cci init*/
 		pr_err("%s: wait_for_completion_timeout %d\n",
 			 __func__, __LINE__);
@@ -1725,7 +1725,7 @@ static int32_t msm_cci_write(struct v4l2_subdev *sd,
 	return rc;
 }
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /*modified by Jinshui.Liu@Camera 20151229 for [cci retry]*/
 static int32_t msm_cci_config(struct v4l2_subdev *sd,
 	struct msm_camera_cci_ctrl *cci_ctrl)
@@ -1819,7 +1819,7 @@ static int32_t msm_cci_config(struct v4l2_subdev *sd,
 	mutex_unlock(&cci_dev->mutex);
 	return rc;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static irqreturn_t msm_cci_irq(int irq_num, void *data)
 {
@@ -2209,7 +2209,7 @@ static int msm_cci_probe(struct platform_device *pdev)
 		pr_err("%s: no enough memory\n", __func__);
 		return -ENOMEM;
 	}
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Add by Liubin for cci dev mutex at 20160730 */
 	mutex_init(&new_cci_dev->mutex);
 #endif
@@ -2303,7 +2303,7 @@ cci_invalid_vreg_data:
 cci_release_mem:
 	msm_camera_put_reg_base(pdev, new_cci_dev->base, "cci", true);
 cci_no_resource:
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Add by liubin for cci dev mutex at 20160730 */
 	mutex_destroy(&new_cci_dev->mutex);
 #endif

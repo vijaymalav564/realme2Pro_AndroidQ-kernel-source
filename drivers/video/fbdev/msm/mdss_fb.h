@@ -27,7 +27,7 @@
 #define MDSS_LPAE_CHECK(phys)	\
 	((sizeof(phys) > sizeof(unsigned long)) ? ((phys >> 32) & 0xFF) : (0))
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for 16051 read LCM window info
 #define PANEL_BLACK 0x01
 #define PANEL_WHITE 0x02
@@ -342,10 +342,10 @@ struct msm_fb_data_type {
 	/* for non-blocking */
 	struct task_struct *disp_thread;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for support face fill light feature */
 	struct task_struct *ffl_thread;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	atomic_t commits_pending;
 	atomic_t kickoff_pending;
@@ -385,10 +385,10 @@ struct msm_fb_data_type {
 	bool pending_switch;
 	struct mutex switch_lock;
 	struct input_handler *input_handler;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for support fingerprint feature */
 	bool oppo_commit_info;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 };
 
 static inline void mdss_fb_update_notify_update(struct msm_fb_data_type *mfd)

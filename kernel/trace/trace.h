@@ -617,7 +617,7 @@ void tracing_start_cmdline_record(void);
 void tracing_stop_cmdline_record(void);
 int register_tracer(struct tracer *type);
 int is_tracing_stopped(void);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //fangpan@Swdp.shanghai, 2016/06/30, export the ftrace interface
 /* add more interface for kernel ftrace collect function*/
 extern int trace_array_get(struct trace_array *this_tr);

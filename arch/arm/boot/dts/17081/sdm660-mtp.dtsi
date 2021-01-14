@@ -22,14 +22,14 @@
 
 &uartblsp1dm1 {
 	status = "ok";
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/04/10, sjc Modify for console */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/04/10, sjc Modify for console */
 	//pinctrl-names = "default";
 	//pinctrl-0 = <&uart_console_active>;
 //#else
 	pinctrl-names = "default", "disable";
 	pinctrl-0 = <&uart_console_active>;
 	pinctrl-1 = <&uart_console_disable>;
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */
 };
 
 &ufsphy1 {
@@ -100,7 +100,7 @@
 	qcom,mdss-pref-prim-intf = "dsi";
 };
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Gou shengjun@PSW.MM.Display.LCD.Stability, 2017/11/30,
 //add for panel config
 /*
@@ -150,7 +150,7 @@
 	qcom,platform-reset-gpio = <&tlmm 53 0>;
 	qcom,platform-te-gpio = <&tlmm 59 0>;
 };
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 
 &mdss_dp_ctrl {
 	pinctrl-names = "mdss_dp_active", "mdss_dp_sleep";
@@ -220,7 +220,7 @@
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply_labibb_amoled>;
 };
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Shengjun.Gou@PSW.MM.Driver.Stability, 2017/09/19,
 //modify for amoled panel power supply
 &dsi_oppo16051samsung_s6e3fa3_1080p_cmd {
@@ -234,7 +234,7 @@
 &dsi_oppo17081samsung_ams596w401_1080_2280_cmd {
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply_labibb_amoled>;
 };
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 &dsi_lgd_incell_sw49106_fhd_video {
 	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
 	qcom,mdss-dsi-bl-min-level = <1>;
@@ -270,7 +270,7 @@
 
 &sdhc_2 {
 	/* device core power supply */
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 //rendong.shi@Bsp.Storage.card,2016/12/21,Added for vdd_en using gpio supply 3V
 //	vdd-supply = <&pm660l_l5>;
 //#else
@@ -285,7 +285,7 @@
 	qcom,vdd-io-voltage-level = <1800000 2950000>;
 	qcom,vdd-io-current-level = <200 22000>;
 	
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 //rendong.shi@Bsp.Storage.card,2016/12/21,Added for vdd_en using gpio supply 3V
 	pinctrl-names = "default", "active", "sleep";
 	pinctrl-0 = <&sdc2_cd_on &sim1_cd_on &sim2_cd_on>;
@@ -303,7 +303,7 @@
 			1 &intc 0 0 221 0
 			2 &tlmm 54 0>;
 	interrupt-names = "hc_irq", "pwr_irq", "status_irq";
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 //rendong.shi@Bsp.Storage.card,2016/12/21,Added for vdd_en using gpio supply 3V
 	cd-gpios = <&tlmm 54 0x0>;
 //#endif
@@ -316,7 +316,7 @@
 
 &soc {
 
-// #ifdef VENDOR_EDIT
+// #ifdef CONFIG_VENDOR_REALME
         /* guorui@BSP.Fingerprint.Basic 2019-12-06 add for fingerprint */
         oppo_fp_common {
                 compatible = "oppo,fp_common"; //Manufacture, and Model
@@ -370,9 +370,9 @@
     oppo_secure_common { //Slave driver and CS ID
         compatible = "oppo,secure_common"; //Manufacture, and Model
     };
-/*#endif VENDOR_EDIT */
+/*#endif CONFIG_VENDOR_REALME */
 
-/*#ifdef VENDOR_EDIT ziqing.guo@phone.bsp 2015-12-20 add for fpc TEE */
+/*#ifdef CONFIG_VENDOR_REALME ziqing.guo@phone.bsp 2015-12-20 add for fpc TEE */
     fpc_fpc1020 { //Slave driver and CS ID
         compatible = "fpc,fpc1020"; //Manufacture, and Model
         fpc,irq-gpio = <&tlmm 72 0x00>;
@@ -381,9 +381,9 @@
         pinctrl-names = "default";
         pinctrl-0 = <&gpio_vdd_en_default &gpio_fpc_irq_default>;
     };
-/*#endif VENDOR_EDIT */
+/*#endif CONFIG_VENDOR_REALME */
 
-/*#ifdef VENDOR_EDIT */
+/*#ifdef CONFIG_VENDOR_REALME */
 /* ziqing.guo@BSP.Fingerprint.Basic, 2017/04/19, add for goodix fingerprint 5288 */
     goodix_fp {
         compatible = "goodix,goodix_fp";
@@ -405,9 +405,9 @@
             delay-time = <0>;
         };
     };
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 
-/*ifdef VENDOR_EDIT*/
+/*ifdef CONFIG_VENDOR_REALME*/
 //Added by Tong.han@Bsp.Group.Tp for device-info,2015-4-13
 	devinfo {
 		compatible = "oppo-devinfo";
@@ -434,7 +434,7 @@
 	qcom,battery-data = <&mtp_batterydata>;
 };
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 &i2c_1 {
 	//Wanghao@BSP.group 2017-11-01 add for enable i2c_1
 	status = "okay";
@@ -488,7 +488,7 @@
 };
 //#endif
 
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/20, sjc Add for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/20, sjc Add for charging */
 &i2c_2 {
 	bq27541-battery@55 {
 		status = "okay";
@@ -568,7 +568,7 @@
 };
 //#endif
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 /*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/13, Add for ak4376&tfa9890 config*/
 &i2c_6 { /*  BLSP2 QUP2 */
 	status = "okay";
@@ -588,4 +588,4 @@
 		status = "okay";
 	};
 };
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */

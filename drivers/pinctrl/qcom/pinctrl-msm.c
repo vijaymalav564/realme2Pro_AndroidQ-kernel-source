@@ -464,7 +464,7 @@ static void msm_gpio_set(struct gpio_chip *chip, unsigned offset, int value)
 #ifdef CONFIG_DEBUG_FS
 #include <linux/seq_file.h>
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 	static const char * const values[] = {
 		"high",
 		"low"
@@ -502,7 +502,7 @@ static void msm_gpio_dbg_show_one(struct seq_file *s,
 	int is_out;
 	int drive;
 	int pull;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	int in_value;
 	int out_value;
 	int intr_enable;
@@ -528,7 +528,7 @@ static void msm_gpio_dbg_show_one(struct seq_file *s,
 	drive = (ctl_reg >> g->drv_bit) & 7;
 	pull = (ctl_reg >> g->pull_bit) & 3;
 	
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
     printk("  g->in_bit = %x,g->on_bit = %x,  g->intr_enable = %d,g->intr_polarity = %d, intr_detection = %d\n",g->in_bit, g->out_bit,g->intr_enable_bit,g->intr_polarity_bit,g->intr_detection_bit);
 	io_reg = readl(pctrl->regs + g->io_reg);
 	intr_cfg_reg = readl(pctrl->regs + g->intr_cfg_reg);
@@ -554,7 +554,7 @@ static void msm_gpio_dbg_show_one(struct seq_file *s,
 	seq_printf(s, " %s%s", intr_polaritys[intr_polarity], intr_detections[intr_detection]);	
 #endif
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 	seq_printf(s, " %-8s: %-3s %d", g->name, is_out ? "out" : "in", func);
 	seq_printf(s, " %dmA", msm_regval_to_drive(drive));
 	seq_printf(s, " %s", pulls[pull]);

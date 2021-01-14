@@ -36,11 +36,11 @@
 #include <trace/events/sched.h>
 #include "tune.h"
 #include "walt.h"
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO)
 // wenbin.liu@PSW.BSP.MM, 2018/05/02
 // Add for get cpu load
 #include <soc/oppo/oppo_healthinfo.h>
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 /*
  * Targeted preemption latency for CPU-bound tasks:
@@ -59,11 +59,11 @@ unsigned int normalized_sysctl_sched_latency = 6000000ULL;
 
 unsigned int sysctl_sched_sync_hint_enable = 1;
 unsigned int sysctl_sched_cstate_aware = 1;
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO)
 // wenbin.liu@PSW.BSP.MM, 2018/05/26
 // Add for get sched latency stat
 extern void ohm_schedstats_record(int sched_type, int fg, u64 delta);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 /*
  * The initial- and re-scaling of tunables is configurable
@@ -929,11 +929,11 @@ update_stats_wait_end(struct cfs_rq *cfs_rq, struct sched_entity *se)
 			se->statistics.wait_start = delta;
 			return;
 		}
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO)
 // wenbin.liu@PSW.TECH.KERNEL, 2018/05/26
 // Add for get sched latency stat
                 ohm_schedstats_record(OHM_SCHED_SCHEDLATENCY, current_is_fg(), (delta >> 20));
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 		trace_sched_stat_wait(p, delta);
 	}
 
@@ -4573,11 +4573,11 @@ static void enqueue_sleeper(struct cfs_rq *cfs_rq, struct sched_entity *se)
 			if (tsk->in_iowait) {
 				se->statistics.iowait_sum += delta;
 				se->statistics.iowait_count++;
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO)
 // wenbin.liu@PSW.BSP.MM, 2018/05/26
 // Add for get sched latency stat
                                 ohm_schedstats_record(OHM_SCHED_IOWAIT, current_is_fg(), (delta >> 20));
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 				trace_sched_stat_iowait(tsk, delta);
 			}
 			trace_sched_stat_blocked(tsk, delta);
@@ -9329,7 +9329,7 @@ static void update_cpu_capacity(struct sched_domain *sd, int cpu)
 		mcc->cpu = cpu;
 #ifdef CONFIG_SCHED_DEBUG
 		raw_spin_unlock_irqrestore(&mcc->lock, flags);
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /* Yichun.Chen  PSW.BSP.CHG  2018-10-06  reduce kernel log */
 		printk_deferred(KERN_INFO "CPU%d: update max cpu_capacity %lu\n",
 				cpu, capacity);

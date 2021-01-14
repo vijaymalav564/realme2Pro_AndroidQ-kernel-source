@@ -301,7 +301,7 @@ struct fg_batt_props {
 	int		float_volt_uv;
 	int		vbatt_full_mv;
 	int		fastchg_curr_ma;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-13  Add for anthenticate battery */
 	int		batt_id;
 #endif
@@ -388,7 +388,7 @@ static const struct fg_pt fg_tsmc_osc_table[] = {
 	{  90,		444992 },
 };
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-13  Add for anthenticate battery */
 enum oppo_battery_type {
 	NON_STD_BATT = 0,
@@ -451,7 +451,7 @@ struct fg_chip {
 	int			last_recharge_volt_mv;
 	int			delta_temp_irq_count;
 	int			esr_timer_charging_default[NUM_ESR_TIMERS];
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-13  Add for anthenticate battery */
 	int			oppo_battery_type;
 	bool			profile_not_available;
@@ -481,7 +481,7 @@ struct fg_chip {
 	struct work_struct	esr_filter_work;
 	struct alarm		esr_filter_alarm;
 	ktime_t			last_delta_temp_time;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Ji.Xu PSW.BSP.CHG  2018-07-23  Save battery capacity to persist partition */
     int				batt_info[6];
     int				batt_info_id;

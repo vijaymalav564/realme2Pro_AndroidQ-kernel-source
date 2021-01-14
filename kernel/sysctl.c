@@ -64,11 +64,11 @@
 #include <linux/binfmts.h>
 #include <linux/sched/sysctl.h>
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Ming.Liu@PSW.CN.WiFi.Network.quality.1065762, 2016/10/09
 //add for: [monitor tcp info]
 #include <net/tcp.h>
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 #include <linux/kexec.h>
 #include <linux/bpf.h>
@@ -139,30 +139,30 @@ static unsigned long one_ul = 1;
 static unsigned long long_max = LONG_MAX;
 static int one_hundred = 100;
 
-#ifdef VENDOR_EDIT //yixue.ge@PSW.BSP.Kernel.Driver 20170720 add for add direct_vm_swappiness
+#ifdef CONFIG_VENDOR_REALME //yixue.ge@PSW.BSP.Kernel.Driver 20170720 add for add direct_vm_swappiness
 extern int direct_vm_swappiness;
 static int two_hundred = 200;
 #endif
 
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*yanwu@TECH.Storage.FS, 2019-07-15, add control f2fs fsync nobarrier*/
 unsigned int sysctl_f2fs_fsync_nobarrier = 0;
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 unsigned int sysctl_fg_io_opt = 1;
-#endif /*VENDOR_EDIT*/
-#ifdef VENDOR_EDIT
+#endif /*CONFIG_VENDOR_REALME*/
+#ifdef CONFIG_VENDOR_REALME
 /*jason.tang@TECH.BSP.Kernel.Storage, 2019-05-20, add control ext4 fsync*/
 unsigned int sysctl_ext4_fsync_enable = 1;
 unsigned int ext4_fsync_enable_status = 0;
-#endif /*VENDOR_EDIT*/
-#ifdef VENDOR_EDIT
+#endif /*CONFIG_VENDOR_REALME*/
+#ifdef CONFIG_VENDOR_REALME
 /*jason.tang@TECH.BSP.Kernel.Storage, 2019-05-20, add to count flush*/
 unsigned long sysctl_blkdev_issue_flush_count = 0;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 #ifdef CONFIG_PRINTK
 static int ten_thousand = 10000;
 #endif
@@ -312,10 +312,10 @@ static int max_sched_tunable_scaling = SCHED_TUNABLESCALING_END-1;
 #endif /* CONFIG_SMP */
 #endif /* CONFIG_SCHED_DEBUG */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 int sysctl_uifirst_enabled = 1;
 int sysctl_launcher_boost_enabled = 0;
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 #ifdef CONFIG_COMPACTION
 static int min_extfrag_threshold;
@@ -557,7 +557,7 @@ static struct ctl_table kern_table[] = {
 		.proc_handler   = proc_dointvec,
 	},
 #endif	/* CONFIG_SCHED_HMP */
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 {
 		.procname	= "fg_io_opt",
@@ -568,7 +568,7 @@ static struct ctl_table kern_table[] = {
 },
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*jason.tang@TECH.BSP.Kernel.Storage, 2019-05-20, add control ext4 fsync*/
 {
 		.procname	= "ext4_fsync_enable",
@@ -578,7 +578,7 @@ static struct ctl_table kern_table[] = {
 		.proc_handler	= proc_dointvec,
 },
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*jason.tang@TECH.BSP.Kernel.Storage, 2019-05-20, add to count flush*/
 {
 		.procname	= "blkdev_issue_flush_count",
@@ -1396,7 +1396,7 @@ static struct ctl_table kern_table[] = {
 		.proc_handler	= proc_dointvec_minmax,
 		.extra1		= &neg_one,
 	},
-#if defined(VENDOR_EDIT) && defined(CONFIG_DEATH_HEALER)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_DEATH_HEALER)
 /* fanhui@PhoneSW.BSP, 2016/02/02, DeathHealer, record the hung task killing */
 	{
 		.procname	= "hung_task_oppo_kill",
@@ -1536,7 +1536,7 @@ static struct ctl_table kern_table[] = {
 		.proc_handler	= proc_dointvec,
 	},
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 // Liujie.Xie@TECH.Kernel.Sched, 2019/05/22, add for ui first
 	{
 		.procname	= "uifirst_enabled",
@@ -1552,7 +1552,7 @@ static struct ctl_table kern_table[] = {
 		.mode		= 0666,
 		.proc_handler = proc_dointvec,
 	},
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 /*
  * NOTE: do not add new entries to this table unless you have read
  * Documentation/sysctl/ctl_unnumbered.txt
@@ -1684,13 +1684,13 @@ static struct ctl_table vm_table[] = {
 		.mode		= 0644,
 		.proc_handler	= proc_dointvec_minmax,
 		.extra1		= &zero,
-#ifdef VENDOR_EDIT //yixue.ge@PSW.BSP.Kernel.Driver 20170720 add for add direct_vm_swappiness
+#ifdef CONFIG_VENDOR_REALME //yixue.ge@PSW.BSP.Kernel.Driver 20170720 add for add direct_vm_swappiness
 		.extra2		= &two_hundred,
 #else
 		.extra2		= &one_hundred,
 #endif
 	},
-#ifdef VENDOR_EDIT //yixue.ge@PSW.BSP.Kernel.Driver 20170720 add for add direct_vm_swappiness
+#ifdef CONFIG_VENDOR_REALME //yixue.ge@PSW.BSP.Kernel.Driver 20170720 add for add direct_vm_swappiness
 	{
 		.procname	= "direct_swappiness",
 		.data		= &direct_vm_swappiness,
@@ -1761,12 +1761,12 @@ static struct ctl_table vm_table[] = {
 		.procname	= "compact_memory",
 		.data		= &sysctl_compact_memory,
 		.maxlen		= sizeof(int),
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Huacai.Zhou@PSW.kernel.mm, 2018-08-20, modify permission for coloros.athena*/
 		.mode		= 0222,
 #else
 		.mode		= 0200,
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 		.proc_handler	= sysctl_compaction_handler,
 	},
 	{
@@ -2560,7 +2560,7 @@ static int __do_proc_dointvec(void *tbl_data, struct ctl_table *table,
 		return 0;
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Jingchun.Wang@bsp.drv, 2017/04/19,
 //add for disable user to write proc printk
 #ifndef CONFIG_OPPO_DAILY_BUILD
@@ -2570,7 +2570,7 @@ static int __do_proc_dointvec(void *tbl_data, struct ctl_table *table,
 		}
 	}
 #endif
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	
 	i = (int *) tbl_data;
 	vleft = table->maxlen / sizeof(*i);
@@ -2683,7 +2683,7 @@ int proc_dointvec(struct ctl_table *table, int write,
 	return do_proc_dointvec(table, write, buffer, lenp, ppos, NULL, NULL);
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Ming.Liu@PSW.CN.WiFi.Network.quality.1065762, 2016/10/09,
 //add for: [monitor tcp info]
 static int proc_put_string(void __user **dst_buf, size_t *buf_size, char * src_str, int str_len)
@@ -2828,7 +2828,7 @@ put_return:
 
 	return 0;
 }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /**
  * proc_douintvec - read a vector of unsigned integers

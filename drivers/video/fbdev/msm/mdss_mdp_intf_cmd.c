@@ -22,10 +22,10 @@
 #include "mdss_mdp_trace.h"
 #include "mdss_dsi_clk.h"
 #include <linux/interrupt.h>
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for display key log
 #include <soc/oppo/mmkey_log.h>
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 #define MAX_RECOVERY_TRIALS 10
 #define MAX_SESSIONS 2
@@ -2133,7 +2133,7 @@ static int mdss_mdp_cmd_wait4pingpong(struct mdss_mdp_ctl *ctl, void *arg)
 		MDSS_XLOG(status, rc, atomic_read(&ctx->koff_cnt));
 		if (status) {
 			pr_warn("pp done but irq not triggered\n");
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //modify for display key log
 			mm_keylog_write("mdss mdp cmd wait4pingpong exception\n", "pp done but irq not triggered\n", TYPE_VSYNC_EXCEPTION);
 #endif /*VEDNOR_EDIT*/
@@ -2179,10 +2179,10 @@ static int mdss_mdp_cmd_wait4pingpong(struct mdss_mdp_ctl *ctl, void *arg)
 			MDSS_XLOG(0xbad);
 		} else if (ctx->pp_timeout_report_cnt == MAX_RECOVERY_TRIALS) {
 			MDSS_XLOG(0xbad2);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for display key log
             mm_keylog_write("mdss mdp cmd wait4pingpong exception\n", "cmd kickoff timed out\n", TYPE_VSYNC_EXCEPTION);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 			MDSS_XLOG_TOUT_HANDLER("mdp", "dsi0_ctrl", "dsi0_phy",
 				"dsi1_ctrl", "dsi1_phy", "vbif", "vbif_nrt",
 				"dbg_bus", "vbif_dbg_bus",
@@ -2815,7 +2815,7 @@ static void mdss_mdp_cmd_wait4_autorefresh_done(struct mdss_mdp_ctl *ctl)
 	MDSS_XLOG(val, 0x333);
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for layer sync */
 void oppo_wait_for_frame_start(struct mdss_mdp_ctl *ctl)
 {
@@ -2851,7 +2851,7 @@ void oppo_wait_for_frame_start(struct mdss_mdp_ctl *ctl)
 	/* disable rd_ptr interrupt */
 	mdss_mdp_setup_vsync(ctx, false);
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 /* caller needs to hold autorefresh_lock before calling this function */
 static int mdss_mdp_disable_autorefresh(struct mdss_mdp_ctl *ctl,
@@ -3551,10 +3551,10 @@ panel_events:
 	ctl->ops.reconfigure = NULL;
 	ctl->ops.wait_for_vsync_fnc = NULL;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 	ctl->ops.config_dsitiming_fnc = NULL;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 end:
 	if (!IS_ERR_VALUE(ret)) {
@@ -3740,13 +3740,13 @@ static int mdss_mdp_cmd_intfs_setup(struct mdss_mdp_ctl *ctl,
 		} else {
 			pr_err("Intf %d already in use\n", session);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for blank
 			pr_err("Intf %d recovery, ctx ref_cnt: %d, panel state: %d\n",
 					session,ctx->ref_cnt,ctx->panel_power_state);
 			ctx->ref_cnt = 0;
 			mdss_fb_report_panel_dead(ctl->mfd);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 			return -EBUSY;
 		}
@@ -3893,7 +3893,7 @@ void mdss_mdp_switch_to_vid_mode(struct mdss_mdp_ctl *ctl, int prep)
 			(void *) mode, CTL_INTF_EVENT_FLAG_DEFAULT);
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 static int mdss_mdp_cmd_config_dsitiming(struct mdss_mdp_ctl *ctl,
 			struct mdss_mdp_ctl *sctl, u32 bitrate)
@@ -3923,7 +3923,7 @@ static int mdss_mdp_cmd_config_dsitiming(struct mdss_mdp_ctl *ctl,
 			__func__, ctl->intf_num, rc);
 	return rc;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static int mdss_mdp_cmd_reconfigure(struct mdss_mdp_ctl *ctl,
 		enum dynamic_switch_modes mode, bool prep)
@@ -4018,10 +4018,10 @@ int mdss_mdp_cmd_start(struct mdss_mdp_ctl *ctl)
 	ctl->ops.panel_disable_cfg = mdss_mdp_cmd_panel_disable_cfg;
 	ctl->ops.wait_for_vsync_fnc = mdss_mdp_cmd_wait4_vsync;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 	ctl->ops.config_dsitiming_fnc = mdss_mdp_cmd_config_dsitiming;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	pr_debug("%s:-\n", __func__);
 

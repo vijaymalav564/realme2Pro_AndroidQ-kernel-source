@@ -25,7 +25,7 @@ extern int selinux_enforcing;
 #define selinux_enforcing 1
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
  * between enforcing mode and permissive mode via /selinux/enforce or
  * selinux_enforcing symbol in normal/silence mode of release build.
@@ -44,7 +44,7 @@ static inline int is_selinux_enforcing(void)
 #endif /* OPPO_DISALLOW_KEY_INTERFACES */
 	return selinux_enforcing;
 }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /*
  * An entry in the AVC.

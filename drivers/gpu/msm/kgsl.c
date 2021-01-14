@@ -42,10 +42,10 @@
 #include "kgsl_sync.h"
 #include "kgsl_compat.h"
 #include "kgsl_pool.h"
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2017/11/25  Add for keylog */
 #include <soc/oppo/mmkey_log.h>
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 #undef MODULE_PARAM_PREFIX
 #define MODULE_PARAM_PREFIX "kgsl."
@@ -4506,7 +4506,7 @@ static unsigned long _get_svm_area(struct kgsl_process_private *private,
 
 	return result;
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2018/06/08  Add for keylog */
 static DEFINE_MUTEX(kgsl_failed_mutex);
 #define FAILED_PID_CNT 20
@@ -4528,7 +4528,7 @@ kgsl_get_unmapped_area(struct file *file, unsigned long addr,
 	struct kgsl_process_private *private = dev_priv->process_priv;
 	struct kgsl_device *device = dev_priv->device;
 	struct kgsl_mem_entry *entry = NULL;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2018/06/08  Add for keylog */
 	int i = 0;
 	int saved = 0;
@@ -4549,7 +4549,7 @@ kgsl_get_unmapped_area(struct file *file, unsigned long addr,
 
 	if (!kgsl_memdesc_use_cpu_map(&entry->memdesc)) {
 		val = get_unmapped_area(NULL, addr, len, 0, flags);
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2017/11/25  Add for keylog */
 		if (IS_ERR_VALUE(val))
 			KGSL_DRV_ERR_RATELIMIT(device,
@@ -4580,7 +4580,7 @@ kgsl_get_unmapped_area(struct file *file, unsigned long addr,
 #endif
 	} else {
 		 val = _get_svm_area(private, entry, addr, len, flags);
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /* Rongchun.Zhang@PSW.MM.Display.GPU.Log, 2017/11/25  Add for keylog */
 		 if (IS_ERR_VALUE(val))
 			KGSL_DRV_ERR_RATELIMIT(device,

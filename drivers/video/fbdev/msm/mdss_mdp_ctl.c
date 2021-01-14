@@ -5661,7 +5661,7 @@ exit:
 	return ret;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 int mdss_mdp_ctl_update_dsitiming(struct mdss_mdp_ctl *ctl, u32 bitrate)
 {
@@ -5680,7 +5680,7 @@ int mdss_mdp_ctl_update_dsitiming(struct mdss_mdp_ctl *ctl, u32 bitrate)
 	pr_debug("%s: timing = %d\n", __func__, bitrate);
 	return ret;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 int mdss_mdp_display_wait4comp(struct mdss_mdp_ctl *ctl)
 {

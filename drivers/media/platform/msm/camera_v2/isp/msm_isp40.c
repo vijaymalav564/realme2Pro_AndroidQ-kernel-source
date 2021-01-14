@@ -793,7 +793,7 @@ static long msm_vfe40_reset_hardware(struct vfe_device *vfe_dev,
 			reload_wm(vfe_dev, vfe_dev->vfe_base, 0x0003FFFF);
 	}
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 	if (blocking_call) {
 		rc = wait_for_completion_timeout(
 			&vfe_dev->reset_complete, msecs_to_jiffies(50));

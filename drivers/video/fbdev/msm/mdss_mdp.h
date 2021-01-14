@@ -452,11 +452,11 @@ struct mdss_mdp_ctl_intfs_ops {
 	/* to wait for vsync */
 	int (*wait_for_vsync_fnc)(struct mdss_mdp_ctl *ctl);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 	int (*config_dsitiming_fnc)(struct mdss_mdp_ctl *ctl,
 				struct mdss_mdp_ctl *sctl, u32 bitrate);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 };
 
@@ -957,10 +957,10 @@ struct mdss_overlay_private {
 	struct mutex ov_lock;
 	struct mutex dfps_lock;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 	struct mutex dynamic_dsitiming_lock;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	struct mdss_mdp_ctl *ctl;
 	struct mdss_mdp_wfd *wfd;
@@ -1988,10 +1988,10 @@ int mdss_mdp_calib_config_buffer(struct mdp_calib_config_buffer *cfg,
 						u32 *copyback);
 int mdss_mdp_ctl_update_fps(struct mdss_mdp_ctl *ctl);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 int mdss_mdp_ctl_update_dsitiming(struct mdss_mdp_ctl *ctl, u32 bitrate);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 int mdss_mdp_pipe_is_staged(struct mdss_mdp_pipe *pipe);
 int mdss_mdp_writeback_display_commit(struct mdss_mdp_ctl *ctl, void *arg);

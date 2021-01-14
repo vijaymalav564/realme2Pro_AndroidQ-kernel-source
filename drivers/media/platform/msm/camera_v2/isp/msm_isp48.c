@@ -353,7 +353,7 @@ struct msm_vfe_hardware_info vfe48_hw_info = {
 	.num_iommu_secure_ctx = 0,
 	.vfe_clk_idx = VFE48_SRC_CLK_DTSI_IDX,
 	.runtime_axi_update = 1,
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /*modified by houyujun@Camera 20180206 for [overflow]*/
 	.min_ib = 100000000,
 	.min_ab = 100000000,

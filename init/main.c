@@ -857,12 +857,12 @@ static void __init do_initcall_level(int level)
 		do_one_initcall(*fn);
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //INDIA.Performance add for hypnusd
 #ifdef CONFIG_OPPO_HYPNUS
 extern int __init hypnus_init(void);
 #endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 static void __init do_initcalls(void)
 {
@@ -871,12 +871,12 @@ static void __init do_initcalls(void)
 	for (level = 0; level < ARRAY_SIZE(initcall_levels) - 1; level++)
 		do_initcall_level(level);
 		
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	//INDIA.Performance add for hypnusd
 	#ifdef CONFIG_OPPO_HYPNUS
 		hypnus_init();
 	#endif
-	#endif /* VENDOR_EDIT */		
+	#endif /* CONFIG_VENDOR_REALME */		
 }
 
 /*

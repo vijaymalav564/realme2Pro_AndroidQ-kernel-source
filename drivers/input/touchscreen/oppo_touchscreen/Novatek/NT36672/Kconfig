@@ -1,5 +1,5 @@
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Added by Cong.Dai@Bsp.group.Tp for nova nt36672 ic driver
 
 config TOUCHPANEL_NOVA_NT36672

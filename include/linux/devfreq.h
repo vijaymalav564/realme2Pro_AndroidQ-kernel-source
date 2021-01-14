@@ -213,7 +213,7 @@ extern int devm_devfreq_register_opp_notifier(struct device *dev,
 extern void devm_devfreq_unregister_opp_notifier(struct device *dev,
 						struct devfreq *devfreq);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //INDIA.Performance add support to set devfreq limit
 extern int devfreq_set_limit(struct devfreq *df, unsigned long min, unsigned long max);
 extern int devfreq_get_limit(struct devfreq *df, unsigned long *min, unsigned long *max);
@@ -327,7 +327,7 @@ static inline int devfreq_update_stats(struct devfreq *df)
 	return -EINVAL;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //INDIA.Performance add support to set devfreq limit
 static inline int devfreq_set_limit(struct devfreq *df, unsigned long min, unsigned long max)
 {
@@ -338,7 +338,7 @@ static inline int devfreq_get_limit(struct devfreq *df, unsigned long *min, unsi
 {
         return -EINVAL;
 }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 #endif /* CONFIG_PM_DEVFREQ */
 

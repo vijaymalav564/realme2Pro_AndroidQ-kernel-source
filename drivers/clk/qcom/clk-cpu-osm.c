@@ -2425,11 +2425,11 @@ static u32 find_voltage(struct clk_osm *c, unsigned long rate)
 	return -EINVAL;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Wenxian.zhen@Prd.BaseDrv, 2017/05/20, add for analysis power consumption
 #define CPUFREQ_660LITE_MAX_FREQ	1958400000 
 unsigned int soc_is_660lite = 0;
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 static int add_opp(struct clk_osm *c, struct device *dev)
 {
@@ -2468,13 +2468,13 @@ static int add_opp(struct clk_osm *c, struct device *dev)
 		if (rate == max_rate && max_rate != min_rate) {
 			pr_info("Set OPP pair (%lu Hz, %d uv) on %s\n",
 				rate, uv, dev_name(dev));
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 		//Wenxian.zhen@Prd.BaseDrv, 2017/05/20, add for analysis power consumption
         if (!strcmp(dev_name(dev), "cpu4")  && (CPUFREQ_660LITE_MAX_FREQ == max_rate)) {
 	       soc_is_660lite = 1;
 
         	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 			break;
 		}

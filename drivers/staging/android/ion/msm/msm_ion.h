@@ -135,7 +135,7 @@ struct ion_client *msm_ion_client_create(const char *name);
 int ion_handle_get_flags(struct ion_client *client, struct ion_handle *handle,
 				unsigned long *flags);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //fangpan@Swdp.shanghai, 2016/02/02, add ion memory status interface
 /**
  * get_system_ion_heap - get the corresponding ion heap from heaps
@@ -198,7 +198,7 @@ static inline int ion_handle_get_size(struct ion_client *client,
 {
 	return -ENODEV;
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //fangpan@Swdp.shanghai, 2016/02/02, add ion memory status interface
 /**
  * get_system_ion_heap - get the corresponding ion heap from heaps

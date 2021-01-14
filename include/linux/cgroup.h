@@ -91,7 +91,7 @@ int cgroup_rm_cftypes(struct cftype *cfts);
 void cgroup_file_notify(struct cgroup_file *cfile);
 
 char *task_cgroup_path(struct task_struct *task, char *buf, size_t buflen);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 // zhoumingjun@Swdp.shanghai, 2018/7/10, get task cgroup by rootname for elsa
 // huangliang@Swdp.shanghai, 2018/7/23, porting form kernel 4.9 to 4.4
 char* task_cgroup_path_by_root(struct task_struct *task, const char *rootname, char *buf, size_t buflen);

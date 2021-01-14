@@ -16,7 +16,7 @@
 #include "msm_sd.h"
 #include "msm_actuator.h"
 #include "msm_cci.h"
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #include "ak7374_lib.h"
 #include <soc/oppo/oppo_project.h>
 #endif
@@ -30,7 +30,7 @@ DEFINE_MSM_MUTEX(msm_actuator_mutex);
 #define CDBG(fmt, args...) pr_debug(fmt, ##args)
 #endif
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /*Jindian.Guan@Camera.Drv, 2018/2/3, modify for [tick sound of parking lens]*/
 #define PARK_LENS_LONG_STEP 7
 #define PARK_LENS_MID_STEP 5
@@ -55,7 +55,7 @@ static struct msm_actuator msm_piezo_actuator_table;
 static struct msm_actuator msm_hvcm_actuator_table;
 static struct msm_actuator msm_bivcm_actuator_table;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*add by hongbo.dai@camera 20171115,for support empty eeprom actuator*/
 unsigned int project = 17011; //default 17011
 static char empty_eeprom_data[] = {"65535"};
@@ -68,7 +68,7 @@ static struct msm_actuator *actuators[] = {
 	&msm_bivcm_actuator_table,
 };
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add by hongbo.dai@camera 2017.5.14 to update PID of eeprom in driver IC */
 static int32_t msm_actuator_write_firmware_semco(struct msm_actuator_ctrl_t *a_ctrl)
 {
@@ -336,7 +336,7 @@ EXIT2:
 }
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*add by hongbo.dai@camera 20170513 for load firmware ton actuator */
 #define LOADING_OFFSET (4)
 static int32_t msm_actuator_write_firmware_sunny(struct msm_actuator_ctrl_t *a_ctrl,int id)
@@ -1041,7 +1041,7 @@ static int32_t msm_actuator_move_focus(
 	int32_t num_steps = move_params->num_steps;
 	struct msm_camera_i2c_reg_setting reg_setting;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*modified by Zhengrong.Zhang@Camera 20160922 for avoid NULL pointer operation*/
 	if (a_ctrl->step_position_table == NULL) {
 		pr_err("Step Position Table is NULL");
@@ -1297,7 +1297,7 @@ static int32_t msm_actuator_park_lens(struct msm_actuator_ctrl_t *a_ctrl)
 		a_ctrl->park_lens.max_step = a_ctrl->max_code_size;
 
 	next_lens_pos = a_ctrl->step_position_table[a_ctrl->curr_step_pos];
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 /*Jindian.Guan@Camera.Drv, 2018/2/3, modify for [tick sound of parking lens]*/
 	while (next_lens_pos) {
 		/* conditions which help to reduce park lens time */
@@ -1501,7 +1501,7 @@ static int32_t msm_actuator_init_step_table(struct msm_actuator_ctrl_t *a_ctrl,
 
 	a_ctrl->max_code_size = max_code_size;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*modified by Zhengrong.Zhang@Camera 20160922 for avoid NULL pointer operation*/
 	/* free the step_position_table to allocate a new one */
 	if (a_ctrl->step_position_table != NULL)
@@ -1963,7 +1963,7 @@ static int32_t msm_actuator_config(struct msm_actuator_ctrl_t *a_ctrl,
 	struct msm_actuator_cfg_data *cdata =
 		(struct msm_actuator_cfg_data *)argp;
 	int32_t rc = -EINVAL;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*add by hongbo.dai@camera*/
 	struct file *mfile;
 	char vendor_id[8] = {'\0'};
@@ -1993,7 +1993,7 @@ static int32_t msm_actuator_config(struct msm_actuator_ctrl_t *a_ctrl,
 		rc = msm_actuator_init(a_ctrl);
 		if (rc < 0)
 			pr_err("msm_actuator_init failed %d\n", rc);
-		#ifdef VENDOR_EDIT
+		#ifdef CONFIG_VENDOR_REALME
 		/*add by hongbo.dai@camera 20170513 for load firmware actuator */
 		if (a_ctrl->firmware_load) {
 			mfile = filp_open("/proc/rear_eeprom_info", O_RDONLY,0644);
@@ -2642,7 +2642,7 @@ static int32_t msm_actuator_platform_probe(struct platform_device *pdev)
 	msm_actuator_t->msm_sd.sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
 	snprintf(msm_actuator_t->msm_sd.sd.name,
 		ARRAY_SIZE(msm_actuator_t->msm_sd.sd.name), "msm_actuator");
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*add by hongbo.dai@camera 20170514*/
 	msm_actuator_t->firmware_load = true;
 	msm_actuator_t->is_empty_eeprom = false;

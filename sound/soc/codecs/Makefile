@@ -428,25 +428,25 @@ obj-$(CONFIG_SND_SOC_TPA6130A2)	+= snd-soc-tpa6130a2.o
 obj-y += sdm660_cdc/
 obj-y += msm_sdw/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDAC, 2017/01/23, Add for ak43xx
 snd-soc-ak4376-objs := ak4376.o
 obj-y += snd-soc-ak4376.o
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/01/13, Add for nxp speaker
 obj-y += tfa98xx/
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2017/01/23, Add for maxim speaker
 obj-y += max989xx/
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Jianfeng.Qiu@PSW.MM.AudioDriver.OpCustomized, 2018/01/18, Add for ct test
 ifneq ($(filter cttest allnetcttest allnetctfield,$(NET_BUILD_TYPE)),)
 KBUILD_CFLAGS += -DOPPO_AUDIO_CTTEST
 endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */

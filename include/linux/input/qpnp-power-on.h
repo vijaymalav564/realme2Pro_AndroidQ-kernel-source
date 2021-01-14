@@ -59,7 +59,7 @@ enum pon_restart_reason {
 	PON_RESTART_REASON_DMVERITY_CORRUPTED	= 0x04,
 	PON_RESTART_REASON_DMVERITY_ENFORCE	= 0x05,
 	PON_RESTART_REASON_KEYS_CLEAR		= 0x06,
-#ifdef VENDOR_EDIT 
+#ifdef CONFIG_VENDOR_REALME 
 //yixue.ge@bsp.drv modify all the reboot mode as hardware reboot
 //Fanhong.Kong@PSW.BSP.CHG,add 2018/4/2 for android P
 	PON_RESTART_REASON_SILENCE			= 0x07,

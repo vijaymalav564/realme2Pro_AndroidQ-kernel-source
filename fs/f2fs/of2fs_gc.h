@@ -1,6 +1,6 @@
 /***********************************************************
 ** Copyright (C), 2008-2019, OPPO Mobile Comm Corp., Ltd.
-** VENDOR_EDIT
+** CONFIG_VENDOR_REALME
 ** File: - of2fs_gc.h
 ** Description: oppo f2fs gc code
 **

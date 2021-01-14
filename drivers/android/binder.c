@@ -75,7 +75,7 @@
 #include "binder_alloc.h"
 #include "binder_trace.h"
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 #include <linux/hans.h>
 #endif
@@ -2884,7 +2884,7 @@ static struct binder_node *binder_get_node_refs_for_txn(
 	return target_node;
 }
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //huangliang@Swdp2.shanghai, 2018/03/30, parse parcel data to get descriptor
 #define STRICT_MODE_PENALTY_GATHER 				0x40
 #define STRICT_MODE_PENALTY_GATHER_OFFSET		2
@@ -2961,12 +2961,12 @@ static void binder_transaction(struct binder_proc *proc,
 	int t_debug_id = atomic_inc_return(&binder_last_id);
     char *secctx = NULL;
     u32 secctx_sz = 0;
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/07/10, notify user space when binder transaction starts
 	struct process_event_data pe_data;
 	struct process_event_binder pe_binder;
 #endif
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 	char buf_data[INTERFACETOKEN_BUFF_SIZE];
 	size_t buf_data_size;
@@ -3089,7 +3089,7 @@ static void binder_transaction(struct binder_proc *proc,
 			goto err_dead_binder;
 		}
 		
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 		if (!(tr->flags & TF_ONE_WAY) //report sync binder call
 			&& target_proc
@@ -3301,7 +3301,7 @@ static void binder_transaction(struct binder_proc *proc,
 		return_error_line = __LINE__;
 		goto err_bad_offset;
 	}
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 	if ((tr->flags & TF_ONE_WAY) //report async binder call
 		&& target_proc
@@ -3482,7 +3482,7 @@ static void binder_transaction(struct binder_proc *proc,
 	}
 	tcomplete->type = BINDER_WORK_TRANSACTION_COMPLETE;
 	t->work.type = BINDER_WORK_TRANSACTION;
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/07/10, notify user space when binder transaction starts
 	if (target_proc->tsk != NULL) {
 		pe_binder.src = proc->tsk;
@@ -5914,7 +5914,7 @@ static int binder_state_show(struct seq_file *m, void *unused)
 	return 0;
 }
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //huangliang@Swdp.shanghai, 2018/08/14, chk pid whether going binder transaction
 static int is_proc_thread_in_transaction(struct binder_thread *thread)
 {
@@ -5964,7 +5964,7 @@ int chk_proc_binder_transaction(uid_t uid)
 EXPORT_SYMBOL(chk_proc_binder_transaction);
 #endif
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 static void hans_check_uid_proc_status(struct binder_proc *proc)
 {

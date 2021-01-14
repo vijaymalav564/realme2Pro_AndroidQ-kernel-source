@@ -1224,12 +1224,12 @@ struct max98927_priv {
 #ifdef CONFIG_DEBUG_FS
 	struct dentry *dbg_dir;
 #endif
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2017/02/06,
 	 *Add for max989xx dvdd
 	 */
 	struct regulator *max989xx_vdd;
-	#endif /* VENDOR_EDIT */
+	#endif /* CONFIG_VENDOR_REALME */
 };
 
 #define MAX98927_GLOBAL_SHIFT 0

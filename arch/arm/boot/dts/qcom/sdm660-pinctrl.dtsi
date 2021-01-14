@@ -300,7 +300,7 @@
 			};
 		};
 
-		//#ifdef VENDOR_EDIT
+		//#ifdef CONFIG_VENDOR_REALME
 		/* Wanghao@BSP.group 2017-09-20 add for tp int and reset pin*/
 		pmx_ts_int_active {
 			ts_int_active: ts_int_active {
@@ -1880,7 +1880,7 @@
 				output-low;
 			};
 		};
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 
 		mdss_dp_usbplug_cc_active: mdss_dp_usbplug_cc_active {
 			mux {

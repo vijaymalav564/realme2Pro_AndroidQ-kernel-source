@@ -1216,7 +1216,7 @@ config TOUCHSCREEN_IT7260_I2C
 	  module will be called it7258_ts_i2c.
 
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Wanghao@Bsp.group.Tp,2017-09-20,Added for common touchpanel driver 
 source "drivers/input/touchscreen/oppo_touchscreen/Kconfig"
 #endif

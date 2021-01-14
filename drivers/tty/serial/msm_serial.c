@@ -39,10 +39,10 @@
 #include <linux/of.h>
 #include <linux/of_device.h>
 #include <linux/wait.h>
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 add for console
 #include <soc/oppo/boot_mode.h>
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 #define UART_MR1			0x0000
 
@@ -160,18 +160,18 @@
 #define UARTDM_NCF_TX			0x40
 #define UARTDM_RX_TOTAL_SNAP		0x38
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Tong.han@BSP.Group.Tp, 2017/05/02, antong Add for debug console reg issue 969323*/
 #define UARTDM_TXFS			0x4c
 #define UARTDM_RXFS			0x50
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 
 #define UARTDM_BURST_SIZE		16   /* in bytes */
 #define UARTDM_TX_AIGN(x)		((x) & ~0x3) /* valid for > 1p3 */
 #define UARTDM_TX_MAX			256   /* in bytes, valid for <= 1p3 */
 #define UARTDM_RX_SIZE			(UART_XMIT_SIZE / 4)
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/04/10, sjc Add for console */
 static struct pinctrl *serial_pinctrl = NULL;
 static struct pinctrl_state *serial_pinctrl_state_active = NULL;
@@ -207,21 +207,21 @@ struct msm_port {
 	bool			break_detected;
 	struct msm_dma		tx_dma;
 	struct msm_dma		rx_dma;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Tong.han@BSP.Group.Tp, 2017/05/02, antong Add for debug console reg issue 969323*/
 	int			tx_timeout;
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 };
 
 #define UART_TO_MSM(uart_port)	container_of(uart_port, struct msm_port, uart)
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Tong.han@BSP.group.TP, Modify for selct console config for diffrent scene,2015/11/15
 static bool boot_with_console(void)
 {
 	return true;
 }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 static
 void msm_write(struct uart_port *port, unsigned int val, unsigned int off)
@@ -422,7 +422,7 @@ no_rx:
 	memset(dma, 0, sizeof(*dma));
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Tong.han@BSP.Group.Tp, 2017/05/02, antong Add for debug console reg issue 969323*/
 static unsigned int msm_serial_console_state[7];
 
@@ -456,24 +456,24 @@ static void dump_serial_regs(struct uart_port *port)
 	pr_info("TXFS: %08x\n", txfs);
 	pr_info("RXFS: %08x\n", rxfs);
 }
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 
 static inline void msm_wait_for_xmitr(struct uart_port *port)
 {
 	unsigned int timeout = 500000;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Tong.han@BSP.Group.Tp, 2017/05/02, antong Add for debug console reg issue 969323*/
 	struct msm_port *msm_port = UART_TO_MSM(port);
 	int count = 0;
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 	while (!(msm_read(port, UART_SR) & UART_SR_TX_EMPTY)) {
 		if (msm_read(port, UART_ISR) & UART_ISR_TX_READY)
 			break;
 		udelay(1);
 		if (!timeout--)
 			break;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Tong.han@BSP.Group.Tp, 2017/05/02, antong Add for debug console reg issue 969323*/
 		if (++count == msm_port->tx_timeout) {
 			msm_write(port, UART_CR_CMD_RESET_TX, UART_CR);
@@ -484,7 +484,7 @@ static inline void msm_wait_for_xmitr(struct uart_port *port)
 			dump_serial_regs(port);
 			break;
 		}
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 	}
 	msm_write(port, UART_CR_CMD_RESET_TX_READY, UART_CR);
 }
@@ -1201,11 +1201,11 @@ static int msm_set_baud_rate(struct uart_port *port, unsigned int baud,
 	entry = msm_find_best_baud(port, baud, &rate);
 	clk_set_rate(msm_port->clk, rate);
 	baud = rate / 16 / entry->divisor;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Tong.han@BSP.Group.Tp, 2017/05/02, antong Add for debug console reg issue 969323*/
 	/* Set timeout to be ~600x the character transmit time */
 	msm_port->tx_timeout = (1000000000 / baud) * 6;
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 	spin_lock_irqsave(&port->lock, flags);
 	*saved_flags = flags;
 	port->uartclk = rate;
@@ -1576,12 +1576,12 @@ static int msm_poll_get_char(struct uart_port *port)
 	int c;
 	struct msm_port *msm_port = UART_TO_MSM(port);
 	
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 add for console
 	if(boot_with_console() == false) {
 		return 0;
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	/* Disable all interrupts */
 	imr = msm_read(port, UART_IMR);
 	msm_write(port, 0, UART_IMR);
@@ -1602,12 +1602,12 @@ static void msm_poll_put_char(struct uart_port *port, unsigned char c)
 	u32 imr;
 	struct msm_port *msm_port = UART_TO_MSM(port);
 	
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 add for console
 	if(boot_with_console() == false) {
 		return;
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 	/* Disable all interrupts */
 	imr = msm_read(port, UART_IMR);
@@ -1702,12 +1702,12 @@ static void __msm_console_write(struct uart_port *port, const char *s,
 	bool replaced = false;
 	void __iomem *tf;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 add for console
 	if(boot_with_console() == false) {
 		return;
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	if (is_uartdm)
 		tf = port->membase + UARTDM_TF;
 	else
@@ -1781,10 +1781,10 @@ static int __init msm_console_setup(struct console *co, char *options)
 	int bits = 8;
 	int parity = 'n';
 	int flow = 'n';
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Tong.han@BSP.Group.Tp, 2017/05/02, antong Add for debug console reg issue 969323*/
 struct msm_port *msm_port;
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 	if (unlikely(co->index >= UART_NR || co->index < 0))
 		return -ENXIO;
 
@@ -1792,12 +1792,12 @@ struct msm_port *msm_port;
 
 	if (unlikely(!port->membase))
 		return -ENXIO;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Tong.han@BSP.Group.Tp, 2017/05/02, antong Add for debug console reg issue 969323*/
 	msm_port = UART_TO_MSM(port);
 	/* Set timeout to be ~600x the character transmit time */
 	msm_port->tx_timeout = (1000000000 / baud) * 6;
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 	msm_serial_set_mnd_regs(port);
 
 	if (options)
@@ -1875,7 +1875,7 @@ static struct uart_driver msm_uart_driver = {
 	.cons = MSM_CONSOLE,
 };
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/02/24 add for console
 static struct uart_driver msm_uart_driver_no_console = {
 	.owner = THIS_MODULE,
@@ -1884,7 +1884,7 @@ static struct uart_driver msm_uart_driver_no_console = {
 	.nr = UART_NR,
 	.cons = NULL,
 };
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 static atomic_t msm_uart_next_id = ATOMIC_INIT(0);
 
@@ -1915,7 +1915,7 @@ static int msm_serial_probe(struct platform_device *pdev)
 	if (unlikely(line < 0 || line >= UART_NR))
 		return -ENXIO;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 modify for console
 	pr_err("%s lfc boot_mode:%d end\n", __func__, get_boot_mode());
 
@@ -1948,13 +1948,13 @@ static int msm_serial_probe(struct platform_device *pdev)
 	}
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 modify for console
 	if(boot_with_console() == false) {
 		dev_info(&pdev->dev, "boot with console false\n");
 		return -ENODEV;
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	dev_info(&pdev->dev, "msm_serial: detected port #%d\n", line);
 
 	port = msm_get_port_from_line(line);
@@ -1992,7 +1992,7 @@ static int msm_serial_probe(struct platform_device *pdev)
 
 	platform_set_drvdata(pdev, port);
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/02/24 modify for console
 	return uart_add_one_port(&msm_uart_driver, port);
 #else
@@ -2001,14 +2001,14 @@ static int msm_serial_probe(struct platform_device *pdev)
 	} else {
 		return uart_add_one_port(&msm_uart_driver_no_console, port);
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 }
 
 static int msm_serial_remove(struct platform_device *pdev)
 {
 	struct uart_port *port = platform_get_drvdata(pdev);
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 modify for console
 	uart_remove_one_port(&msm_uart_driver, port);
 #else
@@ -2017,7 +2017,7 @@ static int msm_serial_remove(struct platform_device *pdev)
 	} else {
 		uart_remove_one_port(&msm_uart_driver_no_console, port);
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 	return 0;
 }
@@ -2034,7 +2034,7 @@ static int msm_serial_suspend(struct device *dev)
 {
 	struct uart_port *port = dev_get_drvdata(dev);
 	
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 modify for console
 	uart_suspend_port(&msm_uart_driver, port);
 #else
@@ -2043,7 +2043,7 @@ static int msm_serial_suspend(struct device *dev)
 	} else {
 		uart_suspend_port(&msm_uart_driver_no_console, port);
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	return 0;
 }
 
@@ -2051,7 +2051,7 @@ static int msm_serial_resume(struct device *dev)
 {
 	struct uart_port *port = dev_get_drvdata(dev);
 	
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 modify for console
 	uart_resume_port(&msm_uart_driver, port);
 #else
@@ -2060,7 +2060,7 @@ static int msm_serial_resume(struct device *dev)
 	} else {
 		uart_resume_port(&msm_uart_driver_no_console, port);
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	return 0;
 }
 #endif
@@ -2083,7 +2083,7 @@ static int __init msm_serial_init(void)
 {
 	int ret;
 	
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 modify for console
 	ret = uart_register_driver(&msm_uart_driver);
 #else
@@ -2092,12 +2092,12 @@ static int __init msm_serial_init(void)
 	} else {
 		ret = uart_register_driver(&msm_uart_driver_no_console);
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	if (unlikely(ret))
 		return ret;
 
 	ret = platform_driver_register(&msm_platform_driver);
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 modify for console
 	if (unlikely(ret))
 		uart_unregister_driver(&msm_uart_driver);
@@ -2109,7 +2109,7 @@ static int __init msm_serial_init(void)
 			uart_unregister_driver(&msm_uart_driver_no_console);
 		}
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	pr_info("msm_serial: driver initialized\n");
 
 	return ret;
@@ -2118,7 +2118,7 @@ static int __init msm_serial_init(void)
 static void __exit msm_serial_exit(void)
 {
 	platform_driver_unregister(&msm_platform_driver);
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/11 modify for console
 	uart_unregister_driver(&msm_uart_driver);
 #else
@@ -2127,7 +2127,7 @@ static void __exit msm_serial_exit(void)
 	} else {
 		uart_unregister_driver(&msm_uart_driver_no_console);
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 }
 
 module_init(msm_serial_init);

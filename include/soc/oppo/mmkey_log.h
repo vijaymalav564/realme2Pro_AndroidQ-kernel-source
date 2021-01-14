@@ -1,6 +1,6 @@
 /************************************************************************************
 ** File: - android\kernel\include\soc\oppo\mmkey_log.h
-** VENDOR_EDIT
+** CONFIG_VENDOR_REALME
 ** Copyright (C), 2008-2015, OPPO Mobile Comm Corp., Ltd
 **
 ** Description:
@@ -30,21 +30,21 @@ enum mmkeylog_issue{
     TYPE_ADSP_CLK_OPEN_TIMEOUT,
     TYPE_HP_PA_EXCEPTION,
 };
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Yadong.Hu@Prd.Svc.Wifi, 2016/01/04, Add for wifi critical log
 enum conkeylog_issue{
     TYPE_SYMBOL_VERSION_DISAGREE = 803,
     TYPE_WDI_EXCEPTION,
 };
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Canjie.Zheng@Swdp.Android.OppoDebug.CriticalLog,2016/06/03,add for critical 
 //record subSystem crash
 enum androidlog_issue{
     TYPE_SUBSYSTEM_RESTART = 1001,
 };
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 extern void mm_keylog_write(const char *logmessage, const char *cause, int id);
 #endif

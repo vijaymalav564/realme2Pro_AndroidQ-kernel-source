@@ -232,7 +232,7 @@ static int silfp_parse_dts(struct silfp_data* fp_dev)
     struct device_node *node = NULL;
     struct platform_device *pdev = NULL;
     int  ret;
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Zemin.Li@BSP.Fingerprint.Basic, 2019.11.29, fix failed to get irq
     node = of_find_compatible_node(NULL, NULL, FP_PINS_OF);
 
@@ -265,7 +265,7 @@ static int silfp_parse_dts(struct silfp_data* fp_dev)
         LOG_MSG_DEBUG(ERR_LOG, "%s can't find silfp pinctrl\n", __func__);
         return ret;
     }
-//#endif VENDOR_EDIT
+//#endif CONFIG_VENDOR_REALME
     fp_dev->pin.pins_irq = pinctrl_lookup_state(fp_dev->pin.pinctrl, "irq-init");
     if (IS_ERR(fp_dev->pin.pins_irq)) {
         ret = PTR_ERR(fp_dev->pin.pins_irq);

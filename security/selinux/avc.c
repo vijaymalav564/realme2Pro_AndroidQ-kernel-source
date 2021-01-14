@@ -985,7 +985,7 @@ static noinline int avc_denied(u32 ssid, u32 tsid,
 	if (flags & AVC_STRICT)
 		return -EACCES;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
  * between enforcing mode and permissive mode via /selinux/enforce or
  * selinux_enforcing symbol in normal/silence mode of release build.
@@ -993,7 +993,7 @@ static noinline int avc_denied(u32 ssid, u32 tsid,
 	if (is_selinux_enforcing() && !(avd->flags & AVD_FLAGS_PERMISSIVE))
 #else
 	if (selinux_enforcing && !(avd->flags & AVD_FLAGS_PERMISSIVE))
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 		return -EACCES;
 
 	avc_update_node(AVC_CALLBACK_GRANT, requested, driver, xperm, ssid,

@@ -20,7 +20,7 @@
 
 #include "core.h"
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
 #define MMC_TRACE_RBUF_SZ_ORDER	2	/* 2^2 pages */
 #else

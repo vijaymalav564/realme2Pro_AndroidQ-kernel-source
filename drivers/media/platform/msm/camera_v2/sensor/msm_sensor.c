@@ -24,7 +24,7 @@
 static struct msm_camera_i2c_fn_t msm_sensor_cci_func_tbl;
 static struct msm_camera_i2c_fn_t msm_sensor_secure_func_tbl;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20160821 for [module vendor info]*/
 #include <soc/oppo/device_info.h>
 #include <soc/oppo/oppo_project.h>
@@ -289,7 +289,7 @@ static uint16_t msm_sensor_id_by_mask(struct msm_sensor_ctrl_t *s_ctrl,
 	return sensor_id;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Add by Zhengrong.Zhang@Camera 20160630 for merge basic modification*/
 static int at_msm_sensor_power_down(struct msm_sensor_ctrl_t *s_ctrl)
 {
@@ -383,7 +383,7 @@ static int msm_sensor_match_pcb_version(struct msm_sensor_ctrl_t *s_ctrl)
 	return 0;
 }
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*add by hongbo.dai@Camera 20180123, for support ES1 and ES2 sensor*/
 #define IMX476_ES1 0x550
 #define IMX476_ES2 0x476
@@ -392,7 +392,7 @@ static int msm_sensor_match_pcb_version(struct msm_sensor_ctrl_t *s_ctrl)
 int msm_sensor_match_id(struct msm_sensor_ctrl_t *s_ctrl)
 {
 	int rc = 0;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*add by hongbo.dai@Camera,20180209 for get chipid and chip version*/
 	uint16_t chipid = 0;
 	uint16_t chip_version = 0;
@@ -400,7 +400,7 @@ int msm_sensor_match_id(struct msm_sensor_ctrl_t *s_ctrl)
 	struct msm_camera_i2c_client *sensor_i2c_client;
 	struct msm_camera_slave_info *slave_info;
 	const char *sensor_name;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Added by Jinshui.Liu@Camera 20160821 for [module vendor info]*/
 	int i = 0;
 	/*Added by Hongbo.Dai@Camera 20171115 for [module vendor info]*/
@@ -435,7 +435,7 @@ int msm_sensor_match_id(struct msm_sensor_ctrl_t *s_ctrl)
 	}
 	pr_debug("%s: read id: 0x%x expected id 0x%x:\n",
 			__func__, chipid, slave_info->sensor_id);
-	#ifndef VENDOR_EDIT
+	#ifndef CONFIG_VENDOR_REALME
 	if (msm_sensor_id_by_mask(s_ctrl, chipid) != slave_info->sensor_id) {
 		pr_err("%s chip id %x does not match %x\n",
 				__func__, chipid, slave_info->sensor_id);
@@ -467,7 +467,7 @@ int msm_sensor_match_id(struct msm_sensor_ctrl_t *s_ctrl)
 	}
 	s_ctrl->chip_id = chipid;
 	#endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Add by jindian.guan 20160806 for 3p8sp*/
 	pr_err("%s:rear sensor:0x%02x, front sensor:0x%02x, rear2 sensor:0x%02x\n",
 		__func__, rear_sensor, front_sensor, rear2_sensor);
@@ -592,13 +592,13 @@ static long msm_sensor_subdev_ioctl(struct v4l2_subdev *sd,
 		pr_err("%s s_ctrl NULL\n", __func__);
 		return -EBADF;
 	}
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Add by Zhengrong.Zhang@Camera 20160630 for merge basic modification*/
 	if (cmd == 0 && arg == NULL) {
 		rc = at_msm_sensor_power_down(s_ctrl);
 		return rc;
 	}
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 	else if (cmd ==1 && arg == NULL) {
 		rc = at_msm_sensor_power_up(s_ctrl);
 #else  /*add by hongbo.dai@camera 20170325 for AT test*/

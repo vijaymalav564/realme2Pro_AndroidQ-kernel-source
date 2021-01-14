@@ -23,12 +23,12 @@
 #include <soc/qcom/minidump.h>
 #include <asm/sections.h>
 
-#ifdef VENDOR_EDIT //Fanhong.Kong@PSW.BSP.CHG,add 2017/10/10 for O mini dump
+#ifdef CONFIG_VENDOR_REALME //Fanhong.Kong@PSW.BSP.CHG,add 2017/10/10 for O mini dump
 #include <linux/uaccess.h>
 #include <asm-generic/irq_regs.h>
 #include <linux/irq.h>
 #include <linux/percpu.h>
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 
 #define MISC_DUMP_DATA_LEN		4096
 #define PMIC_DUMP_DATA_LEN		(64 * 1024)
@@ -264,7 +264,7 @@ static void __init register_kernel_sections(void)
 	}
 }
 
-#ifdef VENDOR_EDIT //yixue.ge@bsp.drv add for dump cpu contex for minidump
+#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for dump cpu contex for minidump
 #define CPUCTX_VERSION 1
 #define CPUCTX_MAIGC1 0x4D494E49
 #define CPUCTX_MAIGC2 (CPUCTX_MAIGC1 + CPUCTX_VERSION)
@@ -482,7 +482,7 @@ static void __init async_common_log_init(void *data, async_cookie_t cookie)
 	register_pmic_dump();
 	register_vsense_dump();
 	register_rpm_dump();
-#ifdef VENDOR_EDIT //yixue.ge@bsp.drv add for dump cpu contex for minidump
+#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for dump cpu contex for minidump
 	register_cpu_contex();
 #endif
 	

@@ -27,7 +27,7 @@
  * receives, no matter what.
  */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
@@ -46,7 +46,7 @@ void nf_unregister_queue_imq_handler(void)
 }
 EXPORT_SYMBOL_GPL(nf_unregister_queue_imq_handler);
 #endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /* return EBUSY when somebody else is registered, return EEXIST if the
  * same handler is registered, return 0 in case of success. */
@@ -132,14 +132,14 @@ void nf_queue_nf_hook_drop(struct net *net, struct nf_hook_ops *ops)
  * Any packet that leaves via this function must come back
  * through nf_reinject().
  */
- #ifndef VENDOR_EDIT
+ #ifndef CONFIG_VENDOR_REALME
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Modify for limit speed function
 int nf_queue(struct sk_buff *skb,
 	     struct nf_hook_ops *elem,
 	     struct nf_hook_state *state,
 	     unsigned int queuenum)
-#else /* VENDOR_EDIT */
+#else /* CONFIG_VENDOR_REALME */
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 int nf_queue(struct sk_buff *skb,
 	     struct nf_hook_ops *elem,
@@ -152,7 +152,7 @@ int nf_queue(struct sk_buff *skb,
 	     struct nf_hook_state *state,
 	     unsigned int queuenum)
 #endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 {
 	int status = -ENOENT;
 	struct nf_queue_entry *entry = NULL;
@@ -161,11 +161,11 @@ int nf_queue(struct sk_buff *skb,
 	struct net *net = state->net;
 
 	/* QUEUE == DROP if no one is waiting, to be safe. */
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Modify for limit speed function
 	qh = rcu_dereference(net->nf.queue_handler);
-#else /* VENDOR_EDIT */
+#else /* CONFIG_VENDOR_REALME */
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 	if (queuetype == NF_IMQ_QUEUE) {
 		qh = rcu_dereference(queue_imq_handler);
@@ -175,7 +175,7 @@ int nf_queue(struct sk_buff *skb,
 #else
 	qh = rcu_dereference(queue_handler);
 #endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 	if (!qh) {
 		status = -ESRCH;
@@ -251,12 +251,12 @@ void nf_reinject(struct nf_queue_entry *entry, unsigned int verdict)
 		local_bh_enable();
 		break;
 	case NF_QUEUE:
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Modify for limit speed function
 		err = nf_queue(skb, elem, &entry->state,
 			       verdict >> NF_VERDICT_QBITS);
-#else /* VENDOR_EDIT */
+#else /* CONFIG_VENDOR_REALME */
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 	case NF_IMQ_QUEUE:
 		err = nf_queue(skb, elem, &entry->state,
@@ -266,7 +266,7 @@ void nf_reinject(struct nf_queue_entry *entry, unsigned int verdict)
 		err = nf_queue(skb, elem, &entry->state,
 			       verdict >> NF_VERDICT_QBITS);
 #endif
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 		if (err < 0) {
 			if (err == -ESRCH &&

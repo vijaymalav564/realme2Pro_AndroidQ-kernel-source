@@ -861,7 +861,7 @@ config BOOTPARAM_HUNG_TASK_PANIC_VALUE
 	default 0 if !BOOTPARAM_HUNG_TASK_PANIC
 	default 1 if BOOTPARAM_HUNG_TASK_PANIC
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Wen.Luo@Bsp.Kernel.Stability, 2018/12/05, Add for aging test,
 #OPPO_SPECIAL_BUILD disable DEATHHEALER to Keep scene, Release load enable DEATHHEALER
 config DEATH_HEALER

@@ -27,19 +27,19 @@
 #include "mdss_dba_utils.h"
 #include "mdss_debug.h"
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for Lcd ftm \ project and mmkey
 #include <soc/oppo/oppo_project.h>
 #include <soc/oppo/boot_mode.h>
 #include <soc/oppo/mmkey_log.h>
 #include <soc/oppo/device_info.h>
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 #define DT_CMD_HDR 6
 #define DEFAULT_MDP_TRANSFER_TIME 14000
 
 #define VSYNC_DELAY msecs_to_jiffies(17)
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for i2c backlight
 extern int lm3697_reg_init(void);
 extern int lm3697_lcd_backlight_set_level(unsigned int bl_level);
@@ -72,15 +72,15 @@ int cabc_mode = CABC_HIGH_MODE; //default mode level 3 in dtsi file
  * add for +-5V second resource delay 2ms to 3ms
  */
 #define TPS65132_DELAY_3MS 3
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for support aod feature, solve bug:1264744*/
 extern bool request_enter_aod;
 extern bool is_just_exit_aod;
 extern struct mutex aod_lock;
-#endif /*VENDOR_EDIT*/
-#ifdef VENDOR_EDIT
+#endif /*CONFIG_VENDOR_REALME*/
+#ifdef CONFIG_VENDOR_REALME
 //add for lcd seed
 enum
 {
@@ -91,18 +91,18 @@ enum
 int seed_mode = SEED_MODE0;
 //add for lcd esd recovery power off when tp black gesture open
 int lcd_esd_status = 1;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 DEFINE_LED_TRIGGER(bl_led_trigger);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for panel vendor
 int lcd_vendor=0;
 int is_lcd(OPPO_LCD lcd_num){
    return (lcd_vendor == lcd_num ? 1:0);
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for read LCM window info
 long bl_set_time = 0;
 char lcm_window_color[2] = {0xff, 0xff};
@@ -119,7 +119,7 @@ void lcm_id_read(char reg_addr, char* buf, int lenth)
 	mdss_dsi_panel_cmd_read(gl_ctrl_pdata,reg_addr,0x00,NULL,&buf[0],lenth);
 	pr_info("%s Read lcm addr 0x%x  is 0x%x\n", __func__, reg_addr, buf[0]);
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 void mdss_dsi_panel_pwm_cfg(struct mdss_dsi_ctrl_pdata *ctrl)
 {
@@ -297,7 +297,7 @@ static void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
 	mdss_dsi_cmdlist_put(ctrl, &cmdreq);
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for panel esd test
 static char set_esd[2] = {0x10, 0x00};  /* DTYPE_DCS_WRITE1 */
 static struct dsi_cmd_desc set_esd_cmd = {
@@ -402,9 +402,9 @@ void dump_lcd_reg(u32 off,u32 data,char* dump_data)
 		tot += len;
 	}
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Shengjun.Gou@PSW.MM.Display.LCD.Stability, 2017/06/13
  * add for 1024 level backlight
 */
@@ -420,7 +420,7 @@ static void oppo_dsi_panel_aod_backlight_dcs(struct mdss_dsi_ctrl_pdata *ctrl)
 {
 	mdss_dsi_panel_cmds_send(ctrl, &ctrl->aod_backlight_cmds, CMD_REQ_COMMIT);
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static char led_pwm1[2] = {0x51, 0x0};	/* DTYPE_DCS_WRITE1 */
 static struct dsi_cmd_desc backlight_cmd = {
@@ -432,13 +432,13 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 {
 	struct dcs_cmd_req cmdreq;
 	struct mdss_panel_info *pinfo;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Shengjun.Gou@PSW.MM.Display.LCD.Stability, 2017/06/13
  * add for 1024 level backlight
 */
 	int	BL_MSB = 0;
 	int	BL_LSB = 0;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	pinfo = &(ctrl->panel_data.panel_info);
 	if (pinfo->dcs_cmd_by_left) {
@@ -448,7 +448,7 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 
 	pr_debug("%s: level=%d\n", __func__, level);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for 1024 level backlight
 	if((lcd_vendor == OPPO17011_SAMSUNG_SOFEG01_S_1080P_CMD_PANEL)
 		|| (lcd_vendor == OPPO17021_SAMSUNG_SOFEG01_S_1080P_CMD_PANEL)
@@ -462,7 +462,7 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 	}else{
 	   led_pwm1[1] = (unsigned char)level;
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	if(is_just_exit_aod == true) {
 /* delay 1 frame,optimize performance and implement fast unblank*/
@@ -491,7 +491,7 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 	}
 
 	memset(&cmdreq, 0, sizeof(cmdreq));
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for 1024 level backlight
 	if((lcd_vendor == OPPO17011_SAMSUNG_SOFEG01_S_1080P_CMD_PANEL)
 		|| (lcd_vendor == OPPO17021_SAMSUNG_SOFEG01_S_1080P_CMD_PANEL)
@@ -502,7 +502,7 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 	}else{
 		cmdreq.cmds = &backlight_cmd;
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	cmdreq.cmds_cnt = 1;
 	cmdreq.flags = CMD_REQ_COMMIT | CMD_CLK_CTRL;
 	cmdreq.rlen = 0;
@@ -515,7 +515,7 @@ static void mdss_dsi_panel_bklt_dcs(struct mdss_dsi_ctrl_pdata *ctrl, int level)
 
 	mdss_dsi_cmdlist_put(ctrl, &cmdreq);
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for HBM
 static char set_hbm_state = 0x20;
 static char set_hbm_mode[2] = {0x01, 0x70};
@@ -809,9 +809,9 @@ int panel_serial_number_read(char addr, uint64_t *buf, int lenth)
 	return ret;
 }
 
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for lcd cabc
 struct dsi_panel_cmds cabc_off_sequence;
 struct dsi_panel_cmds cabc_user_interface_image_sequence;
@@ -857,13 +857,13 @@ int set_cabc(int level)
 			break;
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Zeke.Shi@RM.MM.Display.LCD.Feature, 2018/12/20,
 //add for lcd cabc
     if(level > 0) {
         cabc_lastlevel = level;
     }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	mutex_unlock(&lcd_mutex);
 	return ret;
 }
@@ -898,9 +898,9 @@ static int set_cabc_resume_mode(int mode)
 	}
 	return ret;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for lcd seed
 struct dsi_panel_cmds seed_mode0_cmds;
 struct dsi_panel_cmds seed_mode1_cmds;
@@ -996,7 +996,7 @@ static int set_seed_resume_mode(int mode)
 	mutex_unlock(&lcd_mutex);
 	return ret;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static int mdss_dsi_request_gpios(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 {
@@ -1124,7 +1124,7 @@ ret:
 	return rc;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for tp black gesture
 extern int tp_gesture_enable_flag(void);
 static int mdss_tp_black_gesture_status(void){
@@ -1136,7 +1136,7 @@ static int mdss_tp_black_gesture_status(void){
 	pr_err("%s: ret = %d\n", __func__, ret);
 	return ret;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 {
@@ -1172,14 +1172,14 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 		return rc;
 	}
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //Modify for panel debug
 	pr_debug("%s: enable = %d\n", __func__, enable);
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 	pr_err("%s: enable = %d\n", __func__, enable);
 //add for backlight log print
 	print_bl = 0;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	if (enable) {
 		rc = mdss_dsi_request_gpios(ctrl_pdata);
@@ -1188,7 +1188,7 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 			return rc;
 		}
 		if (!pinfo->cont_splash_enabled) {
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //modify for 16103 panel power setting
 			if (gpio_is_valid(ctrl_pdata->disp_en_gpio)) {
 				rc = gpio_direction_output(
@@ -1232,7 +1232,7 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 				}
 			}
 
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 			/*
 			* add for lcd power timing
 			*/
@@ -1380,7 +1380,7 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 		#endif /*VEDNOR_EDIT*/
 		}
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //delete for not used
 		if (gpio_is_valid(ctrl_pdata->lcd_mode_sel_gpio)) {
 			bool out = false;
@@ -1400,7 +1400,7 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 				goto exit;
 			}
 		}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 		if (ctrl_pdata->ctrl_state & CTRL_STATE_PANEL_INIT) {
 			pr_debug("%s: Panel Not properly turned OFF\n",
@@ -1409,7 +1409,7 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 			pr_debug("%s: Reset panel done\n", __func__);
 		}
 	} else {
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //remove for not used
 		if (gpio_is_valid(ctrl_pdata->avdd_en_gpio)) {
 			if (ctrl_pdata->avdd_en_gpio_invert)
@@ -1429,7 +1429,7 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 			gpio_set_value(ctrl_pdata->lcd_mode_sel_gpio, 0);
 			gpio_free(ctrl_pdata->lcd_mode_sel_gpio);
 		}
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 		if(is_lcd(OPPO16103_JDI_R63452_1080P_CMD_PANEL)){
 			lm3697_bl_enable(0);
 
@@ -1540,7 +1540,7 @@ exit:
 	return rc;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for lcd rst before lp11 */
 int oppo_reset_before_lp11(struct mdss_panel_data *pdata)
 {
@@ -1595,7 +1595,7 @@ int oppo_reset_before_lp11(struct mdss_panel_data *pdata)
 exit:
 	return rc;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 /**
  * mdss_dsi_roi_merge() -  merge two roi into single roi
@@ -1934,11 +1934,11 @@ static void mdss_dsi_panel_switch_mode(struct mdss_panel_data *pdata,
 			(!pdata->panel_info.send_pps_before_switch))
 		mdss_dsi_panel_dsc_pps_send(ctrl_pdata, &pdata->panel_info);
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //modify for high brightness mode
 unsigned int current_brightness = 0;
 extern unsigned long outdoor_mode;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
 							u32 bl_level)
@@ -1951,13 +1951,13 @@ static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
 		return;
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for close bl for silence and sau mode
 	if(lcd_closebl_flag){
 		pr_info("%s -- MSM_BOOT_MODE__SILENCE\n",__func__);
 		bl_level = 0;
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	ctrl_pdata = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
 
@@ -1966,10 +1966,10 @@ static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
 	 * for the backlight brightness. If the brightness is less
 	 * than it, the controller can malfunction.
 	 */
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //modify for backlight log print
 	pr_debug("%s: bl_level:%d\n", __func__, bl_level);
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 	if((print_bl < 3) || (bl_level < 10)){
 		pr_err("%s: set bl_level=%d\n", __func__, bl_level);
 		print_bl++;
@@ -1984,16 +1984,16 @@ static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
 		bl_level = pdata->panel_info.bl_min;
 
 	/* enable the backlight gpio if present */
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 	mdss_dsi_bl_gpio_ctrl(pdata, bl_level);
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 /* for backlight gpio is controled by vendor */
 	if(!(is_lcd(OPPO16103_JDI_R63452_1080P_CMD_PANEL)&&is_project(OPPO_16103)))
 	{
 		mdss_dsi_bl_gpio_ctrl(pdata, bl_level);
 	}
 #endif /*VEDNOR_EDIT*/
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 
 //add for i2c backlight control
 	if(is_lcd(OPPO16103_JDI_R63452_1080P_CMD_PANEL)){
@@ -2010,15 +2010,15 @@ static void mdss_dsi_panel_bl_ctrl(struct mdss_panel_data *pdata,
     }
 
 
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	switch (ctrl_pdata->bklt_ctrl) {
 	case BL_WLED:
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for wled debug */
 		pr_debug("%s wled set backlight value:%d.\n",
 			__func__, bl_level);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 		led_trigger_event(bl_led_trigger, bl_level);
 		break;
 	case BL_PWM:
@@ -2060,10 +2060,10 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 	struct mdss_dsi_ctrl_pdata *ctrl = NULL;
 	struct mdss_panel_info *pinfo;
 	struct dsi_panel_cmds *on_cmds;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*add for support aod feature, solve bug:1264744*/
 	struct dsi_panel_cmds *doze_on_cmds = NULL;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	int ret = 0;
 
 	if (pdata == NULL) {
@@ -2075,10 +2075,10 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //modify for panel debug
 	pr_debug("%s: ndx=%d\n", __func__, ctrl->ndx);
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 	pr_err("%s: ndx=%d\n", __func__, ctrl->ndx);
 #endif /*VEDNOR_EDIT*/
 
@@ -2096,7 +2096,7 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 	pr_debug("%s: ndx=%d cmd_cnt=%d\n", __func__,
 				ctrl->ndx, on_cmds->cmd_cnt);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*add for support aod feature, solve bug:1264744*/
 	if((lcd_vendor == OPPO17081_SAMSUNG_AMS596W401_1080P_CMD_PANEL)
 		|| (lcd_vendor == OPPO18005_SAMSUNG_AMS641RW01_1080P_CMD_PANEL))
@@ -2113,7 +2113,7 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 		if (on_cmds->cmd_cnt)
 			mdss_dsi_panel_cmds_send(ctrl, on_cmds, CMD_REQ_COMMIT);
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	if (pinfo->compression_mode == COMPRESSION_DSC)
 		mdss_dsi_panel_dsc_pps_send(ctrl, pinfo);
 
@@ -2123,7 +2123,7 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 	/* Ensure low persistence mode is set as before */
 	mdss_dsi_panel_apply_display_setting(pdata, pinfo->persist_mode);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for lcd cabc
 	if(is_lcd(OPPO16103_JDI_R63452_1080P_CMD_PANEL)){
 		lm3697_reg_init();
@@ -2153,9 +2153,9 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 			set_seed_resume_mode(seed_mode);
 		}
 	}
-	#endif /*VENDOR_EDIT*/
+	#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for lcd debug
 /*add for support ffl feature better, solve bug:1208496*/
 	if(request_enter_aod == false) {
@@ -2167,9 +2167,9 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
 		flag_lcd_off = true;
 		mutex_unlock(&lcd_mutex);
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Zeke.Shi@RM.MM.Display.LCD.Feature, 2018/12/20,
 //add for lcd cabc
     if(is_project(OPPO_18321)) {
@@ -2178,13 +2178,13 @@ static int mdss_dsi_panel_on(struct mdss_panel_data *pdata)
             set_cabc(cabc_lastlevel);
         }
     }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 end:
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //modify for panel debug
 	pr_debug("%s:-\n", __func__);
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 	pr_err("%s:-\n", __func__);
 #endif /*VEDNOR_EDIT*/
 	return ret;
@@ -2243,10 +2243,10 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //modify for panel debug
 	pr_debug("%s: ctrl=%pK ndx=%d\n", __func__, ctrl, ctrl->ndx);
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 	pr_err("%s: ctrl=%pK ndx=%d\n", __func__, ctrl, ctrl->ndx);
 #endif /*VEDNOR_EDIT*/
 
@@ -2263,7 +2263,7 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 		mdss_dba_utils_hdcp_enable(pinfo->dba_data, false);
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for panel debug
 	mutex_lock(&lcd_mutex);
 	flag_lcd_off = true;
@@ -2273,13 +2273,13 @@ static int mdss_dsi_panel_off(struct mdss_panel_data *pdata)
 	 * add for cabc default mode
 	 */
 	cabc_mode = CABC_HIGH_MODE;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 end:
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //modify for panel debug
 	pr_debug("%s:-\n", __func__);
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 	pr_err("%s:-\n", __func__);
 #endif /*VEDNOR_EDIT*/
 	return 0;
@@ -2290,10 +2290,10 @@ static int mdss_dsi_panel_low_power_config(struct mdss_panel_data *pdata,
 {
 	struct mdss_dsi_ctrl_pdata *ctrl = NULL;
 	struct mdss_panel_info *pinfo;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for support aod feature, solve bug:1264744*/
 	struct dsi_panel_cmds *doze_off_cmds = NULL;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	if (pdata == NULL) {
 		pr_err("%s: Invalid input data\n", __func__);
@@ -2308,7 +2308,7 @@ static int mdss_dsi_panel_low_power_config(struct mdss_panel_data *pdata,
 		enable);
 
 	/* Any panel specific low power commands/config */
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for support aod feature, solve bug:1264744*/
 	if((lcd_vendor == OPPO17081_SAMSUNG_AMS596W401_1080P_CMD_PANEL)
 		|| (lcd_vendor == OPPO18005_SAMSUNG_AMS641RW01_1080P_CMD_PANEL))
@@ -2335,7 +2335,7 @@ static int mdss_dsi_panel_low_power_config(struct mdss_panel_data *pdata,
 			mutex_unlock(&lcd_mutex);
 		}
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	pr_debug("%s:-\n", __func__);
 	return 0;
@@ -3085,7 +3085,7 @@ static bool mdss_dsi_cmp_panel_reg_v2(struct mdss_dsi_ctrl_pdata *ctrl)
 
 	for (j = 0; j < ctrl->groups; ++j) {
 		for (i = 0; i < len; ++i) {
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 //modify for esd return value check log
 			pr_debug("[%i] return:0x%x status:0x%x\n",
 				i, ctrl->return_buf[i],
@@ -3095,7 +3095,7 @@ static bool mdss_dsi_cmp_panel_reg_v2(struct mdss_dsi_ctrl_pdata *ctrl)
 			if (ctrl->return_buf[i] !=
 				ctrl->status_value[group + i])
 				break;
-#else /*VENDOR_EDIT*/
+#else /*CONFIG_VENDOR_REALME*/
 			if (ctrl->return_buf[i] != ctrl->status_value[group + i]){
 				pr_err("%s: Esd return Value is [0x%x] is not equal to status Value 0x%x.\n",
 						__func__, ctrl->return_buf[i], ctrl->status_value[group + i]);
@@ -3505,13 +3505,13 @@ static int mdss_dsi_parse_panel_features(struct device_node *np,
 					__func__, __LINE__);
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for ftm mode, disable esd check and ulps
 	if(MSM_BOOT_MODE__FACTORY == get_boot_mode()){
 		pinfo->esd_check_enabled = false;
 		pinfo->ulps_feature_enabled = false;
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	mdss_dsi_parse_dcs_cmds(np, &ctrl->lp_on_cmds,
 			"qcom,mdss-dsi-lp-mode-on", NULL);
@@ -3612,7 +3612,7 @@ static int mdss_dsi_set_refresh_rate_range(struct device_node *pan_node,
 	return rc;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 static void mdss_dsi_parse_dynamic_dsitiming_config
 		(struct device_node *pan_node,
@@ -3632,7 +3632,7 @@ static void mdss_dsi_parse_dynamic_dsitiming_config
 	pr_debug("%s:dynamic_dsitiming=%d\n", __func__,
 			pinfo->dynamic_dsitiming);
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static void mdss_dsi_parse_dfps_config(struct device_node *pan_node,
 			struct mdss_dsi_ctrl_pdata *ctrl_pdata)
@@ -4236,7 +4236,7 @@ static int mdss_panel_parse_dt(struct device_node *np,
 
 	mdss_dsi_parse_mdp_kickoff_threshold(np, pinfo);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for lcd cabc
 	if(is_lcd(OPPO16103_JDI_R63452_1080P_CMD_PANEL)
 		|| is_lcd(OPPO18136_HIMAX_HX83112A_1080_2340_VOD_PANEL)
@@ -4251,9 +4251,9 @@ static int mdss_panel_parse_dt(struct device_node *np,
 		mdss_dsi_parse_dcs_cmds(np, &cabc_video_image_sequence,
 			"qcom,mdss-dsi-cabc-video-command", "qcom,mdss-dsi-panel-status-command-state");
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for LBR
 	if((lcd_vendor == OPPO17011_SAMSUNG_SOFEG01_S_1080P_CMD_PANEL)
 		|| (lcd_vendor == OPPO17021_SAMSUNG_SOFEG01_S_1080P_CMD_PANEL)
@@ -4274,9 +4274,9 @@ static int mdss_panel_parse_dt(struct device_node *np,
 		mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->aod_backlight_cmds,
 			 "qcom,mdss-dsi-aod-backlight-command", "qcom,mdss-dsi-panel-status-command-state");
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* add for support aod feature, solve bug:1264744*/
 	if((lcd_vendor == OPPO17081_SAMSUNG_AMS596W401_1080P_CMD_PANEL)
 		|| (lcd_vendor == OPPO18005_SAMSUNG_AMS641RW01_1080P_CMD_PANEL))
@@ -4287,9 +4287,9 @@ static int mdss_panel_parse_dt(struct device_node *np,
 		mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->aod_off_cmds,
 			 "qcom,mdss-dsi-aod-off-command", "qcom,mdss-dsi-off-command-state");
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for lcd seed mode
 
 	if((is_project(OPPO_16051)&&is_lcd(OPPO16051_SAMSUNG_S6E3FA5_1080P_CMD_PANEL))
@@ -4308,7 +4308,7 @@ static int mdss_panel_parse_dt(struct device_node *np,
 		"qcom,mdss-dsi-seed-2-command", "qcom,mdss-dsi-off-command-state");
 	 pr_info("%s: seed mode get command end\n",__func__);
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	pinfo->mipi.lp11_init = of_property_read_bool(np,
 					"qcom,mdss-dsi-lp11-init");
@@ -4346,10 +4346,10 @@ static int mdss_panel_parse_dt(struct device_node *np,
 
 	mdss_dsi_parse_dfps_config(np, ctrl_pdata);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for dynamic mipi dsi clk
 	mdss_dsi_parse_dynamic_dsitiming_config(np, ctrl_pdata);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	mdss_dsi_set_refresh_rate_range(np, pinfo);
 
@@ -4389,21 +4389,21 @@ int mdss_dsi_panel_init(struct device_node *node,
 	int rc = 0;
 	static const char *panel_name;
 	struct mdss_panel_info *pinfo;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Add for registe panel info
 	static const char *panel_manufacture;
 	static const char *panel_version;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	if (!node || !ctrl_pdata) {
 		pr_err("%s: Invalid arguments\n", __func__);
 		return -ENODEV;
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for panel debug
 	gl_ctrl_pdata = ctrl_pdata;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	pinfo = &ctrl_pdata->panel_data.panel_info;
 
@@ -4418,7 +4418,7 @@ int mdss_dsi_panel_init(struct device_node *node,
 		strlcpy(&pinfo->panel_name[0], panel_name, MDSS_MAX_PANEL_LEN);
 	}
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //add for 16118 Lcd vendor info check
 	if(!strcmp(panel_name,"oppo16103jdi r63452 1080p cmd mode dsi panel")){
 		lcd_vendor = OPPO16103_JDI_R63452_1080P_CMD_PANEL;
@@ -4467,7 +4467,7 @@ int mdss_dsi_panel_init(struct device_node *node,
 		pr_info("%s: Panel Version = %s\n", __func__, panel_version);
 
 	register_device_proc("lcd", (char *)panel_version, (char *)panel_manufacture);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	rc = mdss_panel_parse_dt(node, ctrl_pdata);
 	if (rc) {

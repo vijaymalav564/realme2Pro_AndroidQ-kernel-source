@@ -40,7 +40,7 @@ static DEFINE_IDA(input_ida);
 static LIST_HEAD(input_dev_list);
 static LIST_HEAD(input_handler_list);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Tong.Han@Bsp.Group.Tp,2017/2/27,Modify for shortcut function.
 static unsigned int keyup_coordinat_change_count = 0;
 static bool keyup_timer_start = false;
@@ -50,7 +50,7 @@ enum UPKEY_CODE{
 	KEYUP_HOMEPAGE = 0x01,
 	KEYUP_BACK = 0x02,
 };
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 
 /*
  * input_mutex protects access to both input_dev_list and input_handler_list.
@@ -262,11 +262,11 @@ static int input_handle_abs_event(struct input_dev *dev,
 		if (*pold == *pval)
 			return INPUT_IGNORE_EVENT;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Tong.Han@Bsp.Group.Tp,2017/3/9,Modify for shortcut function.
 		if (keyup_timer_start && (code == ABS_MT_POSITION_X || code == ABS_MT_POSITION_Y))
 			keyup_coordinat_change_count++;
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 
 		*pold = *pval;
 	}
@@ -280,7 +280,7 @@ static int input_handle_abs_event(struct input_dev *dev,
 	return INPUT_PASS_TO_HANDLERS;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Tong.Han@Bsp.Group.Tp,2017/2/27,Modify for shortcut function.
 static void keyup_report(struct input_dev *dev, __u16 code)
 {
@@ -317,7 +317,7 @@ static void input_delay_keyup(unsigned long data)
 	keyup_timer_start = false;
 	spin_unlock_irqrestore(&dev->event_lock, flags);
 }
-#endif/*VENDOR_EDIT*/
+#endif/*CONFIG_VENDOR_REALME*/
 
 static int input_get_disposition(struct input_dev *dev,
 			  unsigned int type, unsigned int code, int *pval)
@@ -351,7 +351,7 @@ static int input_get_disposition(struct input_dev *dev,
 				break;
 			}
 
-			#ifndef VENDOR_EDIT
+			#ifndef CONFIG_VENDOR_REALME
 			//Tong.Han@Bsp.Group.Tp,2017/2/27,Modify for shortcut function.
 			if (!!test_bit(code, dev->key) != !!value) {
 				__change_bit(code, dev->key);
@@ -375,7 +375,7 @@ static int input_get_disposition(struct input_dev *dev,
 					disposition = INPUT_PASS_TO_HANDLERS;
 				}
 			}
-			#endif/*VENDOR_EDIT*/
+			#endif/*CONFIG_VENDOR_REALME*/
 		}
 		break;
 
@@ -1874,10 +1874,10 @@ struct input_dev *input_allocate_device(void)
 		device_initialize(&dev->dev);
 		mutex_init(&dev->mutex);
 		spin_lock_init(&dev->event_lock);
-		#ifdef VENDOR_EDIT
+		#ifdef CONFIG_VENDOR_REALME
 		//Tong.Han@Bsp.Group.Tp,2017/2/27,Modify for shortcut function.
 		init_timer(&(dev->keyup_data.keyup_timer));
-		#endif/*VENDOR_EDIT*/
+		#endif/*CONFIG_VENDOR_REALME*/
 		init_timer(&dev->timer);
 		INIT_LIST_HEAD(&dev->h_list);
 		INIT_LIST_HEAD(&dev->node);
@@ -2112,10 +2112,10 @@ static void __input_unregister_device(struct input_dev *dev)
 	WARN_ON(!list_empty(&dev->h_list));
 
 	del_timer_sync(&dev->timer);
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	//Tong.Han@Bsp.Group.Tp,2017/2/27,Modify for shortcut function.
 	del_timer_sync(&(dev->keyup_data.keyup_timer));
-	#endif/*VENDOR_EDIT*/
+	#endif/*CONFIG_VENDOR_REALME*/
 	list_del_init(&dev->node);
 
 	input_wakeup_procfs_readers();
@@ -2219,13 +2219,13 @@ int input_register_device(struct input_dev *dev)
 	if (!dev->rep[REP_DELAY] && !dev->rep[REP_PERIOD])
 		input_enable_softrepeat(dev, 250, 33);
 
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	//Tong.Han@Bsp.Group.Tp,2017/2/27,Modify for shortcut function.
 	dev->keyup_data.keyup_delay = 40;
 	dev->keyup_data.keyup_flag = 0;
 	dev->keyup_data.keyup_timer.data = (long) dev;
 	dev->keyup_data.keyup_timer.function = input_delay_keyup;
-	#endif/*VENDOR_EDIT*/
+	#endif/*CONFIG_VENDOR_REALME*/
 
 	if (!dev->getkeycode)
 		dev->getkeycode = input_default_getkeycode;

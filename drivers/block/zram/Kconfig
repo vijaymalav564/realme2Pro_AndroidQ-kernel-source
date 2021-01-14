@@ -1,6 +1,6 @@
 config ZRAM
 	tristate "Compressed RAM block device support"
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	# Wen.Luo@PSW.BSP.Kernel.Driver,2018/12/10, Add for enable crypto lz4 compress for zram lz4
 	depends on BLOCK && SYSFS && ZSMALLOC
 	select LZO_COMPRESS
@@ -43,7 +43,7 @@ config ZRAM_MEMORY_TRACKING
 
 	  See Documentation/blockdev/zram.txt for more information.
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 # Wen.Luo@PSW.BSP.Kernel.Driver,2018/12/10, Add for enable crypto lz4 compress for zram lz4
 config ZRAM_LZ4_COMPRESS
 	bool "Enable LZ4 algorithm support"

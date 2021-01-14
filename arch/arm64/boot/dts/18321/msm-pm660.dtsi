@@ -45,7 +45,7 @@
 			qcom,kpdpwr-sw-debounce;
 			qcom,system-reset;
 			qcom,store-hard-reset-reason;
-			//#ifdef VENDOR_EDIT //yixue.ge@bsp.drv add for use hard reset reason
+			//#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for use hard reset reason
 			qcom,clear-warm-reset;
 			//#endif
 
@@ -88,7 +88,7 @@
 			gpio@c100 {
 				reg = <0xc100 0x100>;
 				qcom,pin-num = <2>;
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/23, sjc Modify for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/23, sjc Modify for charging */
 				//status = "disabled";
 				status = "ok";
 				//qcom,mode = <3>; //ANA_PASS_THRU
@@ -173,7 +173,7 @@
 			#address-cells = <1>;
 			#size-cells = <1>;
 			qcom,qpnp-rtc-write = <0>;
-		   //#ifndef VENDOR_EDIT
+		   //#ifndef CONFIG_VENDOR_REALME
            /*Tong.han@BSP.group.TP Modified for rtc restart phone. 2014-08-12*/
            //  qcom,qpnp-rtc-alarm-pwrup = <0>;  
 	       //#else
@@ -326,7 +326,7 @@
 				qcom,cal-val = <0>;
 			};
 
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/23, sjc Add for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/23, sjc Add for charging */
 			chan@12 {
 				label = "gpio2_adc";
 				reg = <0x12>; //channel for GPIO2
@@ -346,7 +346,7 @@
 			#size-cells = <1>;
 			status = "okay";
 			qcom,pmic-revid = <&pm660_revid>;
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/18, sjc Add for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/18, sjc Add for charging */
 			qcom,micro-usb;
 //#endif
 
@@ -359,11 +359,11 @@
 					   "usbin_i",
 					   "usbin_v";
 
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/20, sjc Delete for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/20, sjc Delete for charging */
 			//qcom,wipower-max-uw = <5000000>;
 //#endif
 			dpdm-supply = <&qusb_phy0>;
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/05/12, sjc Modify for BOB noise*/
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/05/12, sjc Modify for BOB noise*/
 			pm660l_bob-supply = <&pm660l_bob>;
 //#endif
 
@@ -371,7 +371,7 @@
 					= <3000000 2500000 2000000 1500000
 						1000000 500000>;
 
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/26, sjc Add for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/26, sjc Add for charging */
 			//for smb2:
 			qcom,usb-icl-ua = <2000000>;
 			qcom,fcc-max-ua = <2000000>;
@@ -388,9 +388,9 @@
 			qcom,input_current_led_ma_forcmcc = <500>;
 			qcom,input_current_camera_ma = <1200>;
 			qcom,input_current_led_ma_overtemp = <900>;
-			//#ifdef VENDOR_EDIT /* Ji.Xu@SW.BSP.CHG, 2018-9-3 add chg current at calling */
+			//#ifdef CONFIG_VENDOR_REALME /* Ji.Xu@SW.BSP.CHG, 2018-9-3 add chg current at calling */
 			qcom,input_current_calling_ma = <1500>;
-			//#endif /*VENDOR_EDIT*/
+			//#endif /*CONFIG_VENDOR_REALME*/
 			qcom,overtemp_bat_decidegc = <350>;
 			qcom,iterm-disabled = <0>;
 			qcom,iterm-ma = <200>;
@@ -482,7 +482,7 @@
 			pinctrl-5 = <&ship_active>;
 			pinctrl-6 = <&ship_sleep>;
 			pinctrl-7 = <&shortc_active>;
-//#endif //VENDOR_EDIT
+//#endif //CONFIG_VENDOR_REALME
 
 			qcom,chgr@1000 {
 				reg = <0x1000 0x100>;
@@ -617,7 +617,7 @@
 					  "msg-tx-failed",
 					  "msg-tx-discarded",
 					  "msg-rx-discarded";
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/18, sjc Add for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/18, sjc Add for charging */
 					  status = "disabled";
 //#endif
 			qcom,default-sink-caps = <5000 3000>, /* 5V @ 3A */
@@ -701,28 +701,28 @@
 					   "rradc_die_temp";
 			qcom,rradc-base = <0x4500>;
 			qcom,fg-esr-timer-awake = <96 96>;
-//#ifdef VENDOR_EDIT /* Ji.Xu@BSP.CHG.Basic, 2018/08/24, xj modify charging current pluse */
+//#ifdef CONFIG_VENDOR_REALME /* Ji.Xu@BSP.CHG.Basic, 2018/08/24, xj modify charging current pluse */
 			qcom,fg-esr-timer-asleep = <160 256>;
 //#endif
-//#ifdef VENDOR_EDIT /* Ji.Xu@BSP.CHG.Basic, 2018/09/04, xj modify battery external sense */
+//#ifdef CONFIG_VENDOR_REALME /* Ji.Xu@BSP.CHG.Basic, 2018/09/04, xj modify battery external sense */
 			qcom,fg-rsense-sel = <1>;
 //#endif
 			qcom,fg-esr-timer-charging = <0 96>;
 			qcom,cycle-counter-en;
 			qcom,fg-jeita-thresholds = <(-30) (-25) 90 95>;
 			qcom,battery-thermal-coefficients = [9d 50 ff];
-//#ifdef VENDOR_EDIT /* Ji.Xu@BSP.CHG.Basic, 2018/09/24, xj modify battery soc keep for so long in low temp */
+//#ifdef CONFIG_VENDOR_REALME /* Ji.Xu@BSP.CHG.Basic, 2018/09/24, xj modify battery soc keep for so long in low temp */
 			qcom,slope-limit-temp-threshold = <10>;
 			qcom,slope-limit-coeffs = <1 1 1 1>;
 			qcom,fg-esr-tight-lt-filter-micro-pct = <20000>;
 			qcom,fg-esr-broad-lt-filter-micro-pct = <30000>;
 //#endif
-//#ifndef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/14, sjc Modify for charging */
+//#ifndef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/14, sjc Modify for charging */
 			status = "okay";
 			//status= "disabled";
 //#endif
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/11, sjc Add for charging */
-//#ifdef VENDOR_EDIT /* Ji.Xu@BSP.CHG.Basic, 2018/08/24, xj modify charging terminate current */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/11, sjc Add for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Ji.Xu@BSP.CHG.Basic, 2018/08/24, xj modify charging terminate current */
                         qcom,fg-chg-term-current = <200>;
                         qcom,fg-sys-term-current = <250>;
 //#endif
@@ -780,7 +780,7 @@
 			};
 		};
 
-//#ifndef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/14, sjc Delete for charging */
+//#ifndef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/02/14, sjc Delete for charging */
 /*
 		bcl@4200 {
 			compatible = "qcom,msm-bcl-lmh";
@@ -814,7 +814,7 @@
 			qcom,pmic-revid = <&pm660_revid>;
 			qcom,pmic-misc = <&pm660_misc>;
 			qcom,misc-clk-trim-error-reg = <0xf3>;
-			//#ifdef VENDOR_EDIT
+			//#ifdef CONFIG_VENDOR_REALME
 			//rendong.shi@Bsp.boot.device,2016/12/21, Added for vibrator			
 			qcom,actuator-type = "erm";
 			//#endif
@@ -825,7 +825,7 @@
 			qcom,wave-play-rate-us = <6667>;
 			qcom,int-pwm-freq-khz = <505>;
 			qcom,sc-deb-cycles = <8>;
-			//#ifdef VENDOR_EDIT
+			//#ifdef CONFIG_VENDOR_REALME
 			//rendong.shi@Bsp.boot.device,2016/12/21, Added for vibrator
 			//qcom,en-brake;
 			//#endif
@@ -834,10 +834,10 @@
 			qcom,lra-auto-res-mode = "qwd";
 			qcom,lra-calibrate-at-eop = <0>;
 			qcom,correct-lra-drive-freq;
-			//#ifdef VENDOR_EDIT
+			//#ifdef CONFIG_VENDOR_REALME
 			//Added by Tong.han@Bsp.group.Tp for vib min time setting,2015-07-07-07
 			qcom,vib-timemin-ms = <35>;
-			//#endif /*VENDOR_EDIT*
+			//#endif /*CONFIG_VENDOR_REALME*
 		};
 	};
 };

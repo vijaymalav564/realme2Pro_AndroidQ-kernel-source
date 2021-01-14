@@ -289,8 +289,8 @@ config FILE_TABLE_DEBUG
 	help
 	  This option enables debug of the open files using a global filetable
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #Xinhua.Song@BSP.Driver, 2015/04/03, Add for exfat filesystem
 source "fs/exfat/Kconfig"
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 endmenu

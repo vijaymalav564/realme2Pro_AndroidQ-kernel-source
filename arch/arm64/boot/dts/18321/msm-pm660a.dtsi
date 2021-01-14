@@ -10,7 +10,7 @@
  * GNU General Public License for more details.
  */
 
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 /* Disable WLED */
 //&pm660l_wled {
 //	status = "disabled";

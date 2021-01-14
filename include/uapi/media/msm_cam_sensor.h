@@ -220,7 +220,7 @@ struct msm_sensor_info_t {
 	uint32_t sensor_mount_angle;
 	int modes_supported;
 	enum camb_position_t position;
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*add by hongbo.dai@Camera 20180118,add for get real chip id*/
 	uint32_t chip_id;
 	/*add by hongbo.dai@Camera 20180209,add for get real chip version*/
@@ -272,7 +272,7 @@ enum eeprom_cfg_type_t {
 	CFG_EEPROM_WRITE_DATA,
 	CFG_EEPROM_GET_MM_INFO,
 	CFG_EEPROM_INIT,
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	/*add by hongbo.dai@Camera 20170503,for advance eeprom probe*/
 	CFG_EEPROM_INIT_ALLDATA,
 	#endif

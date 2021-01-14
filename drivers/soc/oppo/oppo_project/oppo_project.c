@@ -36,10 +36,10 @@ unsigned int is_project(OPPO_PROJECT project)
 {
         return (get_project() == project?1:0);
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Hui.Fan@PSW.BSP.OPPOFeature.Hypnus, 2017-7-17, export is_project */
 EXPORT_SYMBOL(is_project);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 unsigned char get_PCB_Version(void)
 {
@@ -203,7 +203,7 @@ struct file_operations oppoBootmode_proc_fops = {
         .read = oppoBootmode_read_proc,
 };
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Ziqing.Guo@BSP.Fingerprint.Secure 2017/03/28 Add for displaying secure boot switch*/
 #define OEM_SEC_BOOT_REG 0x780350 /*sdm660
 */
@@ -233,9 +233,9 @@ static ssize_t secureType_read_proc(struct file *file, char __user *buf,
         *off += len < count ? len : count;
         return (len < count ? len : count);
 }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Ziqing.Guo@BSP.Fingerprint.Secure 2017/04/16 Add for distinguishing secureboot stage*/
 #define OEM_SEC_ENABLE_ANTIROLLBACK_REG 0x78019c /*sdm660
 */
@@ -265,18 +265,18 @@ static ssize_t secureStage_read_proc(struct file *file, char __user *buf,
         *off += len < count ? len : count;
         return (len < count ? len : count);
 }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 struct file_operations secureType_proc_fops = {
         .read = secureType_read_proc,
 };
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Ziqing.Guo@BSP.Fingerprint.Secure 2017/04/16 Add for distinguishing secureboot stage*/
 struct file_operations secureStage_proc_fops = {
         .read = secureStage_read_proc,
 };
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 #define QFPROM_RAW_SERIAL_NUM 0x00786134 /*different at each platform, please ref boot_images\core\systemdrivers\hwio\scripts\xxx\hwioreg.per
 */
@@ -392,7 +392,7 @@ int rpmb_is_enable(void)
 
 EXPORT_SYMBOL(rpmb_is_enable);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* ChaoYing.Chen@BSP.Kernel.Boot, 2018/11/06, Add for add cmdline for exp_opera info*/
 #define ITEM_LENGTH 50
 char expOpera[ITEM_LENGTH + 1];
@@ -476,14 +476,14 @@ static int __init oppo_project_init(void)
                 goto ERROR_INIT_VERSION;
         }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Ziqing.Guo@BSP.Fingerprint.Secure 2017/04/16 Add for distinguishing secureboot stage*/
         pentry = proc_create("secureStage", S_IRUGO, oppoVersion, &secureStage_proc_fops);
         if (!pentry) {
                 pr_err("create secureStage proc failed.\n");
                 goto ERROR_INIT_VERSION;
         }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
         pentry = proc_create("serialID", S_IRUGO, oppoVersion, &serialID_proc_fops);
         if (!pentry) {
                 pr_err("create serialID proc failed.\n");
@@ -496,7 +496,7 @@ static int __init oppo_project_init(void)
                 goto ERROR_INIT_VERSION;
         }
 
-		#ifdef VENDOR_EDIT
+		#ifdef CONFIG_VENDOR_REALME
 		/* ChaoYing.Chen@BSP.Kernel.Boot, 2018/11/06, Add for add cmdline for exp_opera info*/
 		pentry = proc_create("expOpera", 0444, oppoVersion, &expOpera_fops);
 		#endif
@@ -508,7 +508,7 @@ ERROR_INIT_VERSION:
 }
 arch_initcall(oppo_project_init);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* ChaoYing.Chen@BSP.Kernel.Boot, 2018/11/06, Add for add cmdline for exp_opera info*/
 static int __init expOpera_init(void)
 {

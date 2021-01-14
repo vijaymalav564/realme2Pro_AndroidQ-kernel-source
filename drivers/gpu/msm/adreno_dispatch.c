@@ -25,10 +25,10 @@
 #include "adreno_trace.h"
 #include "kgsl_sharedmem.h"
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm dcs for gpu. */
 #include <linux/oppo_mm_kevent_fb.h>
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 #define DRAWQUEUE_NEXT(_i, _s) (((_i) + 1) % (_s))
 
@@ -2066,7 +2066,7 @@ replay:
 }
 
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm kevent gpu.*/
 static pid_t snapshotpid = -1;
 static int snapshotfault = -1;
@@ -2074,17 +2074,17 @@ static void setfaulttype(int fault)
 {
     snapshotfault = fault;
 }
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static void do_header_and_snapshot(struct kgsl_device *device,
 		struct adreno_ringbuffer *rb, struct kgsl_drawobj_cmd *cmdobj)
 {
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm kevent gpu.*/
 	unsigned char payload[100] = "";
 	pid_t pid;
 	char processname[32]={'\0'};
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	struct kgsl_drawobj *drawobj = DRAWOBJ(cmdobj);
 
@@ -2105,7 +2105,7 @@ static void do_header_and_snapshot(struct kgsl_device *device,
 	if (!(drawobj->context->flags & KGSL_CONTEXT_NO_SNAPSHOT))
 		kgsl_device_snapshot(device, drawobj->context);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm kevent gpu.*/
     if (drawobj->context != NULL) {
         pid = drawobj->context->tid;
@@ -2117,7 +2117,7 @@ static void do_header_and_snapshot(struct kgsl_device *device,
         upload_mm_kevent_fb_data(OPPO_MM_DIRVER_FB_EVENT_MODULE_DISPLAY,payload);//gpu hang
         snapshotpid = pid;
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 }
 
 static int dispatcher_do_fault(struct adreno_device *adreno_dev)
@@ -2226,7 +2226,7 @@ static int dispatcher_do_fault(struct adreno_device *adreno_dev)
 	adreno_readreg64(adreno_dev, ADRENO_REG_CP_IB1_BASE,
 		ADRENO_REG_CP_IB1_BASE_HI, &base);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm kevent gpu.*/
     setfaulttype(fault);
 #endif
@@ -2406,12 +2406,12 @@ static int adreno_dispatch_retire_drawqueue(struct adreno_device *adreno_dev,
 static void _adreno_dispatch_check_timeout(struct adreno_device *adreno_dev,
 		struct adreno_dispatcher_drawqueue *drawqueue)
 {
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm kevent gpu.*/
 	unsigned char payload[100] = "";
 	pid_t pid;
 	char processname[32]={'\0'};
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	struct kgsl_device *device = KGSL_DEVICE(adreno_dev);
 	struct kgsl_drawobj *drawobj =
@@ -2429,7 +2429,7 @@ static void _adreno_dispatch_check_timeout(struct adreno_device *adreno_dev,
 	if (drawobj->context->flags & KGSL_CONTEXT_NO_FAULT_TOLERANCE)
 		return;
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm kevent gpu.*/
     if (drawobj->context != NULL) {
         pid = drawobj->context->tid;
@@ -2441,7 +2441,7 @@ static void _adreno_dispatch_check_timeout(struct adreno_device *adreno_dev,
         upload_mm_kevent_fb_data(OPPO_MM_DIRVER_FB_EVENT_MODULE_DISPLAY,payload);//gpu timeout
         snapshotpid = pid;
 	}
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 	pr_context(device, drawobj->context, "gpu timeout ctx %d ts %d\n",
 		drawobj->context->id, drawobj->timestamp);

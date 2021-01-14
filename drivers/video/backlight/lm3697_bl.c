@@ -27,14 +27,14 @@
 #include <linux/of_gpio.h>
 #include <linux/gpio.h>
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //YongPeng.Yi@MultiMedia.Display.LCD.Stability, 2017/02/28,
 //add for 2048 bl level too low in ftm mode
 #include <soc/oppo/mmkey_log.h>
 #include <soc/oppo/device_info.h>
 #include <soc/oppo/oppo_project.h>
 #include <soc/oppo/boot_mode.h>
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 /* Registers */
 #define LM3697_REG_OUTPUT_CFG       0x10
@@ -73,7 +73,7 @@
 #define LM3697_LINEAR           0
 #define LM3697_LEVEL_2048_SUPPROT    1
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //YongPeng.Yi@SWDP.MultiMedia, 2016/09/01,  Add for cabc
 #define REG_PWM     0x1C
 //YongPeng.Yi@SWDP.MultiMedia, 2016/09/19,  Add for close cabc when bl <=160
@@ -87,7 +87,7 @@ static int backlight_level = 2047;
 
 extern int cabc_mode;
 int set_backlight_pwm(int state);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 
 enum lm3697_bl_ctrl_mode {
@@ -262,7 +262,7 @@ int lm3697_lcd_backlight_set_level(unsigned int bl_level)
 
         backlight_level =  bl_level;
 
-         #ifdef VENDOR_EDIT
+         #ifdef CONFIG_VENDOR_REALME
         //YongPeng.Yi@MultiMedia.Display.LCD.Stability, 2017/02/28,
         //add for 2048 bl level too low in ftm mode
         if(LM3697_EXPONENTIAL && LM3697_LEVEL_2048_SUPPROT
@@ -271,10 +271,10 @@ int lm3697_lcd_backlight_set_level(unsigned int bl_level)
             bl_level = 1800;
             pr_err("%s: set bl_level=%d\n", __func__, bl_level);
         }
-        #endif /*VENDOR_EDIT*/
+        #endif /*CONFIG_VENDOR_REALME*/
 
 
-        #ifndef VENDOR_EDIT
+        #ifndef CONFIG_VENDOR_REALME
         //YongPeng.Yi@MultiMedia.Display.LCD.Feature,2016/09/20,
         //remove for 16037 jdi lcd close cabc at bl <=160, keep cabc config as R9K jdi lcd
         //YongPeng.Yi@SWDP.MultiMedia, 2016/09/19,  Add for tuning display when close cabc at bl <=160
@@ -292,7 +292,7 @@ int lm3697_lcd_backlight_set_level(unsigned int bl_level)
                 bl_level = LM3697_MIN_BRIGHTNESS;
            // pr_err("%s: set bl_level=%d\n", __func__, bl_level);
         }
-        #endif /*VENDOR_EDIT*/
+        #endif /*CONFIG_VENDOR_REALME*/
 
         //YongPeng.Yi@MultiMedia.Display.LCD.Stability, 2016/10/14,
         //add for lm3697 bl change to exponential mode
@@ -347,7 +347,7 @@ int lm3697_lcd_backlight_set_level(unsigned int bl_level)
 EXPORT_SYMBOL(lm3697_lcd_backlight_set_level);
 
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Ling.Guo@Swdp.MultiMedia.Display, 2017/04/28,modify for high brightness mode */
 extern unsigned int current_brightness;
 int set_outdoor_brightness(unsigned int brightness,unsigned long outdoor_mode){
@@ -402,7 +402,7 @@ static int lm3697_dt(struct device *dev, struct lm3697_platform_data *pdata)
     return 0;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //YongPeng.Yi@SWDP.MultiMedia, 2016/08/20,  Add for lm3697 power set
 //YongPeng.Yi@MultiMedia.Display.LCD.Stability,2016/09/21,
 //add for lm3697 reg init
@@ -501,7 +501,7 @@ int set_backlight_pwm(int state)
     return rc;
 }
 EXPORT_SYMBOL(set_backlight_pwm);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static int lm3697_chip_init(struct lm3697_bl_chip *pchip){
     int ret = 0;

@@ -103,7 +103,7 @@ config F2FS_FAULT_INJECTION
 
 	  If unsure, say N.
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 #yanwu@TECH.Storage.FS, 2019/07/15, add for of2fs gc optimization
 config F2FS_OPPO_GC
 	bool "Oppo specific GC time tuning"

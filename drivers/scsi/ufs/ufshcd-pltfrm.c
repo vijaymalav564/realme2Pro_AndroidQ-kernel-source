@@ -324,7 +324,7 @@ EXPORT_SYMBOL_GPL(ufshcd_pltfrm_shutdown);
  *
  * Returns 0 on success, non-zero value on failure
  */
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //cuixiaogang@src.hypnus.2018.04.02. add support for ufs clk scale
 #include <linux/ufshcd-platform.h>
 struct ufs_hba *ufs_store_hba[MAX_UFS_STORE_HBA] = { 0 };
@@ -335,7 +335,7 @@ bool storage_is_ufs(void)
 	return device_use_ufs;
 }
 EXPORT_SYMBOL(storage_is_ufs);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 int ufshcd_pltfrm_init(struct platform_device *pdev,
 		       struct ufs_hba_variant *var)
 {
@@ -410,13 +410,13 @@ int ufshcd_pltfrm_init(struct platform_device *pdev,
 	pm_runtime_set_active(&pdev->dev);
 	pm_runtime_enable(&pdev->dev);
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //cuixiaogang@src.hypnus.2018.04.02. add support for ufs clk scale
 	if (index < MAX_UFS_STORE_HBA) {
 		ufs_store_hba[index++] = hba;
 		device_use_ufs = true;
 	}
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 	return 0;
 dealloc_host:

@@ -338,11 +338,11 @@ extern char ___assert_task_state[1 - 2*!!(
 
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 
 extern int sysctl_uifirst_enabled;
 extern int sysctl_launcher_boost_enabled;
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 /* Task command name length */
 #define TASK_COMM_LEN 16
@@ -1641,7 +1641,7 @@ struct tlbflush_unmap_batch {
 	bool writable;
 };
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_PROCESS_RECLAIM)
 /* Kui.Zhang@TEC.Kernel.Performance, 2019/03/04
  * Record process reclaim infor
  */
@@ -1766,14 +1766,14 @@ struct task_struct {
 	unsigned in_execve:1; /* bit to tell LSMs we're in execve */
 	unsigned in_iowait:1;
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO)
 // jiheng.xie@PSW.TECH.KERNEL, 2018/12/14
 // Add for get sched latency stat
 	unsigned in_downread:1;
 	unsigned in_mmap_downread:1;
 	unsigned in_downwrite:1;
 	unsigned in_mmap_downwrite:1;
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 #ifdef CONFIG_MEMCG
 	unsigned memcg_may_oom:1;
@@ -2147,10 +2147,10 @@ struct task_struct {
 #endif
 	int pagefault_disabled;
 	
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
     int static_ux;
-#endif /* VENDOR_EDIT */
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM)
+#endif /* CONFIG_VENDOR_REALME */
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_PROCESS_RECLAIM)
 	/* Kui.Zhang@TEC.Kernel.Performance, 2019/03/04
 	 * Record process reclaim infor
 	 */
@@ -2413,7 +2413,7 @@ extern void thread_group_cputime_adjusted(struct task_struct *p, cputime_t *ut, 
 /*
  * Per process flags
  */
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* fanhui@PhoneSW.BSP, 2016/02/02, DeathHealer, set the task to be killed */
 #define PF_OPPO_KILLING	0x00000001
 #endif
@@ -2445,7 +2445,7 @@ extern void thread_group_cputime_adjusted(struct task_struct *p, cputime_t *ut, 
 #define PF_MUTEX_TESTER	0x20000000	/* Thread belongs to the rt mutex tester */
 #define PF_FREEZER_SKIP	0x40000000	/* Freezer should not count it as freezable */
 #define PF_SUSPEND_TASK 0x80000000      /* this thread called freeze_processes and should not be frozen */
-#if defined(VENDOR_EDIT) && defined(CONFIG_PROCESS_RECLAIM)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_PROCESS_RECLAIM)
 /* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, flag that current task is process reclaimer */
 #define PF_RECLAIM_SHRINK	0x10000000
 
@@ -2638,13 +2638,13 @@ struct cpu_cycle_counter_cb {
 #define MAX_NUM_CGROUP_COLOC_ID	20
 
 #ifdef CONFIG_SMP
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //wangmengmeng@swdp.shanghai, 2019/6/20, export some symbol
 extern unsigned long sched_get_capacity_orig(int cpu);
 extern unsigned int sched_get_cpu_util(int cpu);
 #endif
 #else
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //wangmengmeng@swdp.shanghai, 2019/6/20, export some symbol
 static inline unsigned long sched_get_capacity_orig(int cpu)
 {
@@ -2660,10 +2660,10 @@ static inline unsigned int sched_get_cpu_util(int cpu)
 
 
 #ifdef CONFIG_SCHED_HMP
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //jie.cheng@swdp.shanghai, 2015/11/09, export some symbol
 extern int sched_boost(void);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 extern void free_task_load_ptrs(struct task_struct *p);
 extern int sched_set_window(u64 window_start, unsigned int window_size);
 extern unsigned long sched_get_busy(int cpu);
@@ -2974,10 +2974,10 @@ extern void sched_exit(struct task_struct *p);
 static inline void sched_exit(struct task_struct *p) { }
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //INDIA.Performance export some symbol
 extern int sched_boost(void);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 extern void proc_caches_init(void);
 extern void flush_signals(struct task_struct *);
@@ -3148,7 +3148,7 @@ static inline void exit_thread(struct task_struct *tsk)
 }
 #endif
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/04/19, add process_event_notifier support
 #define PROCESS_EVENT_CREATE 1
 #define PROCESS_EVENT_EXIT 2
@@ -3255,7 +3255,7 @@ extern bool current_is_single_threaded(void);
 #define for_each_process_thread(p, t)	\
 	for_each_process(p) for_each_thread(p, t)
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-26, add smart alloc support,front process first*/
 #ifdef CONFIG_OPPO_FG_OPT
 extern bool is_fg(int uid);
@@ -3283,7 +3283,7 @@ static inline int current_is_fg(void)
 	return 0;
 }
 #endif /*CONFIG_OPPO_FG_OPT*/
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 
 static inline int get_nr_threads(struct task_struct *tsk)
 {
@@ -3545,7 +3545,7 @@ static inline int fatal_signal_pending(struct task_struct *p)
 	return signal_pending(p) && __fatal_signal_pending(p);
 }
 
-//#ifdef VENDOR_EDIT //fangpan@Swdp.shanghai,2015/11/12
+//#ifdef CONFIG_VENDOR_REALME //fangpan@Swdp.shanghai,2015/11/12
 static inline int hung_long_and_fatal_signal_pending(struct task_struct *p)
 {
 #ifdef CONFIG_DETECT_HUNG_TASK

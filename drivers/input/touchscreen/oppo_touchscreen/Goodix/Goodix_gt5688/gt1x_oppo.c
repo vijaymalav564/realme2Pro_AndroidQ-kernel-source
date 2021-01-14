@@ -1,6 +1,6 @@
 /**************************************************************
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd.
- * VENDOR_EDIT
+ * CONFIG_VENDOR_REALME
  * File       : GT1x_oppo.c
  * Description: Source file for Goodix GT5688 driver
  * Version   : 1.0

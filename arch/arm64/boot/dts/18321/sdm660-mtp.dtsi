@@ -23,14 +23,14 @@
 
 &uartblsp1dm1 {
 	status = "ok";
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2017/04/10, sjc Modify for console */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/04/10, sjc Modify for console */
 	//pinctrl-names = "default";
 	//pinctrl-0 = <&uart_console_active>;
 //#else
 	pinctrl-names = "default", "disable";
 	pinctrl-0 = <&uart_console_active>;
 	pinctrl-1 = <&uart_console_disable>;
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */
 };
 
 &ufsphy1 {
@@ -55,7 +55,7 @@
 };
 
 &pm660_gpios {
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Gou shegnjun@PSW.MM.Display.LCD.Stability, 2018/05/21,
 //add for lcd gpio
 	/* GPIO 4 (NFC_CLK_REQ) */
@@ -76,7 +76,7 @@
 		qcom,src-sel = <0>;
 		qcom,out-strength = <1>;
 	};*/
-//#else /* VENDOR_EDIT */
+//#else /* CONFIG_VENDOR_REALME */
 	/* GPIO 3 for : +5v */
 	gpio@c200 {
 		qcom,mode = <1>;
@@ -94,12 +94,12 @@
 		qcom,master-en = <1>;
 		status = "okay";
 	};
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */
 };
 
 &i2c_6 { /* BLSP1 QUP6 (NFC) */
 	status = "okay";
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //wenjie.Liu@CN.NFC.Basic.Hardware.1164987, 2017/11/28, Modify for:NXP NQ330-NFC(driver_config)
 /*
 	nq@28 {
@@ -121,7 +121,7 @@
 		clock-names = "ref_clk";
 	};
 */
-//#else /* VENDOR_EDIT */
+//#else /* CONFIG_VENDOR_REALME */
 	nq@28 {
 		compatible = "qcom,nq-nci";
 		reg = <0x28>;
@@ -158,14 +158,14 @@
 		clocks = <&clock_rpmcc RPM_LN_BB_CLK3_PIN>;
 		clock-names = "ref_clk";
 	};
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */
 };
 
 &mdss_mdp {
 	qcom,mdss-pref-prim-intf = "dsi";
 };
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Gou shengjun@PSW.MM.Display.LCD.Stability, 2017/11/30,
 //add for panel config
 /*
@@ -217,10 +217,10 @@
 	qcom,platform-reset-gpio = <&tlmm 53 0>;
 	qcom,platform-te-gpio = <&tlmm 59 0>;
 };
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 
 &mdss_dp_ctrl {
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Gou shegnjun@PSW.MM.Display.LCD.Stability, 2018/05/24,
 //add for disable display port
 	status = "disabled";
@@ -233,7 +233,7 @@
 	qcom,usbplug-cc-gpio = <&tlmm 58 0>;
 };
 
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 /* Gou shegnjun@PSW.MM.Display.LCD.Stability, 2017/07/10, delete */
 //&pm660l_wled {
 //	qcom,led-strings-list = [01 02];
@@ -295,7 +295,7 @@
 	qcom,panel-supply-entries = <&dsi_panel_pwr_supply_labibb_amoled>;
 };
 
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 &dsi_lgd_incell_sw49106_fhd_video {
 	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_wled";
 	qcom,mdss-dsi-bl-min-level = <1>;
@@ -331,7 +331,7 @@
 
 &sdhc_2 {
 	/* device core power supply */
-	//#ifndef VENDOR_EDIT
+	//#ifndef CONFIG_VENDOR_REALME
 //Fanhong.Kong@PSW.BSP.CHG,,2018/05/25,Added for PM660L L5
 	vdd-supply = <&pm660l_l5>;
 //#else
@@ -346,7 +346,7 @@
 	qcom,vdd-io-voltage-level = <1800000 2950000>;
 	qcom,vdd-io-current-level = <200 22000>;
 	
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 //rendong.shi@Bsp.Storage.card,2016/12/21,Added for vdd_en using gpio supply 3V
 	pinctrl-names = "default", "active", "sleep";
 	pinctrl-0 = <&sdc2_cd_on &sim1_cd_on &sim2_cd_on>;
@@ -364,7 +364,7 @@
 			1 &intc 0 0 221 0
 			2 &tlmm 54 0>;
 	interrupt-names = "hc_irq", "pwr_irq", "status_irq";
-	//#ifndef VENDOR_EDIT
+	//#ifndef CONFIG_VENDOR_REALME
 //rendong.shi@Bsp.Storage.card,2016/12/21,Added for vdd_en using gpio supply 3V
 	cd-gpios = <&tlmm 54 0x0>;
 //#endif
@@ -377,7 +377,7 @@
 
 &soc {
 
-        // #ifdef VENDOR_EDIT
+        // #ifdef CONFIG_VENDOR_REALME
         /* guorui@BSP.Fingerprint.Basic 2019-12-06 add for fingerprint */
         oppo_fp_common {
                 compatible = "oppo,fp_common"; //Manufacture, and Model
@@ -433,8 +433,8 @@
         oppo_secure_common { //Slave driver and CS ID
                 compatible = "oppo,secure_common"; //Manufacture, and Model
         };
-/*#endif VENDOR_EDIT */
-/*#ifdef VENDOR_EDIT ziqing.guo@phone.bsp 2015-12-20 add for fpc TEE */
+/*#endif CONFIG_VENDOR_REALME */
+/*#ifdef CONFIG_VENDOR_REALME ziqing.guo@phone.bsp 2015-12-20 add for fpc TEE */
         fpc_fpc1020 { //Slave driver and CS ID
                 compatible = "fpc,fpc1020"; //Manufacture, and Model
 		fpc,reset-gpio = <&tlmm 20 0x00>;
@@ -445,8 +445,8 @@
                 pinctrl-names = "default";
                 pinctrl-0 = <&gpio_vdd_en_default &gpio_fpc_irq_default>;
         };
-/*#endif VENDOR_EDIT */
-/*#ifdef VENDOR_EDIT */
+/*#endif CONFIG_VENDOR_REALME */
+/*#ifdef CONFIG_VENDOR_REALME */
 /* ziqing.guo@BSP.Fingerprint.Basic, 2017/04/19, add for goodix fingerprint 5288 */
     goodix_fp {
         compatible = "goodix,goodix_fp";
@@ -458,9 +458,9 @@
         pinctrl-names = "default";
         pinctrl-0 = <&gpio_goodix_irq_default>;
     };
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 
-/*ifdef VENDOR_EDIT*/
+/*ifdef CONFIG_VENDOR_REALME*/
 //Added by Tong.han@Bsp.Group.Tp for device-info,2015-4-13
 	devinfo {
 		compatible = "oppo-devinfo";
@@ -540,7 +540,7 @@
 	};
 
 };
-//#ifdef VENDOR_EDIT /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/20, sjc Add for charging */
+//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2016/12/20, sjc Add for charging */
 /*&i2c_2 {
 	bq27541-battery@55 {
 		status = "okay";
@@ -620,7 +620,7 @@
 };*/
 //#endif
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 /*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/13, Add for ak4376&tfa9890 config*/
 &i2c_6 { /*  BLSP2 QUP2 */
 	status = "okay";
@@ -640,4 +640,4 @@
 		status = "okay";
 	};
 };
-//#endif /* VENDOR_EDIT */
+//#endif /* CONFIG_VENDOR_REALME */

@@ -45,7 +45,7 @@
 #include <asm/cacheflush.h>
 #include "audit.h"	/* audit_signal_info() */
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 #include <linux/hans.h>
 #endif
@@ -1025,7 +1025,7 @@ static inline void userns_fixup_signal_uid(struct siginfo *info, struct task_str
 	return;
 }
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Li.Liu@PSW.AD.Stability.Crash.1054829, 2016/10/08, Add for merging fangpan@oppo.com modify for the sender who kill system_server
 static bool is_zygote_process(struct task_struct *t)
 {
@@ -1070,7 +1070,7 @@ static bool is_key_process(struct task_struct *t) {
 }
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*fanhui@PhoneSW.BSP, 2016-06-21, DeathHealer, record the SIGSTOP sender*/
 extern char last_stopper_comm[];
 #endif
@@ -1081,7 +1081,7 @@ static int __send_signal(int sig, struct siginfo *info, struct task_struct *t,
 	struct sigqueue *q;
 	int override_rlimit;
 	int ret = 0, result;
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/05/18, notify userspace when kill cgroup frozen tasks
 	struct process_event_data pe_data;
 #endif
@@ -1089,14 +1089,14 @@ static int __send_signal(int sig, struct siginfo *info, struct task_struct *t,
 	assert_spin_locked(&t->sighand->siglock);
 
 	result = TRACE_SIGNAL_IGNORED;
-#if defined(VENDOR_EDIT) && defined(CONFIG_DEATH_HEALER)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_DEATH_HEALER)
 	/*fanhui@PhoneSW.BSP, 2016-06-21, DeathHealer, record the SIGSTOP sender*/
 	if (sig == SIGSTOP && (!strncmp(t->comm,"main", TASK_COMM_LEN) ||
 		!strncmp(t->comm,"system_server", TASK_COMM_LEN) || !strncmp(t->comm,"surfaceflinger", TASK_COMM_LEN)))
 		snprintf(last_stopper_comm, 64, "%s[%d]", current->comm, current->pid);
 #endif
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Li.Liu@PSW.AD.Stability.Crash.1054829, 2016/10/08, Add for merging fangpan@oppo.com modify for the sender who kill system_server
         if(1) {
                 /*add the SIGKILL print log for some debug*/
@@ -1107,7 +1107,7 @@ static int __send_signal(int sig, struct siginfo *info, struct task_struct *t,
 #endif
 
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/05/18, notify userspace when kill cgroup frozen tasks
 	if (sig == SIGKILL && (freezing(t) || frozen(t)) && cgroup_freezing(t)) {
 		pe_data.pid = task_pid_nr(t);
@@ -1274,7 +1274,7 @@ int do_send_sig_info(int sig, struct siginfo *info, struct task_struct *p,
 	unsigned long flags;
 	int ret = -ESRCH;
 
-#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 	if (is_frozen_tg(p)  /*signal receiver thread group is frozen?*/
 		&& (sig == SIGKILL || sig == SIGTERM || sig == SIGABRT || sig == SIGQUIT)) {
@@ -1394,7 +1394,7 @@ struct sighand_struct *__lock_task_sighand(struct task_struct *tsk,
 
 	return sighand;
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //fangpan@Swdp.shanghai, 2015/11/26, add interface for resmon module
 EXPORT_SYMBOL(__lock_task_sighand);
 #endif

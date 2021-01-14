@@ -764,16 +764,16 @@ const char * const vmstat_text[] = {
 	"workingset_nodereclaim",
 	"nr_anon_transparent_hugepages",
 	"nr_free_cma",
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
  * Account free pages for MIGRATE_OPPO2
  */
 	"nr_free_oppo2",
-#endif /* VENDOR_EDIT */
-#ifdef VENDOR_EDIT
+#endif /* CONFIG_VENDOR_REALME */
+#ifdef CONFIG_VENDOR_REALME
 /*Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-09-25, add ion cached account*/
 	"nr_ioncache_pages",
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	"nr_swapcache",
 	"nr_indirectly_reclaimable",
 

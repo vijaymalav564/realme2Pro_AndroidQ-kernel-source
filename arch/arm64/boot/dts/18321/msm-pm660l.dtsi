@@ -203,7 +203,7 @@
 			compatible = "qcom,leds-qpnp";
 			reg = <0xd000 0x100>;
 			label = "rgb";
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 //rendong.shi@Bsp.boot.device,2016/12/21,Added for button-light			
 /*
 			red_led: qcom,rgb_0 {
@@ -232,13 +232,13 @@
 				qcom,pwm-us = <1000>;
 				qcom,max-current = <12>;
 				qcom,default-state = "off";
-				//#ifndef VENDOR_EDIT
+				//#ifndef CONFIG_VENDOR_REALME
 				//rendong.shi@Bsp.boot.device,2016/12/21,Added for breathlight
 				linux,name = "button-backlight";
 				//#endif
 				
 			};
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 //rendong.shi@Bsp.boot.device,2016/12/21,Added for breathlight
 			blue_led: qcom,rgb_2 {
 				label = "rgb";
@@ -280,7 +280,7 @@
 			qcom,dim-mode = "hybrid";
 			qcom,hyb-thres = <625>;
 			qcom,sync-dly-us = <800>;
-//#ifndef VENDOR_EDIT
+//#ifndef CONFIG_VENDOR_REALME
 /*Gou shengjun@PSW.MM.Display.LCD.Stability, 2018/07/13,
  *add for wled current
 */
@@ -288,7 +288,7 @@
 //#else
 			qcom,fs-curr-ua = <20000>;
 			qcom,en-cabc;
-//#endif VENDOR_EDIT
+//#endif CONFIG_VENDOR_REALME
 			qcom,cons-sync-write-delay-us = <1000>;
 			qcom,led-strings-list = [00 01 02];
 			qcom,loop-auto-gm-en;
@@ -322,7 +322,7 @@
 				qcom,max-current = <1500>;
 				qcom,default-led-trigger = "flash0_trigger";
 				qcom,id = <0>;
-				/*#ifdef VENDOR_EDIT*/
+				/*#ifdef CONFIG_VENDOR_REALME*/
 				/*modify by hongbo.dai@camera,20171213 for dual flash LED*/
 				/*qcom,current-ma = <1000>;*/
 				/*#else*/
@@ -340,7 +340,7 @@
 				qcom,max-current = <1500>;
 				qcom,default-led-trigger = "flash1_trigger";
 				qcom,id = <1>;
-				/*#ifdef VENDOR_EDIT*/
+				/*#ifdef CONFIG_VENDOR_REALME*/
 				/*modify by hongbo.dai@camera,20171213 for dual flash LED*/
 				/*qcom,current-ma = <1000>;*/
 				/*#else*/
@@ -371,7 +371,7 @@
 				qcom,max-current = <500>;
 				qcom,default-led-trigger = "torch0_trigger";
 				qcom,id = <0>;
-				/*#ifndef VENDOR_EDIT*/
+				/*#ifndef CONFIG_VENDOR_REALME*/
 				/*modify by hongbo.dai@Camera 20171001*/
 				/*qcom,current-ma = <300>;*/
 				/*#else*/
@@ -388,7 +388,7 @@
 				qcom,max-current = <500>;
 				qcom,default-led-trigger = "torch1_trigger";
 				qcom,id = <1>;
-				/*#ifndef VENDOR_EDIT*/
+				/*#ifndef CONFIG_VENDOR_REALME*/
 				/*modify by hongbo.dai@Camera 20171001*/
 				/*qcom,current-ma = <300>;*/
 				/*#else*/
@@ -405,7 +405,7 @@
 				qcom,max-current = <500>;
 				qcom,default-led-trigger = "torch2_trigger";
 				qcom,id = <2>;
-				/*#ifndef VENDOR_EDIT*/
+				/*#ifndef CONFIG_VENDOR_REALME*/
 				/*modify by hongbo.dai@Camera 20171001*/
 				/*qcom,current-ma = <300>;*/
 				/*#else*/

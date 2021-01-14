@@ -110,7 +110,7 @@ static void sdhci_dump_state(struct sdhci_host *host)
 }
 
 
-#ifdef VENDOR_EDIT 
+#ifdef CONFIG_VENDOR_REALME 
 //yixue.ge@BSP.drv 2014-06-04 modify for disable sdcard log
 #ifndef CONFIG_OPPO_DAILY_BUILD
 static int flag = 0;
@@ -123,7 +123,7 @@ static int flag = 0;
 static void sdhci_dumpregs(struct sdhci_host *host)
 {
   
-   #ifdef VENDOR_EDIT 
+   #ifdef CONFIG_VENDOR_REALME 
 //yixue.ge@BSP.drv 2014-06-04 modify for disable sdcard log
 #ifndef CONFIG_OPPO_DAILY_BUILD
 	if(!flag)
@@ -143,7 +143,7 @@ static void sdhci_dumpregs(struct sdhci_host *host)
 		sdhci_readl(host, SDHCI_INT_ENABLE),
 		sdhci_readl(host, SDHCI_SIGNAL_ENABLE));
 		
-	#ifndef VENDOR_EDIT	
+	#ifndef CONFIG_VENDOR_REALME	
 	//rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
 	mmc_stop_tracing(host->mmc);
 	#endif
@@ -1189,7 +1189,7 @@ void sdhci_send_command(struct sdhci_host *host, struct mmc_command *cmd)
 	unsigned long timeout;
 
 	WARN_ON(host->cmd);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //yh@bsp, 2015-10-21 Add for special card compatible
         if(host->mmc->card_stuck_in_programing_status && ((cmd->opcode == MMC_WRITE_MULTIPLE_BLOCK) || (cmd->opcode == MMC_WRITE_BLOCK)))
         {
@@ -1198,7 +1198,7 @@ void sdhci_send_command(struct sdhci_host *host, struct mmc_command *cmd)
                 tasklet_schedule(&host->finish_tasklet);
                 return;
         }
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 	/* Wait max 10 ms */
 	timeout = 10000;
@@ -1677,7 +1677,7 @@ static bool sdhci_check_state(struct sdhci_host *host)
 		return false;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //jie.cheng@swdp.shanghai, 2016-08-10 Add emmc scaling control api
 bool sdhci_check_pwr(struct mmc_host *mmc)
 {
@@ -2235,7 +2235,7 @@ static void sdhci_hw_reset(struct mmc_host *mmc)
 
 	if (host->ops && host->ops->hw_reset)
 		host->ops->hw_reset(host);
-	#ifdef VENDOR_EDIT
+	#ifdef CONFIG_VENDOR_REALME
 	//rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
 	else
 		MMC_TRACE(mmc, "%s: sdhci_ops->hw_reset is NULL\n", __func__);

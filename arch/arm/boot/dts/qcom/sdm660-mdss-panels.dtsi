@@ -62,7 +62,7 @@
 		};
 	};
 
-//#ifdef VENDOR_EDIT
+//#ifdef CONFIG_VENDOR_REALME
 //Shengjun.Gou@PSW.MM.Display.LCD.Stability, 2017/09/18,
 // add for panel power setting.
 /*
@@ -117,7 +117,7 @@
 			};
 		};
 */
-//#else if /*VENDOR_EDIT*/
+//#else if /*CONFIG_VENDOR_REALME*/
 	dsi_panel_pwr_supply_labibb_amoled:
 		dsi_panel_pwr_supply_labibb_amoled {
 			#address-cells = <1>;
@@ -141,7 +141,7 @@
 				qcom,supply-disable-load = <80>;
 			};
 		};
-//#endif /*VENDOR_EDIT*/
+//#endif /*CONFIG_VENDOR_REALME*/
 
 	dsi_panel_pwr_supply_no_labibb: dsi_panel_pwr_supply_no_labibb {
 		#address-cells = <1>;

@@ -674,7 +674,7 @@ SYSCALL_DEFINE3(chown, const char __user *, filename, uid_t, user, gid_t, group)
 {
 	return sys_fchownat(AT_FDCWD, filename, user, group, 0);
 }
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //fangpan@Swdp.shanghai, 2016/06/30, export the ftrace interface
 EXPORT_SYMBOL(sys_chown);
 #endif

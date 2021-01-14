@@ -128,10 +128,10 @@ struct afe_ctl {
 	bool alloced_rddma[AFE_MAX_RDDMA];
 	int num_alloced_wrdma;
 	bool alloced_wrdma[AFE_MAX_WRDMA];
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* Le.Li@PSW.MM.AudioDriver.SmartPA, 2018/09/23, Add for Max98937 */
 	uint8_t *dsm_payload;
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 };
 
 static atomic_t afe_ports_mad_type[SLIMBUS_PORT_LAST - SLIMBUS_0_RX];
@@ -381,7 +381,7 @@ static int32_t sp_make_afe_callback(uint32_t opcode, uint32_t *payload,
 		expected_size += sizeof(struct afe_sp_ex_vi_ftm_params);
 		data_dest = (u32 *) &this_afe.ex_vi_resp;
 		break;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Le.Li@PSW.MM.AudioDriver.SmartPA, 2018/09/23, Add for Max98937*/
 	case AFE_PARAM_ID_DSM_CFG:
 	case AFE_PARAM_ID_DSM_INFO:
@@ -1644,7 +1644,7 @@ fail_cmd:
 	return ret;
 }
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*Le.Li@PSW.MM.AudioDriver.SmartPA, 2018/09/23, Add for Max98937*/
 static int afe_dsm_set_params(int port, int module_id, int param_id, uint8_t *payload, int size)
 {
@@ -1781,7 +1781,7 @@ int afe_dsm_set_status(uint8_t* payload)
     return afe_dsm_set_params(DSM_RX_PORT_ID, AFE_MODULE_DSM_RX, AFE_PARAM_ID_DSM_INFO, (int8_t*)payload, sizeof(uint32_t)*8);
 }
 EXPORT_SYMBOL(afe_dsm_set_status);
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 
 static int afe_spk_prot_prepare(int src_port, int dst_port, int param_id,
 				union afe_spkr_prot_config *prot_config)

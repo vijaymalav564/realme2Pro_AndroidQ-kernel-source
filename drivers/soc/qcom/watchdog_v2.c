@@ -32,7 +32,7 @@
 #include <soc/qcom/minidump.h>
 #include <soc/qcom/watchdog.h>
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*fanhui@PhoneSW.BSP, 2016-06-22, use self-defined utils*/
 #include "oppo_watchdog_util.h"
 #endif
@@ -58,7 +58,7 @@
 
 static struct msm_watchdog_data *wdog_data;
 
-#ifndef VENDOR_EDIT
+#ifndef CONFIG_VENDOR_REALME
 static int cpu_idle_pc_state[NR_CPUS];
 #else
 int cpu_idle_pc_state[NR_CPUS];
@@ -376,22 +376,22 @@ static void keep_alive_response(void *info)
 static void ping_other_cpus(struct msm_watchdog_data *wdog_dd)
 {
 	int cpu;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* fanhui@PhoneSW.BSP, 2016/05/26, print more info on pet watchdog */
 	cpumask_t mask;
 	get_cpu_ping_mask(&mask);
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 	cpumask_clear(&wdog_dd->alive_mask);
 	smp_mb();
 
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* fanhui@PhoneSW.BSP, 2016/05/26, only ping cpu need ping */
 	for_each_cpu(cpu, &mask) {
 #else
 	for_each_cpu(cpu, cpu_online_mask) {
 		if (!cpu_idle_pc_state[cpu] && !cpu_isolated(cpu))
-#endif /*VENDOR_EDIT*/
+#endif /*CONFIG_VENDOR_REALME*/
 			smp_call_function_single(cpu, keep_alive_response,
 						 wdog_dd, 1);
 	}
@@ -434,7 +434,7 @@ static __ref int watchdog_kthread(void *arg)
 			delay_time = msecs_to_jiffies(wdog_dd->pet_time);
 			pet_watchdog(wdog_dd);
 		}
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /*fanhui@PhoneSW.BSP, 2016-06-23, reset reocery_tried*/
 		reset_recovery_tried();
 #endif
@@ -525,12 +525,12 @@ static irqreturn_t wdog_bark_handler(int irq, void *dev_id)
 		wdog_dd->last_pet, nanosec_rem / 1000);
 	if (wdog_dd->do_ipi_ping) {
 		dump_cpu_alive_mask(wdog_dd);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* fanhui@PhoneSW.BSP, 2016/04/22, print online cpu */
 		dump_cpu_online_mask();
 #endif
 	}
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* fanhui@PhoneSW.BSP, 2016/01/20, print more info about cpu the wdog on */
 	if (try_to_recover_pending(wdog_dd->watchdog_task)) {
 		pet_watchdog(wdog_dd);
@@ -540,7 +540,7 @@ static irqreturn_t wdog_bark_handler(int irq, void *dev_id)
 	print_smp_call_cpu();
 	dump_wdog_cpu(wdog_dd->watchdog_task);
 #endif
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 /* fanhui@PhoneSW.BSP, 2016/01/20, delete trigger wdog bite, panic will trigger wdog if in dload mode*/
 	panic("Handle a watchdog bite! - Falling back to kernel panic!");
 #else

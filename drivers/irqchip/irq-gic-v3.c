@@ -38,7 +38,7 @@
 
 #include "irq-gic-common.h"
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Wenxian.Zhen@BSP.Power.Basic, 2016/07/19, add for analysis power consumption
 #define WAKEUP_SOURCE_WIFI_1ST	65
 #define WAKEUP_SOURCE_WIFI_2ND	71
@@ -70,19 +70,19 @@ u64	wakeup_source_count_wifi;
 u64	wakeup_source_count_modem;
 u64 wakeup_source_count_sps;
 u64 wakeup_source_count_adsp;
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Jiemin.Zhu@PSW.AD.Performance.Power.1104067, 2016/05/12, Add for modem wake up source
 struct work_struct wakeup_reason_work;
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 extern u64	wakeup_source_count_rtc;
-#endif //VENDOR_EDIT
+#endif //CONFIG_VENDOR_REALME
 
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //liuhd@PSW.CN.WiFi.Hardware.1202765,2017/12/10,add for the irq of wlan when system wakeuped by wlan
 u16 modem_wakeup_source = 0;
 #define WLAN_WAKEUP_IRQ_NUMBER	67
 #define WLAN_WAKEUP_IRQ_NUMBER_660LITE	68
-#endif //VENDOR_EDIT
+#endif //CONFIG_VENDOR_REALME
 
 struct redist_region {
 	void __iomem		*redist_base;
@@ -466,12 +466,12 @@ static void gic_show_resume_irq(struct gic_chip_data *gic)
 	u32 enabled;
 	u32 pending[32];
 	void __iomem *base = gic_data_dist_base(gic);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Wenxian.Zhen@BSP.Power.Basic, 2016/07/19, add for analysis power consumption
 	unsigned int int_id_1 = 0;
 	unsigned int int_id_2 = 0;
 	unsigned int int_count = 0;
-#endif //VENDOR_EDIT 
+#endif //CONFIG_VENDOR_REALME 
 
 	if (!msm_show_resume_irq_mask)
 		return;
@@ -495,7 +495,7 @@ static void gic_show_resume_irq(struct gic_chip_data *gic)
 			name = desc->action->name;
 
 		pr_warn("%s: %d triggered %s\n", __func__, irq, name);
-		#ifdef VENDOR_EDIT
+		#ifdef CONFIG_VENDOR_REALME
 		//liuhd@PSW.CN.WiFi.Hardware.1202765,2017/12/10,add for the irq of wlan when system wakeuped by wlan
 		if (!(soc_is_660lite )){
 		if (irq == WLAN_WAKEUP_IRQ_NUMBER)
@@ -513,8 +513,8 @@ static void gic_show_resume_irq(struct gic_chip_data *gic)
 			schedule_work(&wakeup_reason_work);
 			}
 		}
-		#endif //VENDOR_EDIT
-#ifdef VENDOR_EDIT
+		#endif //CONFIG_VENDOR_REALME
+#ifdef CONFIG_VENDOR_REALME
 //Wenxian.Zhen@BSP.Power.Basic, 2016/07/19, add for analysis power consumption
 		if (!(soc_is_660lite ))
 			{
@@ -558,7 +558,7 @@ static void gic_show_resume_irq(struct gic_chip_data *gic)
 			if (int_count == WAKEUP_SOURCE_INT_SECOND)
 				int_id_2 = irq;
 			}			
-#endif //VENDOR_EDIT 
+#endif //CONFIG_VENDOR_REALME 
 	}
 }
 
@@ -924,7 +924,7 @@ static int gic_set_affinity(struct irq_data *d, const struct cpumask *mask_val,
 	val = gic_mpidr_to_affinity(cpu_logical_map(cpu));
 
 	gic_write_irouter(val, reg);
-#ifdef VENDOR_EDIT
+#ifdef CONFIG_VENDOR_REALME
 //Fuchun.Liao@BSP.CHG.Basic 2017/03/03 add for dwc3 irq and power issue,case02837665
 	/*
 	* It is possible that irq is disabled from SW perspective only, 
@@ -933,7 +933,7 @@ static int gic_set_affinity(struct irq_data *d, const struct cpumask *mask_val,
 	*/ 
 	if (irqd_irq_disabled(d)) 
 		enabled = 0;  	
-#endif /* VENDOR_EDIT */
+#endif /* CONFIG_VENDOR_REALME */
 	/*
 	 * It is possible that irq is disabled from SW perspective only,
 	 * because kernel takes lazy disable approach. Therefore check irq

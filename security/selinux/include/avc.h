@@ -25,6 +25,27 @@ extern int selinux_enforcing;
 #define selinux_enforcing 1
 #endif
 
+#ifdef VENDOR_EDIT
+/* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
+ * between enforcing mode and permissive mode via /selinux/enforce or
+ * selinux_enforcing symbol in normal/silence mode of release build.
+ */
+#include <soc/oppo/boot_mode.h>
+
+static inline int is_selinux_enforcing(void)
+{
+#ifdef OPPO_DISALLOW_KEY_INTERFACES
+	if (!qpnp_is_power_off_charging()
+		&& (get_boot_mode() == MSM_BOOT_MODE__NORMAL
+		|| get_boot_mode() == MSM_BOOT_MODE__SILENCE)
+		&& !is_bootloader_unlocked()) {
+		return 1;
+	}
+#endif /* OPPO_DISALLOW_KEY_INTERFACES */
+	return selinux_enforcing;
+}
+#endif /* VENDOR_EDIT */
+
 /*
  * An entry in the AVC.
  */

@@ -20,6 +20,22 @@
 #include "gc.h"
 #include <trace/events/f2fs.h>
 
+#ifdef VENDOR_EDIT
+//Chunyi.Mei@PSW.BSP.FS.F2FS, 2018-5-25, Add for optimization f2fs gc
+
+
+/*
+ * GC tuning ratio [0, 100] in performance mode
+ */
+static inline int gc_perf_ratio(struct f2fs_sb_info *sbi)
+{
+	block_t reclaimable_user_blocks = sbi->user_block_count -
+						written_block_count(sbi);
+	return reclaimable_user_blocks == 0 ? 100 :
+			100ULL * free_user_blocks(sbi) / reclaimable_user_blocks;
+}
+#endif /*VENDOR_EDIT*/
+
 static int gc_thread_func(void *data)
 {
 	struct f2fs_sb_info *sbi = data;
@@ -31,6 +47,15 @@ static int gc_thread_func(void *data)
 
 	set_freezable();
 	do {
+		#ifdef VENDOR_EDIT
+//Chunyi.Mei@PSW.BSP.FS.F2FS, 2018-5-25, Add for optimization f2fs gc
+
+		if (gc_perf_ratio(sbi) < 10 && free_segments(sbi) <
+						3 * overprovision_segments(sbi)) {
+			wait_ms = DEF_GC_THREAD_HURRYUP_SLEEP_TIME;
+			gc_th->gc_hurryup = 1;
+		}
+#endif /*VENDOR_EDIT*/
 		wait_event_interruptible_timeout(*wq,
 				kthread_should_stop() || freezing(current) ||
 				gc_th->gc_wake,
@@ -85,7 +110,14 @@ static int gc_thread_func(void *data)
 		if (!mutex_trylock(&sbi->gc_mutex)) {
 			stat_other_skip_bggc_count(sbi);
 			goto next;
+		}	
+		#ifdef VENDOR_EDIT
+//Chunyi.Mei@PSW.BSP.FS.F2FS, 2018-5-25, Add for optimization f2fs gc
+		if (gc_th->gc_hurryup) {
+			gc_th->gc_hurryup = 0;
+			goto do_gc;
 		}
+#endif /*VENDOR_EDIT*/
 
 		if (!is_idle(sbi, GC_TIME)) {
 			increase_sleep_time(gc_th, &wait_ms);

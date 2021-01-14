@@ -2045,6 +2045,7 @@ extern struct vm_area_struct * find_vma(struct mm_struct * mm, unsigned long add
 extern struct vm_area_struct * find_vma_prev(struct mm_struct * mm, unsigned long addr,
 					     struct vm_area_struct **pprev);
 
+
 /* Look up the first VMA which intersects the interval start_addr..end_addr-1,
    NULL if none.  Assume start_addr < end_addr. */
 static inline struct vm_area_struct * find_vma_intersection(struct mm_struct * mm, unsigned long start_addr, unsigned long end_addr)
@@ -2060,6 +2061,7 @@ static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
 {
 	unsigned long vm_start = vma->vm_start;
 
+
 	if (vma->vm_flags & VM_GROWSDOWN) {
 		vm_start -= stack_guard_gap;
 		if (vm_start > vma->vm_start)
@@ -2071,6 +2073,7 @@ static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
 static inline unsigned long vm_end_gap(struct vm_area_struct *vma)
 {
 	unsigned long vm_end = vma->vm_end;
+
 
 	if (vma->vm_flags & VM_GROWSUP) {
 		vm_end += stack_guard_gap;
@@ -2388,10 +2391,37 @@ struct reclaim_param {
 	int nr_to_reclaim;
 	/* pages reclaimed */
 	int nr_reclaimed;
+#ifdef VENDOR_EDIT
+#ifdef CONFIG_PROCESS_RECLAIM_ENHANCE
+	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
+	 * flag that relcaim inactive pages only */
+	bool inactive_lru;
+#endif
+	/* robin.ren@PSW.BSP.Kernel.Performance, 2019-03-13,
+	 * the target reclaimed process
+	 */
+	struct task_struct *reclaimed_task;
+#endif
 };
 extern struct reclaim_param reclaim_task_anon(struct task_struct *task,
 		int nr_to_reclaim);
-#endif
+
+#ifdef VENDOR_EDIT
+/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2019-01-01,
+ * Extract the reclaim core code from task_mmu.c for /proc/process_reclaim*/
+extern ssize_t reclaim_task_write(struct task_struct* task,
+		char *buffer);
+
+#define PR_PASS		0
+#define PR_SEM_OUT	1
+#define PR_TASK_FG	2
+#define PR_TIME_OUT	3
+#define PR_ADDR_OVER	4
+#define PR_FULL		5
+#define PR_TASK_RUN	6
+#define PR_TASK_DIE	7
+#endif /* VENDOR_EDIT */
+#endif /* CONFIG_PROCESS_RECLAIM */
 
 #endif /* __KERNEL__ */
 #endif /* _LINUX_MM_H */

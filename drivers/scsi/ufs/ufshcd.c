@@ -50,6 +50,10 @@
 #include "ufs_quirks.h"
 #include "ufs-debugfs.h"
 #include "ufs-qcom.h"
+#ifdef VENDOR_EDIT
+//Chunyi.Mei@PSW.BSP.Storage.UFS, 2018-08-21 add for ufs device in /proc/devinfo
+#include <soc/oppo/device_info.h>
+#endif
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/ufs.h>
@@ -7249,6 +7253,13 @@ static int ufshcd_scsi_add_wlus(struct ufs_hba *hba)
 	struct scsi_device *sdev_rpmb;
 	struct scsi_device *sdev_boot;
 
+#ifdef VENDOR_EDIT
+//Chunyi.Mei@PSW.BSP.Storage.UFS, 2018-08-21 add for ufs device in /proc/devinfo
+	static char temp_version[5] = {0};
+	static char vendor[9] = {0};
+	static char model[17] = {0};
+#endif
+
 	hba->sdev_ufs_device = __scsi_add_device(hba->host, 0, 0,
 		ufshcd_upiu_wlun_to_scsi_wlun(UFS_UPIU_UFS_DEVICE_WLUN), NULL);
 	if (IS_ERR(hba->sdev_ufs_device)) {
@@ -7257,6 +7268,14 @@ static int ufshcd_scsi_add_wlus(struct ufs_hba *hba)
 		goto out;
 	}
 	scsi_device_put(hba->sdev_ufs_device);
+#ifdef VENDOR_EDIT
+//Chunyi.Mei@PSW.BSP.Storage.UFS, 2018-08-21 add for ufs device in /proc/devinfo
+	strncpy(temp_version, hba->sdev_ufs_device->rev, 4);
+	strncpy(vendor, hba->sdev_ufs_device->vendor, 8);
+	strncpy(model, hba->sdev_ufs_device->model, 16);
+	register_device_proc("ufs_version", temp_version, vendor);
+	register_device_proc("ufs", model, vendor);
+#endif
 
 	sdev_boot = __scsi_add_device(hba->host, 0, 0,
 		ufshcd_upiu_wlun_to_scsi_wlun(UFS_UPIU_BOOT_WLUN), NULL);
@@ -9857,6 +9876,16 @@ static ssize_t ufshcd_clkscale_enable_store(struct device *dev,
 out:
 	return count;
 }
+
+#ifdef VENDOR_EDIT
+//cuixiaogang@SRC.hypnus.2018.04.02. add support for ufs clk scale
+int ufshcd_clk_scaling_enable(struct ufs_hba *hba, int val)
+{
+	/* Todo */
+	return 0;
+}
+EXPORT_SYMBOL(ufshcd_clk_scaling_enable);
+#endif
 
 static void ufshcd_clk_scaling_suspend_work(struct work_struct *work)
 {

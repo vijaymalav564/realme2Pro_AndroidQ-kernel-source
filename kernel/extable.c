@@ -32,6 +32,7 @@
  */
 DEFINE_MUTEX(text_mutex);
 
+
 extern struct exception_table_entry __start___ex_table[];
 extern struct exception_table_entry __stop___ex_table[];
 
@@ -55,6 +56,12 @@ const struct exception_table_entry *search_exception_tables(unsigned long addr)
 	e = search_extable(__start___ex_table, __stop___ex_table-1, addr);
 	if (!e)
 		e = search_module_extables(addr);
+#ifdef VENDOR_EDIT /*ChenYong@Plf.Framework, 2018/11/27, add for kernel hotfix*/
+#ifdef CONFIG_QIHOO
+        if (!e)
+                e = search_qihoo_patch_extables(addr);
+#endif
+#endif /* VENDOR_EDIT */
 	return e;
 }
 

@@ -701,4 +701,10 @@ int cpufreq_generic_init(struct cpufreq_policy *policy,
 struct sched_domain;
 unsigned long cpufreq_scale_freq_capacity(struct sched_domain *sd, int cpu);
 unsigned long cpufreq_scale_max_freq_capacity(int cpu);
+
+#ifdef VENDOR_EDIT
+//INDIA.Performance. Adding for hypnus
+struct list_head *get_cpufreq_policy_list(void);
+#endif /* VENDOR_EDIT */
+
 #endif /* _LINUX_CPUFREQ_H */

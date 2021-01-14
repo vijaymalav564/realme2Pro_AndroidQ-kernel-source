@@ -1591,10 +1591,15 @@ static inline unsigned int power_cost(int cpu, u64 demand)
 	return SCHED_CAPACITY_SCALE;
 }
 
+#ifdef VENDOR_EDIT
+//INDIA.Performance remove this inline function for hypnus feature
+extern int sched_boost(void);
+#else
 static inline int sched_boost(void)
 {
 	return 0;
 }
+#endif /* VENDOR_EDIT */
 
 static inline int is_big_task(struct task_struct *p)
 {

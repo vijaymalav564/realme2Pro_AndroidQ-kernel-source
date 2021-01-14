@@ -576,9 +576,12 @@ struct sk_buff *nf_ct_frag6_gather(struct net *net, struct sk_buff *skb, u32 use
 	hdr = ipv6_hdr(clone);
 	fhdr = (struct frag_hdr *)skb_transport_header(clone);
 
-	if (clone->len - skb_network_offset(clone) < IPV6_MIN_MTU &&
-	    fhdr->frag_off & htons(IP6_MF))
-		goto ret_orig;
+//ifndef VENDOR_EDIT
+//Pranava.Ritwik@PSW.NW.IMS.2707634 2020/04/23 Fix for MT call failure
+//if (clone->len - skb_network_offset(clone) < IPV6_MIN_MTU &&
+//    fhdr->frag_off & htons(IP6_MF))
+//goto ret_orig;
+//endif VENDOR_EDIT
 
 	skb_orphan(skb);
 	fq = fq_find(net, fhdr->identification, user, hdr,

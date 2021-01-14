@@ -124,6 +124,11 @@
 
 #define EMBEDDED_NAME_MAX	(PATH_MAX - offsetof(struct filename, iname))
 
+#ifdef VENDOR_EDIT
+//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
+#define DCIM_DELETE_ERR  999
+#endif /* VENDOR_EDIT */
+
 struct filename *
 getname_flags(const char __user *filename, int flags, int *empty)
 {
@@ -1087,7 +1092,8 @@ static int may_linkat(struct path *link)
  * may_create_in_sticky - Check whether an O_CREAT open in a sticky directory
  *			  should be allowed, or not, on files that already
  *			  exist.
- * @dir: the sticky parent directory
+ * @dir_mode: mode bits of directory
+ * @dir_uid: owner of directory
  * @inode: the inode of the file to open
  *
  * Block an O_CREAT open of a FIFO (or a regular file) when:
@@ -1103,18 +1109,18 @@ static int may_linkat(struct path *link)
  *
  * Returns 0 if the open is allowed, -ve on error.
  */
-static int may_create_in_sticky(struct dentry * const dir,
+static int may_create_in_sticky(umode_t dir_mode, kuid_t dir_uid,
 				struct inode * const inode)
 {
 	if ((!sysctl_protected_fifos && S_ISFIFO(inode->i_mode)) ||
 	    (!sysctl_protected_regular && S_ISREG(inode->i_mode)) ||
-	    likely(!(dir->d_inode->i_mode & S_ISVTX)) ||
-	    uid_eq(inode->i_uid, dir->d_inode->i_uid) ||
-	    uid_eq(current_fsuid(), inode->i_uid))
+		likely(!(dir_mode & S_ISVTX)) ||
+		uid_eq(inode->i_uid, dir_uid) ||
+		uid_eq(current_fsuid(), inode->i_uid))
 		return 0;
 
-	if (likely(dir->d_inode->i_mode & 0002) ||
-	    (dir->d_inode->i_mode & 0020 &&
+	if (likely(dir_mode & 0002) ||
+	    (dir_mode & 0020 &&
 	     ((sysctl_protected_fifos >= 2 && S_ISFIFO(inode->i_mode)) ||
 	      (sysctl_protected_regular >= 2 && S_ISREG(inode->i_mode))))) {
 		return -EACCES;
@@ -2714,7 +2720,14 @@ static int may_delete(struct vfsmount *mnt, struct inode *dir, struct dentry *vi
 		return -ENOENT;
 	BUG_ON(!inode);
 
+#ifdef VENDOR_EDIT
+//Jiemin.Zhu@PSW.Android.SdcardFs.1444856, 2018/06/26, Add for avoid crash when dcim proctect
+	if (victim->d_parent->d_inode != dir) {
+		return -EBUSY;
+	}
+#else
 	BUG_ON(victim->d_parent->d_inode != dir);
+#endif /* VENDOR_EDIT */
 	audit_inode_child(dir, victim, AUDIT_TYPE_CHILD_DELETE);
 
 	error = inode_permission2(mnt, dir, MAY_WRITE | MAY_EXEC);
@@ -3181,6 +3194,8 @@ static int do_last(struct nameidata *nd,
 		   int *opened)
 {
 	struct dentry *dir = nd->path.dentry;
+	kuid_t dir_uid = nd->inode->i_uid;
+	umode_t dir_mode = nd->inode->i_mode;
 	int open_flag = op->open_flag;
 	bool will_truncate = (open_flag & O_TRUNC) != 0;
 	bool got_write = false;
@@ -3333,7 +3348,7 @@ finish_open:
 		error = -EISDIR;
 		if (d_is_dir(nd->path.dentry))
 			goto out;
-		error = may_create_in_sticky(dir,
+		error = may_create_in_sticky(dir_mode, dir_uid,
 					     d_backing_inode(nd->path.dentry));
 		if (unlikely(error))
 			goto out;
@@ -3948,6 +3963,11 @@ exit3:
 	dput(dentry);
 exit2:
 	mutex_unlock(&path.dentry->d_inode->i_mutex);
+#ifdef VENDOR_EDIT
+//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
+	if (error == DCIM_DELETE_ERR)
+		error = 0;
+#endif /* VENDOR_EDIT */
 	mnt_drop_write(path.mnt);
 exit1:
 	path_put(&path);
@@ -4078,6 +4098,11 @@ exit2:
 		dput(dentry);
 	}
 	mutex_unlock(&path.dentry->d_inode->i_mutex);
+#ifdef VENDOR_EDIT
+//Jiemin.Zhu@PSW.Android.SdardFs, 2017/12/12, Add for sdcardfs delete dcim record
+	if (error == DCIM_DELETE_ERR)
+		error = 0;
+#endif /* VENDOR_EDIT */
 	if (inode)
 		iput(inode);	/* truncate the inode here */
 	inode = NULL;

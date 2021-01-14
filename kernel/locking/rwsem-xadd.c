@@ -87,6 +87,7 @@ void __init_rwsem(struct rw_semaphore *sem, const char *name,
 	sem->owner = NULL;
 	osq_lock_init(&sem->osq);
 #endif
+
 }
 
 EXPORT_SYMBOL(__init_rwsem);
@@ -239,6 +240,7 @@ struct rw_semaphore __sched *rwsem_down_read_failed(struct rw_semaphore *sem)
 	    (count > RWSEM_WAITING_BIAS &&
 	     adjustment != -RWSEM_ACTIVE_READ_BIAS))
 		sem = __rwsem_do_wake(sem, RWSEM_WAKE_ANY);
+
 
 	raw_spin_unlock_irq(&sem->wait_lock);
 
@@ -477,6 +479,7 @@ struct rw_semaphore __sched *rwsem_down_write_failed(struct rw_semaphore *sem)
 	} else
 		count = rwsem_atomic_update(RWSEM_WAITING_BIAS, sem);
 
+
 	/* wait until we successfully acquire the lock */
 	set_current_state(TASK_UNINTERRUPTIBLE);
 	while (true) {
@@ -595,6 +598,7 @@ struct rw_semaphore *rwsem_downgrade_wake(struct rw_semaphore *sem)
 	/* do nothing if list empty */
 	if (!list_empty(&sem->wait_list))
 		sem = __rwsem_do_wake(sem, RWSEM_WAKE_READ_OWNED);
+
 
 	raw_spin_unlock_irqrestore(&sem->wait_lock, flags);
 

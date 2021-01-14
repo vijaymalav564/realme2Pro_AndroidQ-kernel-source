@@ -134,7 +134,15 @@ static ssize_t sel_read_enforce(struct file *filp, char __user *buf,
 	char tmpbuf[TMPBUFLEN];
 	ssize_t length;
 
+#ifdef VENDOR_EDIT
+/* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
+ * between enforcing mode and permissive mode via /selinux/enforce or
+ * selinux_enforcing symbol in normal/silence mode of release build.
+ */
+	length = scnprintf(tmpbuf, TMPBUFLEN, "%d", is_selinux_enforcing());
+#else
 	length = scnprintf(tmpbuf, TMPBUFLEN, "%d", selinux_enforcing);
+#endif /* VENDOR_EDIT */
 	return simple_read_from_buffer(buf, count, ppos, tmpbuf, length);
 }
 
@@ -179,10 +187,21 @@ static ssize_t sel_write_enforce(struct file *file, const char __user *buf,
 			from_kuid(&init_user_ns, audit_get_loginuid(current)),
 			audit_get_sessionid(current));
 		selinux_enforcing = new_value;
+#ifdef VENDOR_EDIT
+/* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
+ * between enforcing mode and permissive mode via /selinux/enforce or
+ * selinux_enforcing symbol in normal/silence mode of release build.
+ */
+		if (is_selinux_enforcing())
+			avc_ss_reset(0);
+		selnl_notify_setenforce(is_selinux_enforcing());
+		selinux_status_update_setenforce(is_selinux_enforcing());
+#else
 		if (selinux_enforcing)
 			avc_ss_reset(0);
 		selnl_notify_setenforce(selinux_enforcing);
 		selinux_status_update_setenforce(selinux_enforcing);
+#endif /* VENDOR_EDIT */
 	}
 	length = count;
 out:
@@ -1869,6 +1888,7 @@ static int __init init_sel_fs(void)
 		err = PTR_ERR(selinuxfs_mount);
 		selinuxfs_mount = NULL;
 	}
+
 
 	return err;
 }

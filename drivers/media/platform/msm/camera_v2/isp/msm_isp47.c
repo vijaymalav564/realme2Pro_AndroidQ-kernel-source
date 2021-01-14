@@ -1,4 +1,4 @@
-/* Copyright (c) 2013-2019, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -25,7 +25,6 @@
 #include "cam_soc_api.h"
 #include "msm_isp48.h"
 #include "linux/iopoll.h"
-#include "msm_cam_cx_ipeak.h"
 
 #undef CDBG
 #define CDBG(fmt, args...) pr_debug(fmt, ##args)
@@ -714,10 +713,8 @@ void msm_isp47_preprocess_camif_irq(struct vfe_device *vfe_dev,
 {
 	if (irq_status0 & BIT(3))
 		vfe_dev->axi_data.src_info[VFE_PIX_0].accept_frame = false;
-	if (irq_status0 & BIT(0)) {
+	if (irq_status0 & BIT(0))
 		vfe_dev->axi_data.src_info[VFE_PIX_0].accept_frame = true;
-		vfe_dev->irq_sof_id++;
-	}
 }
 
 void msm_vfe47_reg_update(struct vfe_device *vfe_dev,
@@ -806,6 +803,7 @@ long msm_vfe47_reset_hardware(struct vfe_device *vfe_dev,
 			reload_wm(vfe_dev, vfe_dev->vfe_base, 0x0011FFFF);
 	}
 
+#ifndef VENDOR_EDIT
 	if (blocking_call) {
 		rc = wait_for_completion_interruptible_timeout(
 			&vfe_dev->reset_complete, msecs_to_jiffies(100));
@@ -814,8 +812,17 @@ long msm_vfe47_reset_hardware(struct vfe_device *vfe_dev,
 				__LINE__);
 			vfe_dev->reset_pending = 0;
 		}
+#else
+	if (blocking_call) {
+		rc = wait_for_completion_interruptible_timeout(
+			&vfe_dev->reset_complete, msecs_to_jiffies(500));
+		if (rc <= 0) {
+			pr_err("%s:%d failed: reset timeout\n", __func__,
+				__LINE__);
+			vfe_dev->reset_pending = 0;
+		}
 	}
-
+#endif
 	return rc;
 }
 
@@ -2028,8 +2035,14 @@ int msm_vfe47_axi_halt(struct vfe_device *vfe_dev,
 		spin_unlock_irqrestore(&vfe_dev->halt_completion_lock, flags);
 		/* Halt AXI Bus Bridge */
 		msm_camera_io_w_mb(0x1, vfe_dev->vfe_base + 0x400);
+#ifndef VENDOR_EDIT
+/*modified by Jinshui.Liu@Camera 20170404 for [wait more time]*/
 		rc = wait_for_completion_interruptible_timeout(
 			&vfe_dev->halt_complete, msecs_to_jiffies(500));
+#else
+		rc = wait_for_completion_interruptible_timeout(
+			&vfe_dev->halt_complete, msecs_to_jiffies(600));
+#endif
 		if (rc <= 0)
 			pr_err("%s:VFE%d halt timeout rc=%d\n", __func__,
 				vfe_dev->pdev->id, rc);
@@ -2334,13 +2347,13 @@ void msm_vfe47_stats_cfg_ub(struct vfe_device *vfe_dev)
 	int i;
 	uint32_t ub_offset = 0;
 	uint32_t ub_size[VFE47_NUM_STATS_TYPE] = {
-		16, /* MSM_ISP_STATS_HDR_BE */
-		16, /* MSM_ISP_STATS_BG */
+		32, /* MSM_ISP_STATS_HDR_BE */
+		32, /* MSM_ISP_STATS_BG */
 		16, /* MSM_ISP_STATS_BF */
 		16, /* MSM_ISP_STATS_HDR_BHIST */
 		16, /* MSM_ISP_STATS_RS */
-		16, /* MSM_ISP_STATS_CS */
-		16, /* MSM_ISP_STATS_IHIST */
+		0, /* MSM_ISP_STATS_CS */
+		0, /* MSM_ISP_STATS_IHIST */
 		16, /* MSM_ISP_STATS_BHIST */
 		16, /* MSM_ISP_STATS_AEC_BG */
 	};
@@ -2683,9 +2696,7 @@ int msm_vfe47_set_clk_rate(struct vfe_device *vfe_dev, long *rate)
 		prev_clk_rate <
 		vfe_dev->vfe_clk_rates[MSM_VFE_CLK_RATE_NOMINAL]
 		[vfe_dev->hw_info->vfe_clk_idx]) {
-		pr_debug("%s: clk is more than Nominal vfe %d, ipeak bit %d\n",
-			__func__, vfe_dev->pdev->id, vfe_dev->cx_ipeak_bit);
-		ret = cam_cx_ipeak_update_vote_cx_ipeak(vfe_dev->cx_ipeak_bit);
+		ret = cx_ipeak_update(vfe_dev->vfe_cx_ipeak, true);
 		if (ret) {
 			pr_err("%s: cx_ipeak_update failed %d\n",
 				__func__, ret);
@@ -2708,9 +2719,7 @@ int msm_vfe47_set_clk_rate(struct vfe_device *vfe_dev, long *rate)
 		prev_clk_rate >=
 		vfe_dev->vfe_clk_rates[MSM_VFE_CLK_RATE_NOMINAL]
 		[vfe_dev->hw_info->vfe_clk_idx]) {
-		pr_debug("%s:clk is less than Nominal vfe %d, ipeak bit %d\n",
-			__func__, vfe_dev->pdev->id, vfe_dev->cx_ipeak_bit);
-		ret = cam_cx_ipeak_unvote_cx_ipeak(vfe_dev->cx_ipeak_bit);
+		ret = cx_ipeak_update(vfe_dev->vfe_cx_ipeak, false);
 		if (ret) {
 			pr_err("%s: cx_ipeak_update failed %d\n",
 				__func__, ret);

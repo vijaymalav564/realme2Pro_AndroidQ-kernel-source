@@ -206,7 +206,7 @@ static int32_t msm_vfe40_init_qos_parms(struct vfe_device *vfe_dev,
 	if (rc < 0 || !ds_entries) {
 		pr_err("%s: NO D/S entries found\n", __func__);
 	} else {
-		ds_settings = kcalloc(ds_entries, sizeof(uint32_t),
+		ds_settings = kzalloc(sizeof(uint32_t) * ds_entries,
 				GFP_KERNEL);
 		if (!ds_settings) {
 			pr_err("%s:%d No memory\n", __func__, __LINE__);
@@ -752,13 +752,13 @@ static void msm_vfe40_process_epoch_irq(struct vfe_device *vfe_dev,
 		return;
 
 	if (irq_status0 & BIT(2)) {
+		msm_isp_notify(vfe_dev, ISP_EVENT_SOF, VFE_PIX_0, ts);
 		ISP_DBG("%s: EPOCH0 IRQ\n", __func__);
 		msm_isp_process_reg_upd_epoch_irq(vfe_dev, VFE_PIX_0,
 					MSM_ISP_COMP_IRQ_EPOCH, ts);
 		msm_isp_process_stats_reg_upd_epoch_irq(vfe_dev,
 					MSM_ISP_COMP_IRQ_EPOCH);
 		msm_isp_update_error_frame_count(vfe_dev);
-		msm_isp_notify(vfe_dev, ISP_EVENT_SOF, VFE_PIX_0, ts);
 		if (vfe_dev->axi_data.src_info[VFE_PIX_0].raw_stream_count > 0
 			&& vfe_dev->axi_data.src_info[VFE_PIX_0].
 			stream_count == 0) {
@@ -793,11 +793,17 @@ static long msm_vfe40_reset_hardware(struct vfe_device *vfe_dev,
 			reload_wm(vfe_dev, vfe_dev->vfe_base, 0x0003FFFF);
 	}
 
-
+#ifndef VENDOR_EDIT
 	if (blocking_call) {
 		rc = wait_for_completion_timeout(
 			&vfe_dev->reset_complete, msecs_to_jiffies(50));
 	}
+#else
+	if (blocking_call) {
+		rc = wait_for_completion_timeout(
+			&vfe_dev->reset_complete, msecs_to_jiffies(500));
+	}
+#endif
 	return rc;
 }
 

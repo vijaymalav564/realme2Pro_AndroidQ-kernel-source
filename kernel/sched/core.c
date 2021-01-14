@@ -3210,7 +3210,6 @@ void scheduler_tick(void)
 	trigger_load_balance(rq);
 #endif
 	rq_last_tick_reset(rq);
-
 	rcu_read_lock();
 	grp = task_related_thread_group(curr);
 	if (update_preferred_cluster(grp, curr, old_load))
@@ -3549,6 +3548,7 @@ static void __sched notrace __schedule(bool preempt)
 		}
 		switch_count = &prev->nvcsw;
 	}
+
 
 	if (task_on_rq_queued(prev))
 		update_rq_clock(rq);
@@ -4900,6 +4900,10 @@ out_put_task:
 	put_task_struct(p);
 	return retval;
 }
+#ifdef VENDOR_EDIT
+//jie.cheng@swdp.shanghai, 2015/11/09, export some symbol
+EXPORT_SYMBOL(sched_setaffinity);
+#endif /* VENDOR_EDIT */
 
 static int get_user_cpu_mask(unsigned long __user *user_mask_ptr, unsigned len,
 			     struct cpumask *new_mask)
@@ -5962,6 +5966,10 @@ out:
 			    start_time, 1);
 	return ret_code;
 }
+#ifdef VENDOR_EDIT
+/* Hui.Fan@SWDP.BSP.OPPOFeature.Hypnus, 2017-03-11, export some symbols */
+EXPORT_SYMBOL(sched_isolate_cpu);
+#endif /* VENDOR_EDIT */
 
 /*
  * Note: The client calling sched_isolate_cpu() is repsonsible for ONLY
@@ -6012,6 +6020,11 @@ out:
 	return ret_code;
 }
 
+#ifdef VENDOR_EDIT
+/* Hui.Fan@SWDP.BSP.OPPOFeature.Hypnus, 2017-03-11, export some symbols */
+EXPORT_SYMBOL(sched_unisolate_cpu_unlocked);
+#endif /* VENDOR_EDIT */
+
 int sched_unisolate_cpu(int cpu)
 {
 	int ret_code;
@@ -6021,6 +6034,10 @@ int sched_unisolate_cpu(int cpu)
 	cpu_maps_update_done();
 	return ret_code;
 }
+#ifdef VENDOR_EDIT
+/* Hui.Fan@SWDP.BSP.OPPOFeature.Hypnus, 2017-03-11, export some symbols */
+EXPORT_SYMBOL(sched_unisolate_cpu);
+#endif /* VENDOR_EDIT */
 
 #endif /* CONFIG_HOTPLUG_CPU */
 
@@ -9729,3 +9746,11 @@ void dump_cpu_task(int cpu)
 	pr_info("Task dump for CPU %d:\n", cpu);
 	sched_show_task(cpu_curr(cpu));
 }
+
+#ifdef VENDOR_EDIT
+/*fanhui@PhoneSW.BSP, 2016-06-23, get current task on one cpu*/
+struct task_struct *oppo_get_cpu_task(int cpu)
+{
+	return cpu_curr(cpu);
+}
+#endif

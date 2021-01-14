@@ -1574,7 +1574,15 @@ int msm_rpm_wait_for_ack(uint32_t msg_id)
 	if (!elem)
 		return rc;
 
+#ifdef VENDOR_EDIT
+//Zongyang.wang@ODM_RH.BSP.stability,modify for wait rpm ack timeout debug
+	if (!wait_for_completion_timeout(&elem->ack, 10*HZ)) {
+		pr_err("%s TIMEOUT msg_id %d\n", __func__, msg_id);
+		BUG();
+	}
+#else
 	wait_for_completion(&elem->ack);
+#endif /* VENDOR_EDIT */
 	trace_rpm_smd_ack_recvd(0, msg_id, 0xDEADFEED);
 
 	rc = elem->errno;

@@ -11,7 +11,14 @@
 						 * or not
 						 */
 #define DEF_GC_THREAD_URGENT_SLEEP_TIME	500	/* 500 ms */
+#ifndef VENDOR_EDIT
+//Chunyi.Mei@PSW.BSP.FS.F2FS, 2018-4-18, Modify for optimization f2fs discard
 #define DEF_GC_THREAD_MIN_SLEEP_TIME	30000	/* milliseconds */
+#else
+#define DEF_GC_THREAD_MIN_SLEEP_TIME    10000   /* milliseconds */
+#define DEF_GC_THREAD_HURRYUP_SLEEP_TIME    5000   /* milliseconds */
+#endif
+
 #define DEF_GC_THREAD_MAX_SLEEP_TIME	60000
 #define DEF_GC_THREAD_NOGC_SLEEP_TIME	300000	/* wait 5 min */
 #define LIMIT_INVALID_BLOCK	40 /* percentage over total user space */
@@ -34,6 +41,10 @@ struct f2fs_gc_kthread {
 
 	/* for changing gc mode */
 	unsigned int gc_wake;
+#ifdef VENDOR_EDIT
+//Chunyi.Mei@PSW.BSP.FS.F2FS, 2018-5-25, Add for optimization f2fs gc
+	unsigned int gc_hurryup;
+#endif
 };
 
 struct gc_inode_list {

@@ -36,6 +36,11 @@
 #include <trace/events/sched.h>
 #include "tune.h"
 #include "walt.h"
+#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
+// wenbin.liu@PSW.BSP.MM, 2018/05/02
+// Add for get cpu load
+#include <soc/oppo/oppo_healthinfo.h>
+#endif /*VENDOR_EDIT*/
 
 /*
  * Targeted preemption latency for CPU-bound tasks:
@@ -54,6 +59,11 @@ unsigned int normalized_sysctl_sched_latency = 6000000ULL;
 
 unsigned int sysctl_sched_sync_hint_enable = 1;
 unsigned int sysctl_sched_cstate_aware = 1;
+#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
+// wenbin.liu@PSW.BSP.MM, 2018/05/26
+// Add for get sched latency stat
+extern void ohm_schedstats_record(int sched_type, int fg, u64 delta);
+#endif /*VENDOR_EDIT*/
 
 /*
  * The initial- and re-scaling of tunables is configurable
@@ -900,6 +910,8 @@ update_stats_wait_start(struct cfs_rq *cfs_rq, struct sched_entity *se)
 	se->statistics.wait_start = wait_start;
 }
 
+
+
 static void
 update_stats_wait_end(struct cfs_rq *cfs_rq, struct sched_entity *se)
 {
@@ -917,6 +929,11 @@ update_stats_wait_end(struct cfs_rq *cfs_rq, struct sched_entity *se)
 			se->statistics.wait_start = delta;
 			return;
 		}
+#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
+// wenbin.liu@PSW.TECH.KERNEL, 2018/05/26
+// Add for get sched latency stat
+                ohm_schedstats_record(OHM_SCHED_SCHEDLATENCY, current_is_fg(), (delta >> 20));
+#endif /*VENDOR_EDIT*/
 		trace_sched_stat_wait(p, delta);
 	}
 
@@ -924,6 +941,7 @@ update_stats_wait_end(struct cfs_rq *cfs_rq, struct sched_entity *se)
 	se->statistics.wait_count++;
 	se->statistics.wait_sum += delta;
 	se->statistics.wait_start = 0;
+
 }
 #else
 static inline void
@@ -4555,9 +4573,13 @@ static void enqueue_sleeper(struct cfs_rq *cfs_rq, struct sched_entity *se)
 			if (tsk->in_iowait) {
 				se->statistics.iowait_sum += delta;
 				se->statistics.iowait_count++;
+#if defined(VENDOR_EDIT) && defined(CONFIG_OPPO_HEALTHINFO)
+// wenbin.liu@PSW.BSP.MM, 2018/05/26
+// Add for get sched latency stat
+                                ohm_schedstats_record(OHM_SCHED_IOWAIT, current_is_fg(), (delta >> 20));
+#endif /*VENDOR_EDIT*/
 				trace_sched_stat_iowait(tsk, delta);
 			}
-
 			trace_sched_stat_blocked(tsk, delta);
 			trace_sched_blocked_reason(tsk);
 
@@ -7597,6 +7619,7 @@ static inline int find_best_target(struct task_struct *p, int *backup_cpu,
 			if (walt_cpu_high_irqload(i))
 				continue;
 
+
 			/*
 			 * p's blocked utilization is still accounted for on prev_cpu
 			 * so prev_cpu will receive a negative bias due to the double
@@ -7942,6 +7965,7 @@ static int select_energy_cpu_brute(struct task_struct *p, int prev_cpu, int sync
 
 unlock:
 	rcu_read_unlock();
+
 
 	return target_cpu;
 }
@@ -8898,6 +8922,7 @@ redo:
 		if (!can_migrate_task(p, env))
 			goto next;
 
+
 		load = task_h_load(p);
 
 		if (sched_feat(LB_MIN) && load < 16 && !env->sd->nr_balance_failed)
@@ -9304,8 +9329,11 @@ static void update_cpu_capacity(struct sched_domain *sd, int cpu)
 		mcc->cpu = cpu;
 #ifdef CONFIG_SCHED_DEBUG
 		raw_spin_unlock_irqrestore(&mcc->lock, flags);
+#ifndef VENDOR_EDIT
+/* Yichun.Chen  PSW.BSP.CHG  2018-10-06  reduce kernel log */
 		printk_deferred(KERN_INFO "CPU%d: update max cpu_capacity %lu\n",
 				cpu, capacity);
+#endif
 		goto skip_unlock;
 #endif
 	}

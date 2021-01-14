@@ -2806,6 +2806,21 @@ long do_mount(const char *dev_name, const char __user *dir_name,
 	int retval = 0;
 	int mnt_flags = 0;
 
+
+#if defined(VENDOR_EDIT) && defined(OPPO_DISALLOW_KEY_INTERFACES)
+/* Zhengkang.Ji@ROM.Frameworks.Security, 2018-04-05
+ * System partition is not permitted to be mounted with "rw".
+ */
+ 	char dname[16] = {0};
+	if (dir_name != NULL && copy_from_user(dname,dir_name,8) == 0){
+		if ((!strncmp(dname, "/system", 8) || !strncmp(dname, "/vendor", 8))&& !(flags & MS_RDONLY)
+			&& (get_boot_mode() == MSM_BOOT_MODE__NORMAL)) {
+			printk(KERN_ERR "[OPPO]System partition is not permitted to be mounted as readwrite\n");
+			return -EPERM;
+		}
+	}
+#endif /* VENDOR_EDIT */
+
 	/* Discard magic */
 	if ((flags & MS_MGC_MSK) == MS_MGC_VAL)
 		flags &= ~MS_MGC_MSK;

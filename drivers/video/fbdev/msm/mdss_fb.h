@@ -27,6 +27,11 @@
 #define MDSS_LPAE_CHECK(phys)	\
 	((sizeof(phys) > sizeof(unsigned long)) ? ((phys >> 32) & 0xFF) : (0))
 
+#ifdef VENDOR_EDIT
+//add for 16051 read LCM window info
+#define PANEL_BLACK 0x01
+#define PANEL_WHITE 0x02
+#endif /*VEDNOR_EDIT*/
 #define MSM_FB_DEFAULT_PAGE_SIZE 2
 #define MFD_KEY  0x11161126
 #define MSM_FB_MAX_DEV_LIST 32
@@ -336,6 +341,12 @@ struct msm_fb_data_type {
 
 	/* for non-blocking */
 	struct task_struct *disp_thread;
+
+#ifdef VENDOR_EDIT
+/* add for support face fill light feature */
+	struct task_struct *ffl_thread;
+#endif /*VENDOR_EDIT*/
+
 	atomic_t commits_pending;
 	atomic_t kickoff_pending;
 	wait_queue_head_t commit_wait_q;
@@ -374,6 +385,10 @@ struct msm_fb_data_type {
 	bool pending_switch;
 	struct mutex switch_lock;
 	struct input_handler *input_handler;
+#ifdef VENDOR_EDIT
+/* add for support fingerprint feature */
+	bool oppo_commit_info;
+#endif /*VENDOR_EDIT*/
 };
 
 static inline void mdss_fb_update_notify_update(struct msm_fb_data_type *mfd)

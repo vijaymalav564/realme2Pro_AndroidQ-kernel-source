@@ -28,4 +28,13 @@ obj-$(CONFIG_INPUT_MISC)	+= misc/
 obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
 obj-$(CONFIG_INPUT_KEYRESET)	+= keyreset.o
 obj-$(CONFIG_INPUT_KEYCOMBO)	+= keycombo.o
-obj-y   += sensors/bmi160/
+
+#ifdef VENDOR_EDIT
+#Haitao.Zhou@Prd.BaseDrv, 2017/02/16 Add for fingerprint compatibility
+obj-$(CONFIG_OPPO_FINGERPRINT) += oppo_fp_drivers/
+#endif /* VENDOR_EDIT */
+
+#ifdef VENDOR_EDIT
+#Dongnan.Wu@BSP.Fingerprint.Basic, 2018/11/06 Add for securecom
+obj-y += oppo_seccommon_drivers/
+#endif /* VENDOR_EDIT */

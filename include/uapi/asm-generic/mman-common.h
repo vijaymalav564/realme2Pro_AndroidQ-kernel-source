@@ -24,7 +24,6 @@
 #else
 # define MAP_UNINITIALIZED 0x0		/* Don't support this flag */
 #endif
-
 /*
  * Flags for mlock
  */

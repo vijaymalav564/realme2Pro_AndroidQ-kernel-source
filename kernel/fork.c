@@ -410,6 +410,7 @@ free_tsk:
 }
 
 #ifdef CONFIG_MMU
+
 static int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
 {
 	struct vm_area_struct *mpnt, *tmp, *prev, **pprev;
@@ -526,6 +527,8 @@ static int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm)
 	}
 	/* a new mm has just been created */
 	arch_dup_mmap(oldmm, mm);
+
+
 	retval = 0;
 out:
 	up_write(&mm->mmap_sem);
@@ -1494,6 +1497,7 @@ static struct task_struct *copy_process(unsigned long clone_flags,
 	p->sequential_io_avg	= 0;
 #endif
 
+
 	/* Perform scheduler related setup. Assign this task to a CPU. */
 	retval = sched_fork(clone_flags, p);
 	if (retval)
@@ -1791,6 +1795,10 @@ long _do_fork(unsigned long clone_flags,
 	struct task_struct *p;
 	int trace = 0;
 	long nr;
+#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+//zhoumingjun@Swdp.shanghai, 2017/04/19, add process_event_notifier support
+	struct process_event_data pe_data;
+#endif
 
 	/*
 	 * Determine whether and which event to report to ptracer.  When
@@ -1826,6 +1834,15 @@ long _do_fork(unsigned long clone_flags,
 
 		pid = get_task_pid(p, PIDTYPE_PID);
 		nr = pid_vnr(pid);
+
+#if defined(VENDOR_EDIT) && defined(CONFIG_ELSA_STUB)
+//zhoumingjun@Swdp.shanghai, 2017/04/19, add process_event_notifier support
+//zhoumingjun@Swdp.shanghai, 2018/01/04, move these before wake_up_new_task to avoid compete
+		pe_data.pid = nr;
+		pe_data.uid = p->real_cred->uid;
+		pe_data.reason = -1;
+		process_event_notifier_call_chain(PROCESS_EVENT_CREATE, &pe_data);
+#endif
 
 		if (clone_flags & CLONE_PARENT_SETTID)
 			put_user(nr, parent_tidptr);

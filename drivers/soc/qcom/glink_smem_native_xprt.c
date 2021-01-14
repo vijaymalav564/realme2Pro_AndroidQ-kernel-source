@@ -284,6 +284,10 @@ static void send_irq(struct edge_info *einfo)
  */
 static void *read_from_fifo(void *dest, const void *src, size_t num_bytes)
 {
+#ifdef VENDOR_EDIT
+//Zongyang.wang@ODM_RH.BSP.stability,modify for wait rpm ack timeout debug
+	trace_printk("%s src[%p] dst[%p]\n", __func__, src, dest);
+#endif /* VENDOR_EDIT */
 	memcpy_fromio(dest, src, num_bytes);
 	return dest;
 }
@@ -825,6 +829,10 @@ static bool get_rx_fifo(struct edge_info *einfo)
 							&einfo->rx_fifo_size,
 							einfo->remote_proc_id,
 							0);
+#ifdef VENDOR_EDIT
+//Zongyang.wang@ODM_RH.BSP.stability,modify for wait rpm ack timeout debug
+		trace_printk("%s einfo->rx_fifo[%p] proc_id[%d]\n",__func__, einfo->rx_fifo, einfo->remote_proc_id);
+#endif /* VENDOR_EDIT */
 		if (!einfo->rx_fifo)
 			return false;
 	}

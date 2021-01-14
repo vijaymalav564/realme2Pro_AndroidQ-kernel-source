@@ -30,7 +30,12 @@ static DEFINE_PER_CPU(u64, nr_max);
 
 static DEFINE_PER_CPU(unsigned long, iowait_prod_sum);
 static DEFINE_PER_CPU(spinlock_t, nr_lock) = __SPIN_LOCK_UNLOCKED(nr_lock);
+#ifdef VENDOR_EDIT
+//xiaocheng.li@Swdp.shanghai, 2016/4/19, Add error handling to avoid BUG_ON()
+static u64 last_get_time;
+#else
 static s64 last_get_time;
+#endif
 
 #define DIV64_U64_ROUNDUP(X, Y) div64_u64((X) + (Y - 1), Y)
 /**
@@ -106,6 +111,20 @@ void sched_get_nr_running_avg(int *avg, int *iowait_avg, int *big_avg,
 	 * cluster when BIG CPUs are available but isolated. Round up the
 	 * average values so that core_ctl aggressively unisolate BIG CPUs.
 	 */
+#ifdef VENDOR_EDIT
+	tmp_avg = DIV64_U64_ROUNDUP(tmp_avg, diff);
+	tmp_big_avg = DIV64_U64_ROUNDUP(tmp_big_avg, diff);
+	tmp_iowait = DIV64_U64_ROUNDUP(tmp_iowait, diff);
+
+	WARN_ON(tmp_avg > INT_MAX || tmp_big_avg > INT_MAX || tmp_iowait > INT_MAX);
+
+	*avg = tmp_avg > INT_MAX ? 0 : (int)tmp_avg;
+	*big_avg = tmp_big_avg > INT_MAX ? 0 : (int)tmp_big_avg;
+	*iowait_avg = tmp_iowait > INT_MAX ? 0 : (int)tmp_iowait;
+
+	trace_sched_get_nr_running_avg(*avg, *big_avg, *iowait_avg,
+				       *max_nr, *big_max_nr);
+#else
 	*avg = (int)DIV64_U64_ROUNDUP(tmp_avg, diff);
 	*big_avg = (int)DIV64_U64_ROUNDUP(tmp_big_avg, diff);
 	*iowait_avg = (int)DIV64_U64_ROUNDUP(tmp_iowait, diff);
@@ -114,6 +133,7 @@ void sched_get_nr_running_avg(int *avg, int *iowait_avg, int *big_avg,
 				       *max_nr, *big_max_nr);
 
 	BUG_ON(*avg < 0 || *big_avg < 0 || *iowait_avg < 0);
+#endif
 	pr_debug("%s - avg:%d big_avg:%d iowait_avg:%d\n",
 				 __func__, *avg, *big_avg, *iowait_avg);
 }
@@ -192,6 +212,43 @@ void sched_update_nr_prod(int cpu, long delta, bool inc)
 	spin_unlock_irqrestore(&per_cpu(nr_lock, cpu), flags);
 }
 EXPORT_SYMBOL(sched_update_nr_prod);
+
+unsigned long sched_get_capacity_orig(int cpu)
+{
+	unsigned long capacity, flags;
+	struct rq *rq = cpu_rq(cpu);
+	raw_spin_lock_irqsave(&rq->lock, flags);
+	capacity = capacity_orig_of(cpu);
+	raw_spin_unlock_irqrestore(&rq->lock, flags);
+
+	return capacity;
+}
+
+unsigned int sched_get_cpu_util(int cpu)
+{
+        struct rq *rq = cpu_rq(cpu);
+        u64 util;
+        unsigned long capacity, flags;
+        unsigned int busy;
+
+        raw_spin_lock_irqsave(&rq->lock, flags);
+
+        util = rq->cfs.avg.util_avg;
+        capacity = capacity_orig_of(cpu);
+
+#ifdef CONFIG_SCHED_WALT
+        if (!walt_disabled && sysctl_sched_use_walt_cpu_util) {
+                util = rq->prev_runnable_sum + rq->grp_time.prev_runnable_sum;
+                util = div64_u64(util,
+                                 sched_ravg_window >> SCHED_CAPACITY_SHIFT);
+        }
+#endif
+        raw_spin_unlock_irqrestore(&rq->lock, flags);
+
+        util = (util >= capacity) ? capacity : util;
+        busy = div64_ul((util * 100), capacity);
+        return busy;
+}
 
 u64 sched_get_cpu_last_busy_time(int cpu)
 {

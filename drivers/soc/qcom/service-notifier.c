@@ -59,7 +59,14 @@
 #define QMI_STATE_MIN_VAL QMI_SERVREG_NOTIF_SERVICE_STATE_ENUM_TYPE_MIN_VAL_V01
 #define QMI_STATE_MAX_VAL QMI_SERVREG_NOTIF_SERVICE_STATE_ENUM_TYPE_MAX_VAL_V01
 
+#ifndef VENDOR_EDIT
+/*Kaiqin.Huang@RM.AudioDriver.Machine.2717773, 2020-04-08, Reading response data from qmi
+layer may be delayed due toheavy load on system. Increasing the read response timeout
+to 3 sec to handle the same.*/
 #define SERVER_TIMEOUT				500
+#else
+#define SERVER_TIMEOUT				3000
+#endif//VENDOR_EDIT
 #define MAX_STRING_LEN				100
 
 /*

@@ -117,6 +117,19 @@ mpath=`dirname $$mdpath`;\
 ko=`find $$mpath/kernel -type f -name *.ko`;\
 for i in $$ko; do mv $$i $(KERNEL_MODULES_OUT)/; done;\
 fi
+#ifdef VENDOR_EIDT
+#Xiao.Li@PSW.CN.WiFi.Network.1471780, 2018/06/26,
+#Add for limit speed function
+imq=`find $(KERNEL_MODULES_OUT)/ -type f -name imq.ko`;\
+if [ "$$imq" != "" ];then\
+mkdir -p $(PRODUCT_OUT)/system/lib/modules/;\
+cp -Rf  $(KERNEL_MODULES_OUT)/imq.ko $(PRODUCT_OUT)/system/lib/modules/ ;\
+fi
+xtIMQ=`find $(KERNEL_MODULES_OUT)/ -type f -name xt_IMQ.ko`;\
+if [ "$$xtIMQ" != "" ];then\
+cp -Rf  $(KERNEL_MODULES_OUT)/xt_IMQ.ko $(PRODUCT_OUT)/system/lib/modules/ ;\
+fi
+#endif
 endef
 
 define clean-module-folder
@@ -152,6 +165,7 @@ $(TARGET_PREBUILT_INT_KERNEL): $(KERNEL_OUT) $(KERNEL_HEADERS_INSTALL)
 	$(MAKE) -C $(TARGET_KERNEL_SOURCE) O=$(BUILD_ROOT_LOC)$(KERNEL_OUT) INSTALL_MOD_PATH=$(BUILD_ROOT_LOC)../$(KERNEL_MODULES_INSTALL) INSTALL_MOD_STRIP=1 $(KERNEL_MAKE_ENV) ARCH=$(KERNEL_ARCH) CROSS_COMPILE=$(KERNEL_CROSS_COMPILE) modules_install
 	$(mv-modules)
 	$(clean-module-folder)
+	
 
 $(KERNEL_HEADERS_INSTALL): $(KERNEL_OUT)
 	$(hide) if [ ! -z "$(KERNEL_HEADER_DEFCONFIG)" ]; then \

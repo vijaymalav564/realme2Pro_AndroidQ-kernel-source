@@ -4776,7 +4776,7 @@ EXPORT_SYMBOL(sched_setaffinity);
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 char sched_lib_name[LIB_PATH_LENGTH];
-unsigned int sched_lib_mask_force;
+int sched_lib_mask_force;
 struct libname_node {
 	char *name;
 	struct list_head list;

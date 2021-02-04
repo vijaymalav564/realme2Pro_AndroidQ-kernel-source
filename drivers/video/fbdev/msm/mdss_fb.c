@@ -75,10 +75,6 @@ static bool read_panel_serial_number = true;
 #define PANEL_REG_READ_LEN		16
 #endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
-#ifdef CONFIG_KLAPSE
-#include <linux/klapse.h>
-#endif
-
 #ifdef CONFIG_FB_MSM_TRIPLE_BUFFER
 #define MDSS_FB_NUM 3
 #else
@@ -418,10 +414,6 @@ static void mdss_fb_set_bl_brightness(struct led_classdev *led_cdev,
 #endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	}
 	mfd->bl_level_usr = bl_lvl;
-
-#ifdef CONFIG_KLAPSE
-	set_rgb_slider(bl_lvl);
-#endif
 }
 
 static enum led_brightness mdss_fb_get_bl_brightness(

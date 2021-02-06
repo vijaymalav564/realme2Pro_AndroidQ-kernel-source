@@ -8,7 +8,6 @@
 
 #include <linux/linkage.h>
 #include <linux/kconfig.h>
-#include <linux/version.h>
 
 /* PaX compatibility */
 #if defined(RAP_PLUGIN)

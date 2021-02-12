@@ -450,7 +450,7 @@ ifneq ($(filter cttest allnetcttest allnetctfield,$(NET_BUILD_TYPE)),)
 KBUILD_CFLAGS += -DOPPO_AUDIO_CTTEST
 endif
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-=======
+
 # TODO: remove me b/62058353
 subdir-ccflags-y += \
 	-Wno-enum-conversion

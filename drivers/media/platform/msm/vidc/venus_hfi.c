@@ -2371,7 +2371,6 @@ static int venus_hfi_core_release(void *dev)
 	return rc;
 }
 
-
 static void __core_clear_interrupt(struct venus_hfi_device *device)
 {
 	u32 intr_status = 0;

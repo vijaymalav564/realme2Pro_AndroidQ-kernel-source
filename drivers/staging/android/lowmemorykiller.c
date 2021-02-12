@@ -63,6 +63,9 @@
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2016/05/31, Add for lowmemorykiller uevent
 #include <linux/module.h>
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+#include <linux/proc_fs.h>
+#include <linux/slab.h>
+#include <linux/poll.h>
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/almk.h>

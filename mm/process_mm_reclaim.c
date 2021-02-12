@@ -37,8 +37,8 @@ static inline int _is_reclaim_should_cancel(struct mm_walk *walk)
 		return PR_TASK_DIE;
 	if (rwsem_is_wlocked(&mm->mmap_sem))
 		return PR_SEM_OUT;
-	if (task_is_fg(task))
-		return PR_TASK_FG;
+//	if (task_is_fg(task))
+//		return PR_TASK_FG;
 	if (task->state == TASK_RUNNING)
 		return PR_TASK_RUN;
 	if (time_is_before_eq_jiffies(current->reclaim.stop_jiffies))

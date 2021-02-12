@@ -7,11 +7,6 @@ obj-$(CONFIG_RECORD_MDMRST)     +=  oppo_mdmrst/
 obj-y     +=  oppo_criticallog/
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-#//jie.cheng@swdh.sh, 2016/04/15, Add hypnus helper
-obj-y     +=  oppo_hypnus/
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #//wenbin.liu@PSW.Kernel.MM, 2018/05/23, Add for Healthinfo monitor
 obj-y     +=  oppo_healthinfo/
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */

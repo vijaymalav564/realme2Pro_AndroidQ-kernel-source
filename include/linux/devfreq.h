@@ -213,12 +213,6 @@ extern int devm_devfreq_register_opp_notifier(struct device *dev,
 extern void devm_devfreq_unregister_opp_notifier(struct device *dev,
 						struct devfreq *devfreq);
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//INDIA.Performance add support to set devfreq limit
-extern int devfreq_set_limit(struct devfreq *df, unsigned long min, unsigned long max);
-extern int devfreq_get_limit(struct devfreq *df, unsigned long *min, unsigned long *max);
-#endif						
-
 /**
  * devfreq_update_stats() - update the last_status pointer in struct devfreq
  * @df:		the devfreq instance whose status needs updating
@@ -326,20 +320,6 @@ static inline int devfreq_update_stats(struct devfreq *df)
 {
 	return -EINVAL;
 }
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//INDIA.Performance add support to set devfreq limit
-static inline int devfreq_set_limit(struct devfreq *df, unsigned long min, unsigned long max)
-{
-        return -EINVAL;
-}
-
-static inline int devfreq_get_limit(struct devfreq *df, unsigned long *min, unsigned long *max)
-{
-        return -EINVAL;
-}
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
 #endif /* CONFIG_PM_DEVFREQ */
 
 #endif /* __LINUX_DEVFREQ_H__ */

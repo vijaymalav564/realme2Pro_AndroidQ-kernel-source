@@ -32,11 +32,6 @@ source "drivers/soc/oppo/oppo_criticallog/Kconfig"
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #ifdef CONFIG_PRODUCT_REALME_RMX1801
-#//jie.cheng@swdp.sh, 2016/04/15, Add hypnus helper
-source "drivers/soc/oppo/oppo_hypnus/Kconfig"
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #//wenbin.liu@PSW.Kernel.MM, 2018/05/23, Add for Healthinfo monitor
 source "drivers/soc/oppo/oppo_healthinfo/Kconfig"
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */

@@ -38,5 +38,3 @@ obj-$(CONFIG_OPPO_FINGERPRINT) += oppo_fp_drivers/
 #Dongnan.Wu@BSP.Fingerprint.Basic, 2018/11/06 Add for securecom
 obj-y += oppo_seccommon_drivers/
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
-subdir-ccflags-y := -O3

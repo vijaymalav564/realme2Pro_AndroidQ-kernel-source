@@ -7,6 +7,8 @@ crypto-y := api.o cipher.o compress.o memneq.o
 
 obj-$(CONFIG_CRYPTO_WORKQUEUE) += crypto_wq.o
 
+obj-$(CONFIG_CRYPTO_FIPS) += fips.o
+
 crypto_algapi-$(CONFIG_PROC_FS) += proc.o
 crypto_algapi-y := algapi.o scatterwalk.o $(crypto_algapi-y)
 obj-$(CONFIG_CRYPTO_ALGAPI2) += crypto_algapi.o
@@ -133,9 +135,3 @@ obj-$(CONFIG_ASYNC_CORE) += async_tx/
 obj-$(CONFIG_ASYMMETRIC_KEY_TYPE) += asymmetric_keys/
 obj-$(CONFIG_CRYPTO_HASH_INFO) += hash_info.o
 obj-$(CONFIG_CRYPTO_ABLK_HELPER) += ablk_helper.o
-
-# Keep this at the bottom
-obj-$(CONFIG_CRYPTO_FIPS) += fips.o
-
-# Squeeze a little bit more juice from GCC
-ccflags-y := -O3

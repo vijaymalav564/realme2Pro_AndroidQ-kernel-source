@@ -26,14 +26,6 @@
 
 #define MMC_AUTOSUSPEND_DELAY_MS	3000
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//jie.cheng@swdp.shanghai, 2016-08-10 Add emmc scaling control api
-#define MAX_MMC_STORE_HOST 3
-extern struct mmc_host* mmc_store_host[MAX_MMC_STORE_HOST];
-extern int mmc_scaling_enable(struct mmc_host* host, int value);
-extern bool storage_is_mmc(void);
-#endif
-
 struct mmc_ios {
 	unsigned int	clock;			/* clock rate */
 	unsigned int	old_rate;       /* saved clock rate */

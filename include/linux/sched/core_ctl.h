@@ -17,19 +17,11 @@
 #ifdef CONFIG_SCHED_CORE_CTL
 void core_ctl_check(u64 wallclock);
 int core_ctl_set_boost(bool boost);
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//INDIA.Performance add declaration
-int hypnus_set_min_max_cpus(unsigned int index, unsigned int min, unsigned int max);
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 #else
 static inline void core_ctl_check(u64 wallclock) {}
 static inline int core_ctl_set_boost(bool boost)
 {
 	return 0;
 }
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//INDIA.Performance add declaration
-int hypnus_set_min_max_cpus(unsigned int index, unsigned int min, unsigned int max);
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 #endif
 #endif

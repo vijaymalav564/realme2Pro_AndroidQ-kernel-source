@@ -266,15 +266,6 @@ struct cpufreq_policy *cpufreq_cpu_get_raw(unsigned int cpu)
 }
 EXPORT_SYMBOL_GPL(cpufreq_cpu_get_raw);
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//INDIA.Performance, Adding for Performance
-struct list_head *get_cpufreq_policy_list(void)
-{
-    return &cpufreq_policy_list;
-}
-EXPORT_SYMBOL(get_cpufreq_policy_list);
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
 unsigned int cpufreq_generic_get(unsigned int cpu)
 {
 	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);

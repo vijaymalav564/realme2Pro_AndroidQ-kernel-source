@@ -43,11 +43,6 @@
 static DEFINE_IDR(mmc_host_idr);
 static DEFINE_SPINLOCK(mmc_host_lock);
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//jie.cheng@swdp.shanghai, 2016-08-10 Add emmc scaling control api
-struct mmc_host* mmc_store_host[MAX_MMC_STORE_HOST];
-#endif
-
 static void mmc_host_classdev_release(struct device *dev)
 {
 	struct mmc_host *host = cls_dev_to_mmc_host(dev);
@@ -710,44 +705,6 @@ static ssize_t store_enable(struct device *dev,
 	return count;
 }
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//jie.cheng@swdp.shanghai, 2016-08-10 Add emmc scaling control api
-int mmc_scaling_enable(struct mmc_host* host, int value)
-{
-	mmc_get_card(host->card);
-
-#ifdef CONFIG_MMC_SDHCI
-	if (sdhci_check_pwr(host)) {
-		mmc_put_card(host->card);
-		return -EBUSY;
-	}
-#endif
-
-	if (!value) {
-		/*turning off clock scaling*/
-		mmc_exit_clk_scaling(host);
-		host->caps2 &= ~MMC_CAP2_CLK_SCALE;
-		host->clk_scaling.state = MMC_LOAD_HIGH;
-		/* Set to max. frequency when disabling */
-		mmc_clk_update_freq(host, host->card->clk_scaling_highest,
-					host->clk_scaling.state);
-		pr_debug("turn off mmc %d scaling\n", host->index);
-	} else if (value) {
-		/* starting clock scaling, will restart in case started */
-		host->caps2 |= MMC_CAP2_CLK_SCALE;
-		if (host->clk_scaling.enable)
-			mmc_exit_clk_scaling(host);
-		mmc_init_clk_scaling(host);
-		pr_debug("turn on mmc %d scaling\n", host->index);
-	}
-
-	mmc_put_card(host->card);
-
-	return 0;
-}
-EXPORT_SYMBOL(mmc_scaling_enable);
-#endif
-
 static ssize_t show_up_threshold(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
@@ -965,13 +922,6 @@ int mmc_add_host(struct mmc_host *host)
 	mmc_start_host(host);
 	if (!(host->pm_flags & MMC_PM_IGNORE_PM_NOTIFY))
 		register_pm_notifier(&host->pm_notify);
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//jie.cheng@swdp.shanghai, 2016-08-10 Add emmc scaling control api
-	if (host->index >= 0 && host->index < MAX_MMC_STORE_HOST){
-		pr_debug("mmc_store_host index is %d\n", host->index);
-		mmc_store_host[host->index] = host;
-	}
-#endif
 	return 0;
 }
 

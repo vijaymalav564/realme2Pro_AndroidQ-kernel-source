@@ -2986,11 +2986,6 @@ extern void sched_exit(struct task_struct *p);
 static inline void sched_exit(struct task_struct *p) { }
 #endif
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//INDIA.Performance export some symbol
-extern int sched_boost(void);
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
 extern void proc_caches_init(void);
 extern void flush_signals(struct task_struct *);
 extern void ignore_signals(struct task_struct *);

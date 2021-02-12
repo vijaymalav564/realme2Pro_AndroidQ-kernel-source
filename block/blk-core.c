@@ -2605,7 +2605,7 @@ static inline void blk_init_perf(void)
 }
 #endif /* #ifdef CONFIG_BLOCK_PERF_FRAMEWORK */
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_FG_OPT)
 /*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 #define SYSTEM_APP_UID 1000
 static bool is_system_uid(struct task_struct *t)
@@ -2719,7 +2719,7 @@ blk_qc_t submit_bio(int rw, struct bio *bio)
 				count);
 		}
 	}
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_FG_OPT)
 /*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	if (high_prio_for_task(current))
 		bio->bi_rw |= REQ_FG;

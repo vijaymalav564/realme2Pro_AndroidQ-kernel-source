@@ -10033,7 +10033,7 @@ struct afe_spkr_prot_calib_get_resp {
 	struct asm_calib_res_cfg res_cfg;
 } __packed;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Yongpei.Yao@PSW.MM.AudioDriver.SmartPA, 2019/07/09, Add for Max98927*/
 /*Maxim DSM module and parameters IDs*/
 #define AFE_RX_TOPOLOGY_ID_DSM                              0x10001061
@@ -10063,7 +10063,7 @@ struct afe_dsm_get_resp {
 	struct afe_dsm_param_array param;
 } __packed;
 
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 /* SRS TRUMEDIA start */
 /* topology */

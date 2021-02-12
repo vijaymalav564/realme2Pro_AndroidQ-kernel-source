@@ -118,7 +118,7 @@ static inline int msm_rpmstats_append_data_to_buf(char *buf,
 		data->client_votes);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Fuchun.Liao@BSP.Power.Basic 2017/09/05 add for get rpm_stats
 static inline int oppo_rpmstats_append_data_to_buf(char *buf,
 		struct msm_rpm_stats_data_v2 *data, int buflength)
@@ -132,7 +132,7 @@ static inline int oppo_rpmstats_append_data_to_buf(char *buf,
 	return snprintf(buf, buflength,
 		"%s:%x\n", stat_type, data->count);
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static inline u32 msm_rpmstats_read_long_register_v2(void __iomem *regbase,
 		int index, int offset)
@@ -188,7 +188,7 @@ static inline int msm_rpmstats_copy_stats_v2(
 	return length;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Fuchun.Liao@BSP.Power.Basic 2017/09/05 add for get rpm_stats
 static inline int oppo_rpmstats_copy_stats_v2(
 			struct msm_rpmstats_private_data *prvdata)
@@ -214,7 +214,7 @@ static inline int oppo_rpmstats_copy_stats_v2(
 	//pr_err("%s read_idx:%d\n", __func__, prvdata->read_idx);
 	return length;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static inline unsigned long  msm_rpmstats_read_register(void __iomem *regbase,
 		int index, int offset)
@@ -290,7 +290,7 @@ static int msm_rpmstats_copy_stats(struct msm_rpmstats_private_data *pdata)
 			usec);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Fuchun.Liao@BSP.Power.Basic 2017/09/05 add for get rpm_stats
 static int oppo_rpmstats_copy_stats(struct msm_rpmstats_private_data *pdata)
 {
@@ -334,7 +334,7 @@ static int oppo_rpmstats_copy_stats(struct msm_rpmstats_private_data *pdata)
 			msm_rpmstats_id_labels[record.id],
 			usec);
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static ssize_t msm_rpmstats_file_read(struct file *file, char __user *bufu,
 				  size_t count, loff_t *ppos)
@@ -376,7 +376,7 @@ exit:
 }
 
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Fuchun.Liao@BSP.Power.Basic 2017/09/05 add for get rpm_stats
 static ssize_t oppo_rpmstats_file_read(struct file *file, char __user *bufu,
 				  size_t count, loff_t *ppos)
@@ -410,7 +410,7 @@ static ssize_t oppo_rpmstats_file_read(struct file *file, char __user *bufu,
 	return simple_read_from_buffer(bufu, count, ppos,
 			prvdata->buf, prvdata->len);
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static int msm_rpmstats_file_open(struct inode *inode, struct file *file)
 {
@@ -473,7 +473,7 @@ static const struct file_operations msm_rpmstats_fops = {
 	.llseek   = no_llseek,
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Fuchun.Liao@BSP.Power.Basic 2017/09/05 add for get rpm_stats
 static const struct file_operations oppo_rpmstats_fops = {
 	.owner	  = THIS_MODULE,
@@ -482,7 +482,7 @@ static const struct file_operations oppo_rpmstats_fops = {
 	.release  = msm_rpmstats_file_close,
 	.llseek   = no_llseek,
 };
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static int msm_rpmheap_file_show(struct seq_file *m, void *v)
 {
@@ -676,7 +676,7 @@ static int msm_rpmstats_probe(struct platform_device *pdev)
 			kfree(pdata);
 			return -ENOMEM;
 		}
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Fuchun.Liao@BSP.Power.Basic 2017/09/05 add for get rpm_stats
 		dent = debugfs_create_file("oppo_rpm_stats", S_IRUGO, NULL,
 				pdata, &oppo_rpmstats_fops);
@@ -687,7 +687,7 @@ static int msm_rpmstats_probe(struct platform_device *pdev)
 			kfree(pdata);
 			return -ENOMEM;
 		}
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	} else {
 		kfree(pdata);
 		return -EINVAL;

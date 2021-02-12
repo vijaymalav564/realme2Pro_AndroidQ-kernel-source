@@ -14,7 +14,7 @@
 #include <linux/sched.h>
 #include <linux/atomic.h>
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #define STACK_RLIMIT_OVERFFLOW (32<<20)
 #define NS_PER_SEC (1000000000LLU)
 #define TRIGGER_TIME_NS (300*NS_PER_SEC)
@@ -49,7 +49,7 @@ static inline void count_resmap_event(enum resmap_item item)
 	this_cpu_inc(resmap_event_states.event[item]);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 extern int rlimit_svm_log;
 extern int reserved_area_enable;
 extern int svm_oom_pid;

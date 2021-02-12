@@ -108,7 +108,7 @@ void irq_migrate_all_off_this_cpu(void)
 		raw_spin_unlock(&desc->lock);
 
 		if (affinity_broken)
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /* Yichun.Chen  PSW.BSP.CHG  2018-10-06  reduce kernel log */
 			pr_warn_ratelimited("IRQ%u no longer affine to CPU%u\n",
 					    irq, smp_processor_id());

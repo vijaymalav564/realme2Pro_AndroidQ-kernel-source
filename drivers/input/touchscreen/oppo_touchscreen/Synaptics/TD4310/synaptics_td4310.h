@@ -1,6 +1,6 @@
 /***************************************************
 * File:synaptics_drivers_td4310.h
-* CONFIG_VENDOR_REALME
+* CONFIG_PRODUCT_REALME_RMX1801
 * Copyright(C) 2008-2012 OPPO Mobile Comm Corp., Ltd
 * Description:
 *             synaptics td4310 driver

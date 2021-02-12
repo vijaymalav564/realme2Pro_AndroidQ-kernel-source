@@ -50,26 +50,26 @@
 #include <linux/vmpressure.h>
 #include <linux/zcache.h>
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #include <linux/circ_buf.h>
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* fuzicheng@archermind.BSP 2019/08/23: dump KGSL_PAGE; */
 #include <../../gpu/msm/kgsl.h>
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2016/05/31, Add for lowmemorykiller uevent
 #include <linux/module.h>
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/almk.h>
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*yixue.ge@PSW.BSP.Kernel.Driver 20170808 modify for get some data about performance */
 #include <linux/proc_fs.h>
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 #ifdef CONFIG_HIGHMEM
 #define _ZONE ZONE_HIGHMEM
@@ -79,12 +79,12 @@
 
 #define CREATE_TRACE_POINTS
 #include "trace/lowmemorykiller.h"
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2017/06/29, Add for monitor memleak
 #include "oppo_lowmemorymonitor.h"
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2016/05/31, Add for lowmemorykiller uevent
 static struct kobject *lmk_module_kobj = NULL;
 static struct work_struct lowmemorykiller_work;
@@ -92,9 +92,9 @@ static char *lmklowmem[2] = { "LMK=LOWMEM", NULL };
 static int uevent_threshold[6] = {0, 0, 0, 0, }; // 1: 58, 2: 117, 3: 176
 static int last_selected_adj = 0;
 static void lowmemorykiller_uevent(short adj, int index);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM 2018-03-12 modify for using aggressive for lowmem*/
 static unsigned int agrlmk_swap_ratio1 = 8;
 static unsigned int agrlmk_totalram_ratio = 5;
@@ -102,7 +102,7 @@ static bool agrlmk_enable = false;
 module_param_named(agrlmk_swap_ratio1, agrlmk_swap_ratio1, uint, S_IRUGO | S_IWUSR);
 module_param_named(agrlmk_totalram_ratio, agrlmk_totalram_ratio, uint, S_IRUGO | S_IWUSR);
 module_param_named(agrlmk_enable, agrlmk_enable, bool, S_IRUGO | S_IWUSR);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static uint32_t lowmem_debug_level = 1;
 static short lowmem_adj[6] = {
@@ -120,14 +120,14 @@ static int lowmem_minfree[6] = {
 };
 static int lowmem_minfree_size = 4;
 static int lmk_fast_run = 1;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM 2018-01-15 modify for lowmemkill count */
 static bool lmk_cnt_enable = false;
 static unsigned int almk_totalram_ratio = 1;
 static unsigned long adaptive_lowmem_kill_count = 0;
 static unsigned long tatal_lowmem_kill_count = 0;
 module_param_named(almk_totalram_ratio, almk_totalram_ratio, uint, 0644);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static unsigned long lowmem_deathpending_timeout;
 
@@ -165,7 +165,7 @@ void handle_lmk_event(struct task_struct *selected, int selected_tasksize,
 	int tail;
 	struct lmk_event *events;
 	struct lmk_event *event;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Zongyang.wang@ODM_RH.BSP.stability,modify for rwsem_down_read_failed for mmap_sem	
 	int res;
 	char taskname[MAX_TASKNAME];
@@ -180,7 +180,7 @@ void handle_lmk_event(struct task_struct *selected, int selected_tasksize,
 		return;
 
 	taskname[res] = '\0';
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	spin_lock(&lmk_event_lock);
 
@@ -195,12 +195,12 @@ void handle_lmk_event(struct task_struct *selected, int selected_tasksize,
 
 	events = (struct lmk_event *) event_buffer.buf;
 	event = &events[head];
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Zongyang.wang@ODM_RH.BSP.stability,modify for rwsem_down_read_failed for mmap_sem
 	strncpy(event->taskname, selected->comm, MAX_TASKNAME);
 #else
 	memcpy(event->taskname, taskname, res + 1);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	event->pid = selected->pid;
 	event->uid = from_kuid_munged(current_user_ns(), task_uid(selected));
@@ -341,13 +341,13 @@ int adjust_minadj(short *min_score_adj)
 		else
 			ret = VMPRESSURE_ADJUST_NORMAL;
 		*min_score_adj = adj_max_shift;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM 2018-01-15 modify for adaptive lowmemkill count */
 /*Maybe it can not select task to kill, it's just a rough number */
 		if (lmk_cnt_enable)
 			adaptive_lowmem_kill_count++;
 	}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	atomic_set(&shift_adj, 0);
 
 	return ret;
@@ -368,13 +368,13 @@ static int lmk_vmpressure_notifier(struct notifier_block *nb,
 			global_page_state(NR_SHMEM) -
 			total_swapcache_pages();
 		other_free = global_page_state(NR_FREE_PAGES);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Huacai.Zhou@PSW.Tech.Kernel.Performance, 2019-02-18, do not kill precess when memory is greater than 1GB*/
 		if ((other_free + other_file) <  totalram_pages/almk_totalram_ratio)
 			atomic_set(&shift_adj, 1);
 #else
 		atomic_set(&shift_adj, 1);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 		trace_almk_vmpressure(pressure, other_free, other_file);
 	} else if (pressure >= 90) {
 		if (lowmem_adj_size < array_size)
@@ -432,7 +432,7 @@ static int test_task_flag(struct task_struct *p, int flag)
 	return 0;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2015/06/17, Modify for 8939/16 5.1 for orphan task
 static void orphan_foreground_task_kill(struct task_struct *task, short adj, short min_score_adj)
 {
@@ -445,7 +445,7 @@ static void orphan_foreground_task_kill(struct task_struct *task, short adj, sho
 		send_sig(SIGKILL, task, 0);
 		}
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static int test_task_state(struct task_struct *p, int state)
 {
@@ -635,7 +635,7 @@ void tune_lmk_param(int *other_free, int *other_file, struct shrink_control *sc)
 }
 
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*yixue.ge@PSW.BSP.Kernel.Driver 20170808 modify for get some data about performance */
 static ssize_t lowmem_kill_count_proc_read(struct file *file, char __user *buf,
 		size_t count,loff_t *off)
@@ -673,7 +673,7 @@ static int __init setup_lowmem_killinfo(void)
 	return 0;
 }
 module_init(setup_lowmem_killinfo);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 {
@@ -691,7 +691,7 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 	int other_free;
 	int other_file;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM, 2019/12/03, add aggressive lmk to speed up memory free*/
 	unsigned long swap_pages = atomic_long_read(&nr_swap_pages);
 	int to_be_aggressive = 0;
@@ -712,7 +712,7 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 		other_file = 0;
 
 	tune_lmk_param(&other_free, &other_file, sc);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM, 2019/12/03, add aggressive lmk to speed up memory free*/
 		if (agrlmk_enable &&
 			((other_free + other_file) < totalram_pages/agrlmk_totalram_ratio)) {
@@ -723,7 +723,7 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 		i = lowmem_adj_size - 1 - to_be_aggressive;
 		if (to_be_aggressive > 0 && i >= 0)
 			amr_adj = lowmem_adj[i];
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	if (lowmem_adj_size < array_size)
 		array_size = lowmem_adj_size;
@@ -732,14 +732,14 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 	for (i = 0; i < array_size; i++) {
 		minfree = lowmem_minfree[i];
 		if (other_free < minfree && other_file < minfree) {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM, 2019/12/03, add aggressive lmk to speed up memory free*/
 	if (to_be_aggressive != 0 && i > 3) {
 		i -= to_be_aggressive;
 		if (i < 3)
 			i = 3;
 	}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 			min_score_adj = lowmem_adj[i];
 			break;
 		}
@@ -747,10 +747,10 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 
 	ret = adjust_minadj(&min_score_adj);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM, 2019/12/03, add aggressive lmk to speed up memory free*/
 	min_score_adj = min(min_score_adj, amr_adj);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	lowmem_print(3, "lowmem_scan %lu, %x, ofree %d %d, ma %hd\n",
 			sc->nr_to_scan, sc->gfp_mask, other_free,
 			other_file, min_score_adj);
@@ -789,7 +789,7 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 		if (!p)
 			continue;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2016/01/06, Add for D status process issue
 		if (p->state & TASK_UNINTERRUPTIBLE) {
 			task_unlock(p);
@@ -800,16 +800,16 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 			task_unlock(p);
 			continue;
 		}
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		oom_score_adj = p->signal->oom_score_adj;
 		if (oom_score_adj < min_score_adj) {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2015/06/17, Modify for 8939/16 5.1 for orphan task
 			tasksize = get_mm_rss(p->mm);
 #endif /* VENDOR_EIDT */
 			task_unlock(p);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2015/06/17, Modify for 8939/16 5.1 for orphan task
 			if (tasksize > 0) {
 				orphan_foreground_task_kill(p, oom_score_adj, min_score_adj);
@@ -823,12 +823,12 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 		task_unlock(p);
 		if (tasksize <= 0)
 			continue;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2017/06/29, Add for monitor memleak
 		if (oppo_lowmemory_detect(p, tasksize)) {
 			continue;
 		}
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		if (selected) {
 			if (oom_score_adj < selected_oom_score_adj)
 				continue;
@@ -869,18 +869,18 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 		cache_limit = minfree * (long)(PAGE_SIZE / 1024);
 		free = other_free * (long)(PAGE_SIZE / 1024);
 		trace_lowmemory_kill(selected, cache_size, cache_limit, free);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*yixue.ge@PSW.BSP.Kernel.Driver 20170808 modify for get some data about performance */
 		if (lmk_cnt_enable)
 			tatal_lowmem_kill_count++;
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		lowmem_print(1, "Killing '%s' (%d) (tgid %d), adj %hd,\n" \
 			        "   to free %ldkB on behalf of '%s' (%d) because\n" \
 			        "   cache %ldkB is below limit %ldkB for oom_score_adj %hd\n" \
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM, 2019/12/03, add aggressive lmk to speed up memory free*/
 				"   (decrease %d level\n" \
-//#endif /* CONFIG_VENDOR_REALME */
+//#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 				"   Free memory is %ldkB above reserved.\n" \
 				"   Free CMA is %ldkB\n" \
 				"   Total reserve is %ldkB\n" \
@@ -894,10 +894,10 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 			     current->comm, current->pid,
 			     cache_size, cache_limit,
 			     min_score_adj,
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM, 2019/12/03, add aggressive lmk to speed up memory free*/
 				 to_be_aggressive,
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 			     free,
 			     global_page_state(NR_FREE_CMA_PAGES) *
 				(long)(PAGE_SIZE / 1024),
@@ -909,7 +909,7 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 			     (long)zcache_pages() * (long)(PAGE_SIZE / 1024),
 			     sc->gfp_mask);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM. 2018/01/15, modify for show more meminfo*/
 			show_mem(SHOW_MEM_FILTER_NODES);
 			/* fuzicheng@archermind.BSP 2019/08/23: dump KGSL_PAGE; */
@@ -917,19 +917,19 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 			/* yinchao@archermind.BSP 2019/08/20: dump tasks for debug; */
 			if (selected_oom_score_adj <= 300)
 				dump_tasks(NULL, NULL);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 		if (lowmem_debug_level >= 2 && selected_oom_score_adj == 0) {
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM. 2018/01/15, modify for show more meminfo*/
 			show_mem(SHOW_MEM_FILTER_NODES);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 			dump_tasks(NULL, NULL);
 		}
 
 		lowmem_deathpending_timeout = jiffies + HZ;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2016/05/31, Add for lowmemorykiller uevent
 		if (selected_oom_score_adj == 0) {
 			lowmem_print(1, "Killing %s, adj is %hd, so send uevent to userspace\n",
@@ -953,7 +953,7 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 				}
 			}
 		}
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		rem += selected_tasksize;
 		rcu_read_unlock();
@@ -979,7 +979,7 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 	return rem;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2016/05/31, Add for lowmemorykiller uevent
 void lowmemorykiller_work_func(struct work_struct *work)
 {
@@ -991,7 +991,7 @@ static void lowmemorykiller_uevent(short adj, int index)
 	lowmem_print(1, "kill adj %hd more than %d times and so send uevent to userspace\n", adj, index * 5);
 	schedule_work(&lowmemorykiller_work);
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static struct shrinker lowmem_shrinker = {
 	.scan_objects = lowmem_scan,
@@ -1006,12 +1006,12 @@ static int __init lowmem_init(void)
 	vmpressure_notifier_register(&lmk_vmpr_nb);
 	lmk_event_init();
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@PSW.AD.Performance.Memory.1139862, 2016/05/31, Add for lowmemorykiller uevent
 	lmk_module_kobj = kset_find_obj(module_kset, KBUILD_MODNAME);
 	lowmem_print(1, "kernel obj name %s\n", lmk_module_kobj->name);
 	INIT_WORK(&lowmemorykiller_work, lowmemorykiller_work_func);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	return 0;
 }
@@ -1113,7 +1113,7 @@ module_param_array_named(minfree, lowmem_minfree, uint, &lowmem_minfree_size,
 module_param_named(debug_level, lowmem_debug_level, uint, S_IRUGO | S_IWUSR);
 module_param_named(lmk_fast_run, lmk_fast_run, int, S_IRUGO | S_IWUSR);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM 2018-01-15 modify for lowmemkill count */
 module_param_named(lmk_cnt_enable, lmk_cnt_enable, bool, S_IRUGO | S_IWUSR);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/

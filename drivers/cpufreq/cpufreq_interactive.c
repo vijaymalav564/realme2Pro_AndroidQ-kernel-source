@@ -654,7 +654,7 @@ static void cpufreq_interactive_timer(unsigned long data)
 	if (start_hyst && new_freq >= ppol->policy->max && !jump_to_max_no_ts)
 		ppol->max_freq_hyst_start_time = now;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //xiaocheng.li@Swdp.shanghai, 2016/4/7, Fix the logic defect of governor
 	/* Note:
 	 * pcpu->target_freq stands for the current freq recorded in governor.
@@ -991,7 +991,7 @@ static ssize_t store_target_loads(
 	return count;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@SWDP.OPPOFeature.Hypnus, 2017-04-27
  * Export methods to set target loads in hypnys module
  */
@@ -1009,7 +1009,7 @@ void hypnus_set_target_loads(struct cpufreq_policy *policy, const char *buf, siz
 	store_target_loads(tunables, buf, count);
 }
 EXPORT_SYMBOL(hypnus_set_target_loads);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static ssize_t show_above_hispeed_delay(
 	struct cpufreq_interactive_tunables *tunables, char *buf)

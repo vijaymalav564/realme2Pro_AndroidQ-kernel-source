@@ -87,10 +87,10 @@ enum rq_cmd_type_bits {
  */
 struct request {
 	struct list_head queuelist;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	struct list_head fg_list;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	union {
 		struct call_single_data csd;
 		unsigned long fifo_time;
@@ -291,7 +291,7 @@ struct request_queue {
 	 * Together with queue_head for cacheline sharing
 	 */
 	struct list_head	queue_head;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 	struct list_head	fg_head;
 	int fg_count;
@@ -575,7 +575,7 @@ static inline void queue_flag_clear(unsigned int flag, struct request_queue *q)
 	queue_lockdep_assert_held(q);
 	__clear_bit(flag, &q->queue_flags);
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Huacai.Zhou@PSW.BSP.Kernel.Performance, 2018-04-28, add foreground task io opt*/
 extern unsigned int sysctl_fg_io_opt;
 static inline void queue_throtl_add_request(struct request_queue *q,
@@ -592,7 +592,7 @@ static inline void queue_throtl_add_request(struct request_queue *q,
 			list_add_tail(&rq->fg_list, head);
 	}
 }
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 #define blk_queue_tagged(q)	test_bit(QUEUE_FLAG_QUEUED, &(q)->queue_flags)
 #define blk_queue_stopped(q)	test_bit(QUEUE_FLAG_STOPPED, &(q)->queue_flags)
 #define blk_queue_dying(q)	test_bit(QUEUE_FLAG_DYING, &(q)->queue_flags)

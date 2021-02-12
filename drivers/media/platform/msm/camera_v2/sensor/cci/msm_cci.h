@@ -158,7 +158,7 @@ struct cci_device {
 	uint8_t ref_count;
 	enum msm_cci_state_t cci_state;
 	size_t num_clk;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Add by Liubin for cci dev mutex at 20160730 */
 	struct mutex mutex;
 #endif

@@ -138,7 +138,7 @@ struct mtp_dev {
 	unsigned dbg_read_index;
 	unsigned dbg_write_index;
 	bool is_ptp;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 	struct mutex  read_mutex;
 #endif
@@ -409,7 +409,7 @@ struct mtp_instance {
 /* temporary variable used between mtp_open() and mtp_gadget_bind() */
 static struct mtp_dev *_mtp_dev;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //yan.chen@Swdp.shanghai, 2015/11/26, add mtp callback for hypnus
 static ATOMIC_NOTIFIER_HEAD(mtp_rw_notifier);
 #endif
@@ -650,7 +650,7 @@ static ssize_t mtp_read(struct file *fp, char __user *buf,
 	}
 	dev->state = STATE_BUSY;
 	spin_unlock_irq(&dev->lock);
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 	mutex_lock(&dev->read_mutex);
 	if (dev->state == STATE_OFFLINE) {
@@ -664,7 +664,7 @@ requeue_req:
 	req = dev->rx_req[0];
 	req->length = len;
 	dev->rx_done = 0;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 	mutex_unlock(&dev->read_mutex);
 #endif
@@ -693,7 +693,7 @@ requeue_req:
 		usb_ep_dequeue(dev->ep_out, req);
 		goto done;
 	}
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 	mutex_lock(&dev->read_mutex);
 #endif
@@ -709,7 +709,7 @@ requeue_req:
 			r = -EFAULT;
 	} else
 		r = -EIO;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 	mutex_unlock(&dev->read_mutex);
 #endif
@@ -974,7 +974,7 @@ static void receive_file_work(struct work_struct *data)
 
 	while (count > 0 || write_req) {
 		if (count > 0) {
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 			mutex_lock(&dev->read_mutex);
 			if (dev->state == STATE_OFFLINE) {
@@ -991,7 +991,7 @@ static void receive_file_work(struct work_struct *data)
 			read_req->length = mtp_rx_req_len;
 
 			dev->rx_done = 0;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 			mutex_unlock(&dev->read_mutex);
 #endif
@@ -1007,7 +1007,7 @@ static void receive_file_work(struct work_struct *data)
 		if (write_req) {
 			DBG(cdev, "rx %pK %d\n", write_req, write_req->actual);
 			start_time = ktime_get();
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 			mutex_lock(&dev->read_mutex);
 			if (dev->state == STATE_OFFLINE) {
@@ -1021,7 +1021,7 @@ static void receive_file_work(struct work_struct *data)
 			DBG(cdev, "vfs_write %d\n", ret);
 			if (ret != write_req->actual) {
 				r = -EIO;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 				mutex_unlock(&dev->read_mutex);
 #endif
@@ -1029,7 +1029,7 @@ static void receive_file_work(struct work_struct *data)
 					dev->state = STATE_ERROR;
 				break;
 			}
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 			mutex_unlock(&dev->read_mutex);
 #endif
@@ -1059,7 +1059,7 @@ static void receive_file_work(struct work_struct *data)
 				r = read_req->status;
 				break;
 			}
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 			mutex_lock(&dev->read_mutex);
 			if (dev->state == STATE_OFFLINE) {
@@ -1088,7 +1088,7 @@ static void receive_file_work(struct work_struct *data)
 
 			write_req = read_req;
 			read_req = NULL;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 			mutex_unlock(&dev->read_mutex);
 #endif
@@ -1132,7 +1132,7 @@ static int mtp_send_event(struct mtp_dev *dev, struct mtp_event *event)
 	return ret;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //yan.chen@Swdp.shanghai, 2015/12/3, add mtp callback for hypnus
 int mtp_register_notifier(struct notifier_block *nb)
 {
@@ -1190,7 +1190,7 @@ static long mtp_send_receive_ioctl(struct file *fp, unsigned code,
 	/* make sure write is done before parameters are read */
 	smp_wmb();
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //yan.chen@Swdp.shanghai, 2015/12/3, add mtp callback for hypnus
 	atomic_notifier_call_chain(&mtp_rw_notifier, code, (void *)mfr);
 #endif
@@ -1219,7 +1219,7 @@ static long mtp_send_receive_ioctl(struct file *fp, unsigned code,
 	/* read the result */
 	smp_rmb();
 	ret = dev->xfer_result;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //yan.chen@Swdp.shanghai, 2015/12/3, add mtp callback for hypnus
 	atomic_notifier_call_chain(&mtp_rw_notifier, code | 0x8000, (void *)mfr);
 #endif
@@ -1581,7 +1581,7 @@ mtp_function_unbind(struct usb_configuration *c, struct usb_function *f)
 	int i;
 	fi_mtp = container_of(f->fi, struct mtp_instance, func_inst);
 	mtp_string_defs[INTERFACE_STRING_INDEX].id = 0;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 	mutex_lock(&dev->read_mutex);
 #endif
@@ -1591,7 +1591,7 @@ mtp_function_unbind(struct usb_configuration *c, struct usb_function *f)
 		mtp_request_free(dev->rx_req[i], dev->ep_out);
 	while ((req = mtp_req_get(dev, &dev->intr_idle)))
 		mtp_request_free(req, dev->ep_intr);
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 	mutex_unlock(&dev->read_mutex);
 #endif
@@ -1937,7 +1937,7 @@ struct usb_function_instance *alloc_inst_mtp_ptp(bool mtp_config)
 	config_group_init_type_name(&fi_mtp->func_inst.group,
 					"", &mtp_func_type);
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Kai.Huang@BSP.CHG.Basic  2019/12/20  Modify for mtp/otg speed  cr#2558506
 	mutex_init(&fi_mtp->dev->read_mutex);
 #endif

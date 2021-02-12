@@ -30,7 +30,7 @@
 #include <linux/list_lru.h>
 #include "binder_alloc.h"
 #include "binder_trace.h"
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 #include <linux/hans.h>
 #endif
@@ -350,7 +350,7 @@ static struct binder_buffer *binder_alloc_new_buf_locked(
 	void *end_page_addr;
 	size_t size, data_offsets_size;
 	int ret;
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 	struct task_struct *p = NULL;
 #endif
@@ -377,7 +377,7 @@ static struct binder_buffer *binder_alloc_new_buf_locked(
 				alloc->pid, extra_buffers_size);
 		return ERR_PTR(-EINVAL);
 	}
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HANS)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_HANS)
 // Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 	if (is_async
 		&& (alloc->free_async_space < 3 * (size + sizeof(struct binder_buffer))

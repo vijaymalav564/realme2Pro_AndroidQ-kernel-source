@@ -23,7 +23,7 @@
 #include "mdss_debug.h"
 
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*
  * add for sdm660 open xlog panic off
 */
@@ -35,7 +35,7 @@
 #define CONFIG_FB_MSM_MDSS_XLOG_DEBUG
 #endif /* defined(CONFIG_OPPO_DAILY_BUILD) || defined(CONFIG_OPPO_SPECIAL_BUILD) */
 
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #ifdef CONFIG_FB_MSM_MDSS_XLOG_DEBUG
 #define XLOG_DEFAULT_ENABLE 1
@@ -43,14 +43,14 @@
 #define XLOG_DEFAULT_ENABLE 0
 #endif
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*
  * add for sdm660 open xlog panic off
 */
 #define XLOG_DEFAULT_PANIC 1
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 #define XLOG_DEFAULT_PANIC 0
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #define XLOG_DEFAULT_REGDUMP 0x2 /* dump in RAM */
 #define XLOG_DEFAULT_DBGBUSDUMP 0x2 /* dump in RAM */

@@ -342,7 +342,7 @@ struct kmem_cache_node {
 #ifdef CONFIG_SLUB
 	unsigned long nr_partial;
 	struct list_head partial;
-#if defined(CONFIG_SLUB_DEBUG) || (defined (CONFIG_VENDOR_REALME) && defined(CONFIG_SLAB_STAT_DEBUG))
+#if defined(CONFIG_SLUB_DEBUG) || (defined (CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_SLAB_STAT_DEBUG))
 /* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-12, if SLAB_STAT_DEBUG is
  * is enabled, /proc/slabinfo is created for getting more slab details. */
 	atomic_long_t nr_slabs;

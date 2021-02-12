@@ -4847,7 +4847,7 @@ static int selinux_nlmsg_perm(struct sock *sk, struct sk_buff *skb)
 			       " protocol=%hu nlmsg_type=%hu sclass=%s\n",
 			       sk->sk_protocol, nlh->nlmsg_type,
 			       secclass_map[sksec->sclass - 1].name);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
  * between enforcing mode and permissive mode via /selinux/enforce or
  * selinux_enforcing symbol in normal/silence mode of release build.
@@ -4855,7 +4855,7 @@ static int selinux_nlmsg_perm(struct sock *sk, struct sk_buff *skb)
 			if (!is_selinux_enforcing() || security_get_allow_unknown())
 #else
 			if (!selinux_enforcing || security_get_allow_unknown())
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 				err = 0;
 		}
 
@@ -6165,7 +6165,7 @@ static __init int selinux_init(void)
 	if (avc_add_callback(selinux_netcache_avc_callback, AVC_CALLBACK_RESET))
 		panic("SELinux: Unable to register AVC netcache callback\n");
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
  * between enforcing mode and permissive mode via /selinux/enforce or
  * selinux_enforcing symbol in normal/silence mode of release build.
@@ -6173,7 +6173,7 @@ static __init int selinux_init(void)
 	if (is_selinux_enforcing())
 #else
 	if (selinux_enforcing)
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		printk(KERN_DEBUG "SELinux:  Starting in enforcing mode\n");
 	else
 		printk(KERN_DEBUG "SELinux:  Starting in permissive mode\n");

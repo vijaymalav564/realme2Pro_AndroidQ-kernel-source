@@ -20,7 +20,7 @@
 #include "gc.h"
 #include <trace/events/f2fs.h>
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Chunyi.Mei@PSW.BSP.FS.F2FS, 2018-5-25, Add for optimization f2fs gc
 
 
@@ -34,7 +34,7 @@ static inline int gc_perf_ratio(struct f2fs_sb_info *sbi)
 	return reclaimable_user_blocks == 0 ? 100 :
 			100ULL * free_user_blocks(sbi) / reclaimable_user_blocks;
 }
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static int gc_thread_func(void *data)
 {
@@ -47,7 +47,7 @@ static int gc_thread_func(void *data)
 
 	set_freezable();
 	do {
-		#ifdef CONFIG_VENDOR_REALME
+		#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Chunyi.Mei@PSW.BSP.FS.F2FS, 2018-5-25, Add for optimization f2fs gc
 
 		if (gc_perf_ratio(sbi) < 10 && free_segments(sbi) <
@@ -55,7 +55,7 @@ static int gc_thread_func(void *data)
 			wait_ms = DEF_GC_THREAD_HURRYUP_SLEEP_TIME;
 			gc_th->gc_hurryup = 1;
 		}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 		wait_event_interruptible_timeout(*wq,
 				kthread_should_stop() || freezing(current) ||
 				gc_th->gc_wake,
@@ -111,13 +111,13 @@ static int gc_thread_func(void *data)
 			stat_other_skip_bggc_count(sbi);
 			goto next;
 		}	
-		#ifdef CONFIG_VENDOR_REALME
+		#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Chunyi.Mei@PSW.BSP.FS.F2FS, 2018-5-25, Add for optimization f2fs gc
 		if (gc_th->gc_hurryup) {
 			gc_th->gc_hurryup = 0;
 			goto do_gc;
 		}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 		if (!is_idle(sbi, GC_TIME)) {
 			increase_sleep_time(gc_th, &wait_ms);

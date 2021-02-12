@@ -1,6 +1,6 @@
 /***************************************************
  * File:touch_interfaces.h
- * CONFIG_VENDOR_REALME
+ * CONFIG_PRODUCT_REALME_RMX1801
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd.
  * Description:
  *             Touch interface

@@ -926,7 +926,7 @@ static int copy_pte_range(struct mm_struct *dst_mm, struct mm_struct *src_mm,
 	int progress = 0;
 	int rss[NR_MM_COUNTERS];
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* yanghao@BSP.Kenrel.Stability, 2019/01/24, Add for fix system pthread_mutex_lock memory error casued anr problem */
 	unsigned long orig_addr = addr;
 #endif
@@ -970,7 +970,7 @@ again:
 
 	arch_leave_lazy_mmu_mode();
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* yanghao@BSP.Kenrel.Stability, 2019/01/24, Add for fix system pthread_mutex_lock memory error casued anr problem */
 	/*
 	 * Prevent the page fault handler to copy the page while stale tlb entry

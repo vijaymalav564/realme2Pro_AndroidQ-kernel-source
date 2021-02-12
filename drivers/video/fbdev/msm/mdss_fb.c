@@ -56,7 +56,7 @@
 #include "mdss_smmu.h"
 #include "mdss_mdp.h"
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for get panel serial number */
 #include <soc/oppo/oppo_project.h>
 #include <soc/oppo/boot_mode.h>
@@ -73,7 +73,7 @@ static bool read_panel_serial_number = true;
 
 #define PANEL_SERIAL_NUM_REG	0xA1
 #define PANEL_REG_READ_LEN		16
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 #ifdef CONFIG_KLAPSE
 #include <linux/klapse.h>
@@ -115,14 +115,14 @@ static u32 mdss_fb_pseudo_palette[16] = {
 	0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for support aod feature, solve bug:1264744*/
 bool request_enter_aod = false;
 bool is_just_exit_aod = false;
 DEFINE_MUTEX(aod_lock);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for support face fill light feature*/
 #ifdef IS_PROJECT_18321
 static int TOTAL_SAVE_FFL_SIZE = 4096;
@@ -194,7 +194,7 @@ static ssize_t mdss_set_ffl_setting(struct device *dev,
 static int mdss_fb_start_ffl_thread(struct msm_fb_data_type *mfd);
 
 static void mdss_fb_stop_ffl_thread(struct msm_fb_data_type *mfd);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static struct msm_mdp_interface *mdp_instance;
 
@@ -401,7 +401,7 @@ static void mdss_fb_set_bl_brightness(struct led_classdev *led_cdev,
 
 	if (!IS_CALIB_MODE_BL(mfd) && (!mfd->ext_bl_ctrl || !value ||
 							!mfd->bl_level)) {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for support face fill light feature*/
 		if(((is_ffl_enable == FFL_EXIT_CONTROL)||(is_ffl_enable == FFL_EXIT_FULLY_CONTROL))&&(ffl_trigger_finish ==true)) {
 			mutex_lock(&mfd->bl_lock);
@@ -415,7 +415,7 @@ static void mdss_fb_set_bl_brightness(struct led_classdev *led_cdev,
 			system_backlight_target =0;
 		}
 		pr_debug("mdss_fb_set_bl_brightness 1 bl_lvl =%d\n",system_backlight_target);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	}
 	mfd->bl_level_usr = bl_lvl;
 
@@ -959,7 +959,7 @@ static ssize_t mdss_fb_get_dfps_mode(struct device *dev,
 	return ret;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for HBM
 int hbm_delay = 34000;
 extern int hbm_mode;
@@ -1126,9 +1126,9 @@ static ssize_t outdoorbl_store(struct device *dev,
 	}
 	return num;
 }
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for lcd esd test
 extern void set_esd_mode(int level);
 static ssize_t mdss_get_esd(struct device *dev,
@@ -1275,7 +1275,7 @@ static ssize_t mdss_set_closebl_flag(struct device *dev,
 	return count;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for lcm id read */
 
 static uint8_t lcm_id_addr = 0x0;
@@ -1411,7 +1411,7 @@ static ssize_t fingerprint_notify_trigger(struct device *dev,
 
 #endif /*VEDNOR_EDIT*/
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for dump sf backtrace
 #define MDSS_DEBUG_SWT_TAG "SFWatchDog:"
 #define MDSS_DEBUG_DUMP_LW    0x1
@@ -1522,7 +1522,7 @@ static ssize_t mdss_set_debug_process(struct device *dev,
 }
 #endif /*VEDNOR_EDIT*/
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for lcd seed
 //add for 16118 samsung lcd seed
 extern int set_seed_mode(int level);
@@ -1563,7 +1563,7 @@ static DEVICE_ATTR(lcdoff, S_IRUGO, mdss_mdp_lcdoff_event, NULL);
 //add for lcd cabc
 static DEVICE_ATTR(cabc, S_IRUGO|S_IWUSR, mdss_get_cabc, mdss_set_cabc);
 static DEVICE_ATTR(closebl, 0664, mdss_get_closebl_flag, mdss_set_closebl_flag);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 
 static ssize_t mdss_fb_change_persist_mode(struct device *dev,
@@ -1658,7 +1658,7 @@ static DEVICE_ATTR(msm_fb_dfps_mode, S_IRUGO | S_IWUSR,
 	mdss_fb_get_dfps_mode, mdss_fb_change_dfps_mode);
 static DEVICE_ATTR(measured_fps, S_IRUGO | S_IWUSR | S_IWGRP,
 	mdss_fb_get_fps_info, NULL);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for 16051 read LCM window info
 static DEVICE_ATTR(lcm_id_info, S_IRUGO | S_IWUSR, lcm_get_id_info, lcm_set_id_addr);
 //add for HBM
@@ -1677,12 +1677,12 @@ static DEVICE_ATTR(fingerprint_notify, S_IRUGO|S_IWUSR, NULL, fingerprint_notify
 static DEVICE_ATTR(dynamic_fps_switch, S_IRUGO|S_IWUSR, dynamic_fps_switch_get, dynamic_fps_switch_set);
 #endif /*VEDNOR_EDIT*/
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for dump sf backtrace
 static DEVICE_ATTR(debug, S_IRUGO|S_IWUSR, NULL, mdss_set_debug_process);
 #endif /*VEDNOR_EDIT*/
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for support face fill light feature*/
 static DEVICE_ATTR(ffl_set, S_IRUGO|S_IWUSR, mdss_get_ffl_setting, mdss_set_ffl_setting);
 #endif /*VEDNOR_EDIT*/
@@ -1704,7 +1704,7 @@ static struct attribute *mdss_fb_attrs[] = {
 	&dev_attr_msm_fb_dfps_mode.attr,
 	&dev_attr_measured_fps.attr,
 	&dev_attr_msm_fb_persist_mode.attr,
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for adb mipi read/write lcd reg
 	&dev_attr_dump_reg.attr,
 	&dev_attr_lcd_reg.attr,
@@ -1727,7 +1727,7 @@ static struct attribute *mdss_fb_attrs[] = {
 /* add for dynamic fps switch */
 	&dev_attr_dynamic_fps_switch.attr,
 #endif /*VEDNOR_EDIT*/
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for lcd seed
 	&dev_attr_seed.attr,
 //modify for high brightness mode
@@ -1736,7 +1736,7 @@ static struct attribute *mdss_fb_attrs[] = {
 	&dev_attr_debug.attr,
 #endif /*VEDNOR_EDIT*/
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for support face fill light feature*/
 	&dev_attr_ffl_set.attr,
 #endif /*VEDNOR_EDIT*/
@@ -1749,7 +1749,7 @@ static struct attribute_group mdss_fb_attr_group = {
 	.attrs = mdss_fb_attrs,
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for support face fill light feature*/
 int __mdss_set_ffl_setting(int enable) {
 		mutex_lock(&ffl_lock);
@@ -2243,14 +2243,14 @@ static int mdss_fb_probe(struct platform_device *pdev)
 	mfd->mdp_fb_page_protection = MDP_FB_PAGE_PROTECTION_WRITECOMBINE;
 
 	mfd->ext_ad_ctrl = -1;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //modify for lcd happen esd set backlight 127 before set system backlight
 	if (mfd->panel_info && mfd->panel_info->brightness_max > 0)
 		MDSS_BRIGHT_TO_BL(mfd->bl_level, backlight_led.brightness,
 		mfd->panel_info->bl_max, mfd->panel_info->brightness_max);
 	else
 		mfd->bl_level = 0;
-#else /*CONFIG_VENDOR_REALME*/
+#else /*CONFIG_PRODUCT_REALME_RMX1801*/
 	pr_err("bl_max:%d brightness_max:%d \n", mfd->panel_info->bl_max, mfd->panel_info->brightness_max);
 	if (mfd->panel_info && mfd->panel_info->brightness_max > 0){
 		MDSS_BRIGHT_TO_BL(mfd->bl_level, backlight_led.brightness,
@@ -2377,23 +2377,23 @@ static int mdss_fb_probe(struct platform_device *pdev)
 
 	INIT_DELAYED_WORK(&mfd->idle_notify_work, __mdss_fb_idle_notify_work);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for silence and sau mode close bl flag
 	if((MSM_BOOT_MODE__SILENCE == get_boot_mode()) || (MSM_BOOT_MODE__SAU == get_boot_mode())){
 		pr_debug("lcd_closebl_flag = 1\n");
 		lcd_closebl_flag = 1;
 	}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* add for config ffl init parameter */
 	init_ffl_config(mfd);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	return rc;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for config ffl init parameter */
 static void init_ffl_config(struct msm_fb_data_type *mfd) {
 	if (mfd->panel_info->brightness_max == 4095) {
@@ -2425,7 +2425,7 @@ static void init_ffl_config(struct msm_fb_data_type *mfd) {
 
 	return;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static void mdss_fb_set_mdp_sync_pt_threshold(struct msm_fb_data_type *mfd,
 		int type)
@@ -2540,10 +2540,10 @@ static int mdss_fb_suspend_sub(struct msm_fb_data_type *mfd)
 		 * on, but turn off all interface clocks.
 		 */
 		if (mdss_fb_is_power_on(mfd)) {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for blank debug
 			pr_err("mdss_fb_blank_sub from PM, mode=%d\n",BLANK_FLAG_ULP);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 			ret = mdss_fb_blank_sub(BLANK_FLAG_ULP, mfd->fbi,
 					mfd->suspend.op_enable);
 			if (ret) {
@@ -2596,10 +2596,10 @@ static int mdss_fb_resume_sub(struct msm_fb_data_type *mfd)
 		int unblank_flag = mdss_panel_is_power_on_interactive(
 			mfd->suspend.panel_power_state) ? FB_BLANK_UNBLANK :
 			BLANK_FLAG_LP;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for blank debug
 		pr_info("mdss_fb_blank_sub from PM,mode=%d\n",unblank_flag);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 		ret = mdss_fb_blank_sub(unblank_flag, mfd->fbi, mfd->op_enable);
 		if (ret)
 			pr_warn("can't turn on display!\n");
@@ -2751,7 +2751,7 @@ void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 	bool bl_notify_needed = false;
 	pr_debug("mdss_fb_set_backlight = %d\n", bkl_lvl);
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //modify for Lcd ftm mode backlight
 	if ((((mdss_fb_is_power_off(mfd) && mfd->dcm_state != DCM_ENTER)
 		|| !mfd->allow_bl_update) && !IS_CALIB_MODE_BL(mfd)) ||
@@ -2763,7 +2763,7 @@ void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 	} else {
 		mfd->unset_bl_level = U32_MAX;
 	}
-#else /*CONFIG_VENDOR_REALME*/
+#else /*CONFIG_PRODUCT_REALME_RMX1801*/
 	boot_mode =get_boot_mode();
 	if(boot_mode == MSM_BOOT_MODE__FACTORY){
 			mfd->unset_bl_level = 0;
@@ -2814,7 +2814,7 @@ void mdss_fb_set_backlight(struct msm_fb_data_type *mfd, u32 bkl_lvl)
 			mdss_fb_bl_update_notify(mfd,
 				NOTIFY_TYPE_BL_UPDATE);
 	}
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* read panel serial number at begining */
 	if (true == read_panel_serial_number)
 	{
@@ -2947,11 +2947,11 @@ static int mdss_fb_blank_blank(struct msm_fb_data_type *mfd,
 
 	mfd->op_enable = false;
 	if (mdss_panel_is_power_off(req_power_state)) {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for support face fill light feature */
 		if (mfd->ffl_thread)
 			mdss_fb_stop_ffl_thread(mfd);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 		/* Stop Display thread */
 		if (mfd->disp_thread)
@@ -2995,14 +2995,14 @@ static int mdss_fb_blank_unblank(struct msm_fb_data_type *mfd)
 			return ret;
 	}
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for support face fill light feature */
 	if (mfd->ffl_thread == NULL) {
 		ret = mdss_fb_start_ffl_thread(mfd);
 		if (IS_ERR_VALUE(ret))
 			return ret;
 	}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	cur_power_state = mfd->panel_power_state;
 	pr_debug("Transitioning from %d --> %d\n", cur_power_state,
@@ -3079,11 +3079,11 @@ static int mdss_fb_blank_unblank(struct msm_fb_data_type *mfd)
 error:
 	return ret;
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for AOD status sync */
 bool fb_blank_sync_flag = false;
 bool oppo_aod_backlight_need_set = false;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 			     int op_enable)
 {
@@ -3105,7 +3105,7 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 		mfd->index, blank_mode);
 	ATRACE_BEGIN(trace_buffer);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for panel debug
     pr_info("start mdss blank %d\n", blank_mode);
 #endif
@@ -3137,14 +3137,14 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 	switch (blank_mode) {
 	case FB_BLANK_UNBLANK:
 		pr_debug("unblank called. cur pwr state=%d\n", cur_power_state);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for support aod feature, solve bug:1264744*/
 		mutex_lock(&aod_lock);
 		request_enter_aod = false;
 		fb_blank_sync_flag = true;
 		oppo_aod_backlight_need_set = false;
 		mutex_unlock(&aod_lock);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 		ret = mdss_fb_blank_unblank(mfd);
 		break;
 	case BLANK_FLAG_ULP:
@@ -3155,7 +3155,7 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 			return 0;
 		}
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for send a fack panel off enent to tp and charge */
 		if (fb_blank_sync_flag && is_lcd(OPPO18005_SAMSUNG_AMS641RW01_1080P_CMD_PANEL))
 		{
@@ -3166,7 +3166,7 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 			event.data = &blank_mode;
 			fb_notifier_call_chain(FB_EVENT_BLANK, &event);
 		}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 		ret = mdss_fb_blank_blank(mfd, req_power_state);
 		break;
@@ -3180,7 +3180,7 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 		 */
 		if ((mdss_fb_is_power_off(mfd) && mfd->mdp.on_fnc) ||
 			(fb_blank_sync_flag && is_lcd(OPPO18005_SAMSUNG_AMS641RW01_1080P_CMD_PANEL))) {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*jie.hu@PSW.MM.Display.LCD.Stability,2018/1/31,add for support aod feature, solve bug:1264744*/
 			mutex_lock(&aod_lock);
 			request_enter_aod = true;
@@ -3196,7 +3196,7 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 				event.data = &blank_mode;
 				fb_notifier_call_chain(FB_EVENT_BLANK, &event);
 			} else {
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 				pr_debug("off --> lp. switch to on first\n");
 				ret = mdss_fb_blank_unblank(mfd);
 				if (ret)
@@ -3205,10 +3205,10 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 		}
 
 		ret = mdss_fb_blank_blank(mfd, req_power_state);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*add for send a fake panel off enent to tp and charge */
 		fb_blank_sync_flag = false;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 		break;
 	case FB_BLANK_HSYNC_SUSPEND:
 	case FB_BLANK_POWERDOWN:
@@ -3223,7 +3223,7 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 	/* Notify listeners */
 	sysfs_notify(&mfd->fbi->dev->kobj, NULL, "show_blank_event");
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Shengjun.Gou@PSW.MM.Display.LCD.Stability, 2017/01/19,
 //add for panel debug
 	pr_info("end mdss blank %d\n", blank_mode);
@@ -3728,10 +3728,10 @@ static int mdss_fb_register(struct msm_fb_data_type *mfd)
 	var->sync = 0,	/* see FB_SYNC_* */
 	var->rotate = 0,	/* angle we rotate counter clockwise */
 	mfd->op_enable = false;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for fingerprint hbm */
 	mfd->oppo_commit_info = false;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	switch (mfd->fb_imgType) {
 	case MDP_RGB_565:
@@ -3897,12 +3897,12 @@ static int mdss_fb_register(struct msm_fb_data_type *mfd)
 	init_waitqueue_head(&mfd->ioctl_q);
 	init_waitqueue_head(&mfd->kickoff_wait_q);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for support face fill light feature*/
 	atomic_set(&ffl_pending, 0);
 	init_waitqueue_head(&ffl_wait_q);
 	initial_ffl_light_save();
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	ret = fb_alloc_cmap(&fbi->cmap, 256, 0);
 	if (ret)
@@ -4249,7 +4249,7 @@ static void mdss_fb_release_kickoff(struct msm_fb_data_type *mfd)
 	}
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for fingerprint hbm */
 #define OPPO_FINGERPRINT_PRESSED_LAYER 0x0001
 extern  int request_enter_form_hbm_to_aod(struct mdss_panel_data *pdata, int hbm_level);
@@ -4272,7 +4272,7 @@ static int oppo_layer_interceptor(struct msm_fb_data_type *mfd, uint32_t layer_m
 	ATRACE_END(__func__);
 	return 0;
 }
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 /**
  * __mdss_fb_sync_buf_done_callback() - process async display events
@@ -4674,7 +4674,7 @@ int mdss_fb_atomic_commit(struct fb_info *info,
 	wake_up_all(&mfd->commit_wait_q);
 	mutex_unlock(&mfd->mdp_sync_pt_data.sync_mutex);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for fingerprint hbm */
 	/* send notify to fp if ui ready to early. */
 	if (oppo_fp_notify_delay && mfd->oppo_commit_info)
@@ -4682,7 +4682,7 @@ int mdss_fb_atomic_commit(struct fb_info *info,
 		fingerprint_send_notify(info, 0x1, 1);
 		oppo_fp_notify_delay = false;
 	}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	if (wait_for_finish)
 		ret = mdss_fb_pan_idle(mfd);
@@ -5881,7 +5881,7 @@ static int mdss_fb_atomic_commit_ioctl(struct fb_info *info,
 		return 0;
 	}
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* add for fingerprint hbm */
 	/* Add for catch special layer's commit info */
 	if (!(commit.commit_v1.flags & MDP_VALIDATE_LAYER))
@@ -5890,7 +5890,7 @@ static int mdss_fb_atomic_commit_ioctl(struct fb_info *info,
 		oppo_layer_interceptor(mfd, commit.commit_v1.reserved[MDP_LAYER_COMMIT_V1_PAD-1]);
 		mutex_unlock(&layer_hbm_sync_mutex);
 	}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	output_layer_user = commit.commit_v1.output_layer;
 	if (output_layer_user) {
@@ -6466,10 +6466,10 @@ void mdss_fb_report_panel_dead(struct msm_fb_data_type *mfd)
 		return;
 	}
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for backlight key log
 		mm_keylog_write("mdss lcd exception\n", "mdss report lcd panel dead\n", TYPE_ESD_EXCEPTION);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 
 	pdata->panel_info.panel_dead = true;

@@ -1,6 +1,6 @@
 /**************************************************************
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd.
- * CONFIG_VENDOR_REALME
+ * CONFIG_PRODUCT_REALME_RMX1801
  * File       : goodix_drivers_gt9286.h
  * Description: header file for Goodix GT9286 driver
  * Version   : 1.0

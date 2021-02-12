@@ -2,7 +2,7 @@
 # Automatically generated file; DO NOT EDIT.
 # Linux/arm64 4.4.194 Kernel Configuration
 #
-CONFIG_VENDOR_REALME=y
+CONFIG_PRODUCT_REALME_RMX1801=y
 CONFIG_ARM64=y
 CONFIG_64BIT=y
 CONFIG_ARCH_PHYS_ADDR_T_64BIT=y

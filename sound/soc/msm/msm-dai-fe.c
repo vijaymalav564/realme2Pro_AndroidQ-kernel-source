@@ -984,7 +984,7 @@ static struct snd_soc_dai_driver msm_fe_dais[] = {
 			.rate_min = 8000,
 			.rate_max = 48000,
 		},
-		#ifdef CONFIG_VENDOR_REALME
+		#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/*Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/02/20, Add for MMI test*/
 		.playback = {
 			.stream_name = "INT3 MI2S_TX Hostless Playback",
@@ -996,7 +996,7 @@ static struct snd_soc_dai_driver msm_fe_dais[] = {
 			.rate_min = 8000,
 			.rate_max = 48000,
 		},
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		.ops = &msm_fe_dai_ops,
 		.name = "INT3_MI2S_TX_HOSTLESS",
 		.probe = fe_dai_probe,

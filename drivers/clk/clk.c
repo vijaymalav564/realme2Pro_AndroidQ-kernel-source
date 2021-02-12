@@ -2314,7 +2314,7 @@ EXPORT_SYMBOL_GPL(clk_set_flags);
 
 static struct dentry *rootdir;
 static int inited = 0;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Fuchun.Liao@BSP.CHG.Basic 2017/04/10 modify for power issue debug
 static u32 debug_suspend;
 #else
@@ -2323,7 +2323,7 @@ static u32 debug_suspend = 1;
 #else
 static u32 debug_suspend;
 #endif /* CONFIG_OPPO_DAILY_BUILD */
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 static DEFINE_MUTEX(clk_debug_lock);
 static HLIST_HEAD(clk_debug_list);
 

@@ -1,5 +1,5 @@
 /*
- * CONFIG_VENDOR_REALME
+ * CONFIG_PRODUCT_REALME_RMX1801
  * ak4376.h  --  audio driver for AK4376
  *
  * Copyright (C) 2015 Asahi Kasei Microdevices Corporation

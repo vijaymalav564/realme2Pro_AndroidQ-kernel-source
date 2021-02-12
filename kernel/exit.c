@@ -61,18 +61,18 @@
 #include <asm/unistd.h>
 #include <asm/pgtable.h>
 #include <asm/mmu_context.h>
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_VIRTUAL_RESERVE_MEMORY)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_VIRTUAL_RESERVE_MEMORY)
 /* Kui.Zhang@TEC.Kernel.Performance, 2019/03/13
  * collect reserve area used count
  */
 #include <linux/resmap_account.h>
 #endif
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_HEALTHINFO)
 /* Kui.Zhang@TEC.Kernel.Performance, 2019/06/06
  * collect svm_oom log
  */
 #include <soc/oppo/oppo_healthinfo.h>
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static void exit_mm(struct task_struct *tsk);
 
@@ -276,7 +276,7 @@ static bool has_stopped_jobs(struct pid *pgrp)
 	return false;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Shu.Liu@PSW.AD.Stability.Crash.1054829, 2014/01/20, Add for not kill zygote
 static bool oppo_is_android_core_group(struct pid *pgrp)
 {
@@ -291,7 +291,7 @@ static bool oppo_is_android_core_group(struct pid *pgrp)
 
 	return false;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 /*
  * Check to see if any process groups have become orphaned as
@@ -319,13 +319,13 @@ kill_orphaned_pgrp(struct task_struct *tsk, struct task_struct *parent)
 	    task_session(parent) == task_session(tsk) &&
 	    will_become_orphaned_pgrp(pgrp, ignored_task) &&
 	    has_stopped_jobs(pgrp)) {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Shu.Liu@PSW.AD.Stability.Crash.1054829, 2014/01/10, Add for clean backstage
 		if (oppo_is_android_core_group(pgrp)) {
 			printk("kill_orphaned_pgrp: find android core process will be hungup, ignored it, only hungup itself:%s:%d , current=%d \n",tsk->comm,tsk->pid,current->pid);
 			return;
 		}
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		__kill_pgrp_info(SIGHUP, SEND_SIG_PRIV, pgrp);
 		__kill_pgrp_info(SIGCONT, SEND_SIG_PRIV, pgrp);
 	}
@@ -419,7 +419,7 @@ assign_new_owner:
 }
 #endif /* CONFIG_MEMCG */
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO) && defined(CONFIG_VIRTUAL_RESERVE_MEMORY)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_HEALTHINFO) && defined(CONFIG_VIRTUAL_RESERVE_MEMORY)
 static inline bool check_parent_is_zygote(struct task_struct *tsk)
 {
 	struct task_struct *t;
@@ -562,7 +562,7 @@ static void exit_mm(struct task_struct *tsk)
 	task_unlock(tsk);
 	mm_update_next_owner(mm);
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO) && defined(CONFIG_VIRTUAL_RESERVE_MEMORY)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_HEALTHINFO) && defined(CONFIG_VIRTUAL_RESERVE_MEMORY)
 	/* Kui.Zhang@PSW.TEC.KERNEL.Performance, 2019/03/18,
 	 * Trigger and upload the event.
 	 */
@@ -800,7 +800,7 @@ static void check_stack_usage(void)
 static inline void check_stack_usage(void) {}
 #endif
 
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Haoran.Zhang@PSW.AD.Stability.Crash.1054829,2016/05/24, Add for debug critical svc crash
 static bool is_zygote_process(struct task_struct *t)
 {
@@ -832,22 +832,22 @@ static bool is_critial_process(struct task_struct *t) {
     }
 
 }
-//#endif /*CONFIG_VENDOR_REALME*/
+//#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 void do_exit(long code)
 {
 	struct task_struct *tsk = current;
 	int group_dead;
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/04/19, add process_event_notifier support
 	struct process_event_data pe_data;
 #endif
 	TASKS_RCU(int tasks_rcu_i);
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Haoran.Zhang@PSW.AD.Stability.Crash.1054829,2016/05/24, Add for debug critical svc crash
     if (is_critial_process(tsk)) {
         printk("critical svc %d:%s exit with %ld !\n", tsk->pid, tsk->comm,code);
     }
-//#endif /*CONFIG_VENDOR_REALME*/
+//#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	profile_task_exit(tsk);
 	kcov_task_exit(tsk);
@@ -872,7 +872,7 @@ void do_exit(long code)
 
 	validate_creds_for_do_exit(tsk);
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/04/19, add process_event_notifier support
 	pe_data.pid = tsk->pid;
 	pe_data.uid = tsk->real_cred->uid;

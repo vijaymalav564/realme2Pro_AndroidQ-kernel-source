@@ -1476,7 +1476,7 @@ static void ispif_process_irq(struct ispif_device *ispif,
 	if (out[vfe_id].ispifIrqStatus0 &
 			ISPIF_IRQ_STATUS_PIX_SOF_MASK) {
 		if (ispif->ispif_sof_debug < ISPIF_SOF_DEBUG_COUNT)
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 			/*Modify by Zhengrong.Zhang@Camera 20160813 for debug*/
 			pr_err("%s: PIX0 frame id: %u\n", __func__,
 				ispif->sof_count[vfe_id].sof_cnt[PIX0]);
@@ -1808,7 +1808,7 @@ static int msm_ispif_init(struct ispif_device *ispif,
 	if (rc)
 		goto error_ahb;
 	ispif->ispif_state = ISPIF_POWER_UP;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*Modify by Zhengrong.Zhang@Camera 20160813 for debug*/
 	ispif->ispif_sof_debug = 0;
 #endif
@@ -1832,7 +1832,7 @@ static void msm_ispif_release(struct ispif_device *ispif)
 	if (cam_config_ahb_clk(NULL, 0, CAM_AHB_CLIENT_ISPIF,
 		CAM_AHB_SUSPEND_VOTE) < 0)
 		pr_err("%s: failed to remove vote for AHB\n", __func__);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*Modify by Zhengrong.Zhang@Camera 20160813 for debug*/
 	ispif->ispif_sof_debug = 0;
 #endif

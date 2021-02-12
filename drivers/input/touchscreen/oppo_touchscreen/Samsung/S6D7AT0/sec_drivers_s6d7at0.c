@@ -1,6 +1,6 @@
 /*****************************************************************************************
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd.
- * CONFIG_VENDOR_REALME
+ * CONFIG_PRODUCT_REALME_RMX1801
  * File       : sec_drivers_s6d7at0.c
  * Description: Source file for samsung s6d7at0 driver
  * Version   : 1.0

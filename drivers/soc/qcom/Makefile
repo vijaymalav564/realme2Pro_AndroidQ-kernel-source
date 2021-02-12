@@ -71,7 +71,7 @@ obj-$(CONFIG_QCOM_MEMORY_DUMP) += memory_dump.o
 obj-$(CONFIG_QCOM_MEMORY_DUMP_V2) += memory_dump_v2.o
 obj-$(CONFIG_QCOM_MINIDUMP) += msm_minidump.o
 obj-$(CONFIG_QCOM_DCC) += dcc.o
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 #obj-$(CONFIG_QCOM_WATCHDOG_V2) += watchdog_v2.o
 #else
 obj-$(CONFIG_QCOM_WATCHDOG_V2) += watchdog_v2.o oppo_watchdog_util.o
@@ -104,7 +104,7 @@ obj-$(CONFIG_MSM_KERNEL_PROTECT) += kernel_protect.o
 obj-$(CONFIG_MSM_RTB) += msm_rtb-hotplug.o
 obj-$(CONFIG_QCOM_REMOTEQDSS) += remoteqdss.o
 obj-$(CONFIG_MSM_SERVICE_LOCATOR) += service-locator.o
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #Ran.Chen@BSP.Fingerprint.Basic, 2018/04/25, remove for fingerprint driver
 #obj-$(CONFIG_MSM_QBT1000) += qbt1000.o
 #endif

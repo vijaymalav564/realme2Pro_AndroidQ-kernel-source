@@ -134,7 +134,7 @@ static ssize_t sel_read_enforce(struct file *filp, char __user *buf,
 	char tmpbuf[TMPBUFLEN];
 	ssize_t length;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
  * between enforcing mode and permissive mode via /selinux/enforce or
  * selinux_enforcing symbol in normal/silence mode of release build.
@@ -142,7 +142,7 @@ static ssize_t sel_read_enforce(struct file *filp, char __user *buf,
 	length = scnprintf(tmpbuf, TMPBUFLEN, "%d", is_selinux_enforcing());
 #else
 	length = scnprintf(tmpbuf, TMPBUFLEN, "%d", selinux_enforcing);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	return simple_read_from_buffer(buf, count, ppos, tmpbuf, length);
 }
 
@@ -187,7 +187,7 @@ static ssize_t sel_write_enforce(struct file *file, const char __user *buf,
 			from_kuid(&init_user_ns, audit_get_loginuid(current)),
 			audit_get_sessionid(current));
 		selinux_enforcing = new_value;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
  * between enforcing mode and permissive mode via /selinux/enforce or
  * selinux_enforcing symbol in normal/silence mode of release build.
@@ -201,7 +201,7 @@ static ssize_t sel_write_enforce(struct file *file, const char __user *buf,
 			avc_ss_reset(0);
 		selnl_notify_setenforce(selinux_enforcing);
 		selinux_status_update_setenforce(selinux_enforcing);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	}
 	length = count;
 out:

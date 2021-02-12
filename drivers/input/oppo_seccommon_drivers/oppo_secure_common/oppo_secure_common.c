@@ -1,6 +1,6 @@
 /************************************************************************************
  ** File: - SDM660.LA.1.0\android\kernel\msm-4.4\drivers\soc\oppo\oppo_fp_common\oppo_fp_common.c
- ** CONFIG_VENDOR_REALME
+ ** CONFIG_PRODUCT_REALME_RMX1801
  ** Copyright (C), 2008-2017, OPPO Mobile Comm Corp., Ltd
  **
  ** Description:

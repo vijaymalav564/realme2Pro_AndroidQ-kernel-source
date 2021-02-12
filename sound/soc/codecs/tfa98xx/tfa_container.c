@@ -56,12 +56,12 @@ enum tfa_error tfa_load_cnt(void *cnt, int length) {
         return tfa_error_container;
 
     if ( (HDR(cntbuf->id[0],cntbuf->id[1])) != paramsHdr ) {
-        #ifndef CONFIG_VENDOR_REALME
+        #ifndef CONFIG_PRODUCT_REALME_RMX1801
         /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08,Modify for code error*/
         pr_err("wrong header type: 0x%02x 0x%02x\n", cntbuf->id[0],g_cont->id[1]);
-        #else /* CONFIG_VENDOR_REALME */
+        #else /* CONFIG_PRODUCT_REALME_RMX1801 */
         pr_err("wrong header type: 0x%02x\n", cntbuf->id[0]);
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         return tfa_error_container;
     }
 
@@ -654,11 +654,11 @@ int tfa_cnt_get_devid(nxpTfaContainer_t *cnt, int dev_idx) {
     patchdsc += 2; /* first the filename dsc and filesize, so skip them */
     patchfile = (nxpTfaPatch_t *)patchdsc;
 
-    #ifndef CONFIG_VENDOR_REALME
+    #ifndef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Remove for code warning*/
     if (patchfile==NULL)
         return 0;
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     patchheader = patchfile->data;
 
@@ -1345,12 +1345,12 @@ enum Tfa98xx_Error tfaContWriteProfile(int dev_idx, int prof_idx, int vstep_idx)
     nxpTfaCmd_t *cmd;
     int size = 0, ready, fs_previous_profile = 8; /* default fs is 48kHz*/
 
-    #ifndef CONFIG_VENDOR_REALME
+    #ifndef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Modify for code error*/
     if ( !prof )
-    #else /* CONFIG_VENDOR_REALME */
+    #else /* CONFIG_PRODUCT_REALME_RMX1801 */
     if ( !prof || !previous_prof)
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         return Tfa98xx_Error_Bad_Parameter;
 
     if ( tfa98xx_cnt_verbose ) {

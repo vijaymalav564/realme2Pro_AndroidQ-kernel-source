@@ -23,12 +23,12 @@
 #include <soc/qcom/minidump.h>
 #include <asm/sections.h>
 
-#ifdef CONFIG_VENDOR_REALME //Fanhong.Kong@PSW.BSP.CHG,add 2017/10/10 for O mini dump
+#ifdef CONFIG_PRODUCT_REALME_RMX1801 //Fanhong.Kong@PSW.BSP.CHG,add 2017/10/10 for O mini dump
 #include <linux/uaccess.h>
 #include <asm-generic/irq_regs.h>
 #include <linux/irq.h>
 #include <linux/percpu.h>
-#endif/*CONFIG_VENDOR_REALME*/
+#endif/*CONFIG_PRODUCT_REALME_RMX1801*/
 
 #define MISC_DUMP_DATA_LEN		4096
 #define PMIC_DUMP_DATA_LEN		(64 * 1024)
@@ -264,7 +264,7 @@ static void __init register_kernel_sections(void)
 	}
 }
 
-#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for dump cpu contex for minidump
+#ifdef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge@bsp.drv add for dump cpu contex for minidump
 #define CPUCTX_VERSION 1
 #define CPUCTX_MAIGC1 0x4D494E49
 #define CPUCTX_MAIGC2 (CPUCTX_MAIGC1 + CPUCTX_VERSION)
@@ -482,7 +482,7 @@ static void __init async_common_log_init(void *data, async_cookie_t cookie)
 	register_pmic_dump();
 	register_vsense_dump();
 	register_rpm_dump();
-#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for dump cpu contex for minidump
+#ifdef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge@bsp.drv add for dump cpu contex for minidump
 	register_cpu_contex();
 #endif
 	

@@ -282,7 +282,7 @@ static arch_spinlock_t die_lock = __ARCH_SPIN_LOCK_UNLOCKED;
 static int die_owner = -1;
 static unsigned int die_nest_count;
 
-#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for dump cpu contex for minidump
+#ifdef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge@bsp.drv add for dump cpu contex for minidump
 #ifdef CONFIG_QCOM_COMMON_LOG
 int oops_count(void)
 {
@@ -290,7 +290,7 @@ int oops_count(void)
 }
 EXPORT_SYMBOL(oops_count);
 #endif /*CONFIG_QCOM_COMMON_LOG*/
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 static unsigned long oops_begin(void)
 {
 	int cpu;

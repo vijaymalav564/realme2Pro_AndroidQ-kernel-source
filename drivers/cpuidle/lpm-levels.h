@@ -144,7 +144,7 @@ bool lpm_cluster_mode_allow(struct lpm_cluster *cluster,
 		unsigned int mode, bool from_idle);
 uint32_t *get_per_cpu_max_residency(int cpu);
 uint32_t *get_per_cpu_min_residency(int cpu);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //xiaocheng.li@Swdp.shanghai, 2015/11/9, Enable scoring lpm governor
 void lpm_use_governor(bool is_use);
 void lpm_disable_sleep(bool is_use);

@@ -1235,7 +1235,7 @@ static inline void __free_iova(struct dma_iommu_mapping *mapping,
 	spin_unlock_irqrestore(&mapping->lock, flags);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Kui.Zhang@PSW.TEC.Kernel.Performance, 2019/02/02, not do reclaim and
  * page compact on high order (>4), and order decrease flow is 10->8->4->0
  */
@@ -1254,7 +1254,7 @@ static inline gfp_t reclaim_gfp(int order, gfp_t gfp)
 		return (gfp | __GFP_NORETRY) & ~__GFP_RECLAIM;
 	return gfp;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static struct page **__iommu_alloc_buffer(struct device *dev, size_t size,
 					  gfp_t gfp, struct dma_attrs *attrs)
@@ -1296,7 +1296,7 @@ static struct page **__iommu_alloc_buffer(struct device *dev, size_t size,
 	while (count) {
 		int j, order = __fls(count);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/* Kui.Zhang@PSW.TEC.Kernel.Performance, 2019/02/02,
 		 * do not do reclaim and page compact on high order (>4)
 		 */
@@ -1309,7 +1309,7 @@ static struct page **__iommu_alloc_buffer(struct device *dev, size_t size,
 		pages[i] = alloc_pages(gfp, order);
 		while (!pages[i] && order)
 			pages[i] = alloc_pages(gfp, --order);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		if (!pages[i])
 			goto error;
 
@@ -1958,7 +1958,7 @@ arm_iommu_create_mapping(struct bus_type *bus, dma_addr_t base, size_t size)
 	if (!mapping)
 		goto err;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* Kui.Zhang@PSW.TEC.KERNEL.Performance, 2019/02/02,
 	 * use vzmalloc directly
 	 */

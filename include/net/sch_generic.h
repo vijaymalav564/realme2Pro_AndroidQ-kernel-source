@@ -516,7 +516,7 @@ static inline int qdisc_enqueue(struct sk_buff *skb, struct Qdisc *sch)
 	return sch->enqueue(skb, sch);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
@@ -526,7 +526,7 @@ static inline int qdisc_enqueue_root(struct sk_buff *skb, struct Qdisc *sch)
     return qdisc_enqueue(skb, sch) & NET_XMIT_MASK;
 }
 #endif
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static inline bool qdisc_is_percpu_stats(const struct Qdisc *q)
 {

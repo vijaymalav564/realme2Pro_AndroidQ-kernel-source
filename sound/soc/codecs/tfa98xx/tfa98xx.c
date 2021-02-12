@@ -29,12 +29,12 @@
 #include <linux/input.h>
 #include <linux/regulator/consumer.h>
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2018/05/24,
  *Add for sharing software image
  */
 #include <soc/oppo/oppo_project.h>
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #include "config.h"
 
@@ -58,11 +58,11 @@
 #define TFA98XX_VERSION        "2.10.1-a"
 #define CONFIG_DEBUG_FS 1
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*xiang.fei@PSW.MM.AudioDriver.FTM, 2017/02/15, Add for ringing*/
 #include <linux/debugfs.h>
 #include <linux/fs.h>
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 /* Change volume selection behavior:
  * Uncomment following line to generate a profile change when updating
@@ -81,12 +81,12 @@
 #define TFA98XX_RATES SNDRV_PCM_RATE_8000_48000
 
 /*#define TFA98XX_FORMATS    (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE) */
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Add for 24bit*/
 #define TFA98XX_FORMATS    SNDRV_PCM_FMTBIT_S16_LE
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 #define TFA98XX_FORMATS    SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 #define TF98XX_MAX_DSP_START_TRY_COUNT    10
 
 #define XMEM_TAP_ACK  0x0122
@@ -118,13 +118,13 @@ static int tfa98xx_get_fssel(unsigned int rate);
 
 static int get_profile_from_list(char *buf, int id);
 static int get_profile_id_for_sr(int id, unsigned int rate);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Add for force calibrate*/
 static int tfa98xx_speaker_recalibration(Tfa98xx_handle_t handle,unsigned int *speakerImpedance);
 static int tfa98xx_get_speaker_resistance(Tfa98xx_handle_t handle, unsigned int *speakerResistance, unsigned int *speakerTemp);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*John.Xu@PSW.MM.AudioDriver.FTM, 2017/01/03, Add for get spk revsion*/
 static bool is_tfa98xx_series(int rev){
     bool ret = false;
@@ -180,7 +180,7 @@ static const struct snd_kcontrol_new ftm_spk_rev_controls[] = {
 	SOC_ENUM_EXT("SPK_Pa Revision", ftm_spk_rev_enum,
 			ftm_spk_rev_get, ftm_spk_rev_put),
 };
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 struct tfa98xx_rate {
     unsigned int rate;
     unsigned int fssel;
@@ -198,7 +198,7 @@ static struct tfa98xx_rate rate_to_fssel[] = {
     { 48000, 8 },
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2016/07/11,
  * Add for support rate without check profile.
  */
@@ -210,9 +210,9 @@ static struct snd_pcm_hw_constraint_list constraints_12_24 = {
     .list   = tfa98xx_asrc_rates,
     .count  = ARRAY_SIZE(tfa98xx_asrc_rates),
 };
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*xiang.fei@PSW.MM.AudioDriver.FTM, 2017/02/15, Add for ringing*/
 static  struct dentry *tfa98xx_debugfs;
 #define TFA98XX_DEBUG_FS_NAME "ftm_tfa98xx"
@@ -265,17 +265,17 @@ static const struct file_operations tfa98xx_debug_ops =
     .read = kernel_debug_read,
     .write = kernel_debug_write,
 };
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 /* Wrapper for tfa start */
 static enum tfa_error tfa98xx_tfa_start(struct tfa98xx *tfa98xx, int next_profile, int *vstep)
 {
     enum tfa_error err;
-    #ifdef CONFIG_VENDOR_REALME
+    #ifdef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.FTM, 2017/02/15, Add for ringing*/
     int ret = 0;
     int reg = 0;
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     err = tfa_start(next_profile, vstep);
 
@@ -287,7 +287,7 @@ static enum tfa_error tfa98xx_tfa_start(struct tfa98xx *tfa98xx, int next_profil
      */
     tfa98xx_interrupt_restore(tfa98xx);
 
-    #ifdef CONFIG_VENDOR_REALME
+    #ifdef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.FTM, 2017/02/15, Add for ringing*/
     //00h bit15(AREFS)  1:clock, 0:no clock
     ret = regmap_read(tfa98xx->regmap, TFA98XX_STATUSREG, &reg);
@@ -303,7 +303,7 @@ static enum tfa_error tfa98xx_tfa_start(struct tfa98xx *tfa98xx, int next_profil
         }
     }
     pr_err("%s: TFA98XX_STATUSREG=%x\n", __func__, reg);
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     return err;
 }
@@ -342,7 +342,7 @@ static void tfa98xx_input_close(struct input_dev *dev)
     tfa98xx_tapdet_check_update(tfa98xx);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*John.Xu@PSW.MM.AudioDriver.SmartPA,, 2015/12/24, Add for avoid pop when start*/
 static void vol_gradual_change(struct work_struct *work)
 {
@@ -375,7 +375,7 @@ static void vol_gradual_change(struct work_struct *work)
 	mutex_unlock(&tfa98xx->dsp_lock);
 }
 
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 
 static int tfa98xx_register_inputdev(struct tfa98xx *tfa98xx)
@@ -826,10 +826,10 @@ static ssize_t tfa98xx_dbgfs_r_read(struct file *file,
     char *str;
     uint16_t status;
     int ret, calibrate_done;
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Add for calibrate*/
 	unsigned int speakerImpedance1 = 0;
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     mutex_lock(&tfa98xx->dsp_lock);
     ret = tfa98xx_open(tfa98xx->handle);
@@ -862,23 +862,23 @@ static ssize_t tfa98xx_dbgfs_r_read(struct file *file,
     switch (calibrate_done) {
     case 1:
         /* calibration complete ! */
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Modify for calibrate*/
 		tfa_dsp_get_calibration_impedance(tfa98xx->handle);
-		#else /* CONFIG_VENDOR_REALME */
+		#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 		tfa98xx_speaker_recalibration(tfa98xx->handle, &speakerImpedance1);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*xiang.fei@PSW.MM.AudioDriver.FTM, 2017/02/15, Modify for calibration*/
         ret = print_calibration(tfa98xx->handle, str, PAGE_SIZE);
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
         ret = snprintf(str, PAGE_SIZE, " Prim:%d mOhms, Sec:%d mOhms\n",
                 speakerImpedance1,
                 handles_local[tfa98xx->handle].mohm[1]);
         pr_err("speakerImpedance1= %d  mohm[0]=%d mohm[1]=%d\n", speakerImpedance1,
         handles_local[tfa98xx->handle].mohm[0], handles_local[tfa98xx->handle].mohm[1]);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         break;
     case 0:
     case -1:
@@ -903,7 +903,7 @@ r_c_err:
     return ret;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Add for read Impedance*/
 static ssize_t tfa98xx_dbgfs_r_Impedance_read(struct file *file,
                      char __user *user_buf, size_t count,
@@ -947,7 +947,7 @@ r_c_err:
     return ret;
 
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static ssize_t tfa98xx_dbgfs_version_read(struct file *file,
                      char __user *user_buf, size_t count,
@@ -1003,13 +1003,13 @@ static ssize_t tfa98xx_dbgfs_dsp_state_set(struct file *file,
     char buf[32];
     const char start_cmd[] = "start";
     const char stop_cmd[] = "stop";
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/* Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/08/18,
 	 * Delete for remove the thread of monitor.
 	 */
     const char mon_start_cmd[] = "monitor start";
     const char mon_stop_cmd[] = "monitor stop";
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     int buf_size;
 
     buf_size = min(count, (size_t)(sizeof(buf)-1));
@@ -1031,7 +1031,7 @@ static ssize_t tfa98xx_dbgfs_dsp_state_set(struct file *file,
         mutex_unlock(&tfa98xx->dsp_lock);
         pr_debug("tfa_stop complete: %d\n", ret);
     }
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/* Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/08/18,
 	 * Delete for remove the thread of monitor.
 	 */
@@ -1043,7 +1043,7 @@ static ssize_t tfa98xx_dbgfs_dsp_state_set(struct file *file,
         pr_info("Manual stop of monitor thread...\n");
         cancel_delayed_work_sync(&tfa98xx->monitor_work);
     }
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	else {
         return -EINVAL;
     }
@@ -1196,14 +1196,14 @@ static const struct file_operations tfa98xx_dbgfs_accounting_fops = {
     .llseek = default_llseek,
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Add for read Impedance*/
 static const struct file_operations tfa98xx_dbgfs_r_Impedance_fops = {
 	.open = simple_open,
 	.read = tfa98xx_dbgfs_r_Impedance_read,
 	.llseek = default_llseek,
 };
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static void tfa98xx_debug_init(struct tfa98xx *tfa98xx, struct i2c_client *i2c)
 {
@@ -1228,11 +1228,11 @@ static void tfa98xx_debug_init(struct tfa98xx *tfa98xx, struct i2c_client *i2c)
                         i2c, &tfa98xx_dbgfs_dsp_state_fops);
     debugfs_create_file("accounting", S_IRUGO, tfa98xx->dbg_dir,
                         i2c, &tfa98xx_dbgfs_accounting_fops);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Add for read Impedance*/
     debugfs_create_file("R_Impedance", S_IRUGO, tfa98xx->dbg_dir,
                         i2c, &tfa98xx_dbgfs_r_Impedance_fops);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     /* Direct registers access */
     if (tfa98xx->flags & TFA98XX_FLAG_TFA9890_FAM_DEV) {
@@ -1273,7 +1273,7 @@ static void tfa98xx_debug_remove(struct tfa98xx *tfa98xx)
 }
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Add for calibrate*/
 static int tfa98xx_speaker_recalibration(Tfa98xx_handle_t handle,unsigned int *speakerImpedance)
 {
@@ -1318,15 +1318,15 @@ static int tfa98xx_get_speaker_resistance(Tfa98xx_handle_t handle, unsigned int 
     kfree(data);
     return err;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static int tfa98xx_get_vstep(struct snd_kcontrol *kcontrol,
                  struct snd_ctl_elem_value *ucontrol)
 {
-    #ifdef CONFIG_VENDOR_REALME
+    #ifdef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Add for code error*/
     int vstep = 0;
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,16,0)
     struct snd_soc_codec *codec = snd_kcontrol_chip(kcontrol);
 #else
@@ -1335,19 +1335,19 @@ static int tfa98xx_get_vstep(struct snd_kcontrol *kcontrol,
     struct tfa98xx *tfa98xx = snd_soc_codec_get_drvdata(codec);
     int mixer_profile = kcontrol->private_value;
     int profile = get_profile_id_for_sr(mixer_profile, tfa98xx->rate);
-    #ifdef CONFIG_VENDOR_REALME
+    #ifdef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Add for code error*/
     if (profile < 0) {
         pr_err("%s the profile requested samplerate is not supported\n", __func__);
         return 0;
     }
-    #endif /* CONFIG_VENDOR_REALME */
-    #ifndef CONFIG_VENDOR_REALME
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+    #ifndef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Add for code error*/
     int vstep = tfa98xx_prof_vsteps[profile];
     #else
     vstep = tfa98xx_prof_vsteps[profile];
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     ucontrol->value.integer.value[0] =
                 tfacont_get_max_vstep(0, profile)
                 - vstep - 1;
@@ -1357,7 +1357,7 @@ static int tfa98xx_get_vstep(struct snd_kcontrol *kcontrol,
 static int tfa98xx_set_vstep(struct snd_kcontrol *kcontrol,
                  struct snd_ctl_elem_value *ucontrol)
 {
-    #ifdef CONFIG_VENDOR_REALME
+    #ifdef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Add for code error*/
     int value = 0;
     int vstep = 0;
@@ -1367,7 +1367,7 @@ static int tfa98xx_set_vstep(struct snd_kcontrol *kcontrol,
     int ready = 0;
     unsigned int base_addr_inten = 0;
     int ret = 0;
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,16,0)
     struct snd_soc_codec *codec = snd_kcontrol_chip(kcontrol);
 #else
@@ -1376,14 +1376,14 @@ static int tfa98xx_set_vstep(struct snd_kcontrol *kcontrol,
     struct tfa98xx *tfa98xx = snd_soc_codec_get_drvdata(codec);
     int mixer_profile = kcontrol->private_value;
     int profile = get_profile_id_for_sr(mixer_profile, tfa98xx->rate);
-    #ifdef CONFIG_VENDOR_REALME
+    #ifdef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Add for code error*/
     if (profile < 0) {
         pr_err("%s the profile requested samplerate is not supported\n", __func__);
         return 0;
     }
-    #endif /* CONFIG_VENDOR_REALME */
-    #ifndef CONFIG_VENDOR_REALME
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+    #ifndef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Modify for code error*/
     int value = ucontrol->value.integer.value[0];
     int vstep = tfa98xx_prof_vsteps[profile];
@@ -1391,12 +1391,12 @@ static int tfa98xx_set_vstep(struct snd_kcontrol *kcontrol,
     int new_vstep, err = 0;
     int ready = 0;
     unsigned int base_addr_inten = TFA_FAM(tfa98xx->handle,INTENVDDS) >> 8;
-    #else /* CONFIG_VENDOR_REALME */
+    #else /* CONFIG_PRODUCT_REALME_RMX1801 */
     value = ucontrol->value.integer.value[0];
     vstep = tfa98xx_prof_vsteps[profile];
     vsteps = tfacont_get_max_vstep(0, profile);
     base_addr_inten = TFA_FAM(tfa98xx->handle,INTENVDDS) >> 8;
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     if (no_start != 0)
         return 0;
@@ -1418,17 +1418,17 @@ static int tfa98xx_set_vstep(struct snd_kcontrol *kcontrol,
         tfa98xx_vsteps[0] = new_vstep;
         tfa98xx_vsteps[1] = new_vstep;
         mutex_lock(&tfa98xx->dsp_lock);
-        #ifndef CONFIG_VENDOR_REALME
+        #ifndef CONFIG_PRODUCT_REALME_RMX1801
         /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Modify
           for code warning*/
         tfa98xx_open(0);
-        #else /* CONFIG_VENDOR_REALME */
+        #else /* CONFIG_PRODUCT_REALME_RMX1801 */
         ret = tfa98xx_open(tfa98xx->handle);
         if (ret) {
         	mutex_unlock(&tfa98xx->dsp_lock);
         	return -EBUSY;
         }
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         tfa98xx_dsp_system_stable(0, &ready);
         tfa98xx_close(0);
 
@@ -1509,22 +1509,22 @@ static int tfa98xx_set_profile(struct snd_kcontrol *kcontrol,
     struct snd_soc_codec *codec = snd_soc_kcontrol_codec(kcontrol);
 #endif
     struct tfa98xx *tfa98xx = snd_soc_codec_get_drvdata(codec);
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/* Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/08/17,
 	 * Delete for timing sequence.
 	 */
     unsigned int base_addr_inten = TFA_FAM(tfa98xx->handle,INTENVDDS) >> 8;
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     int profile_count = tfa98xx_mixer_profiles;
     int profile = tfa98xx_mixer_profile;
     int new_profile = ucontrol->value.integer.value[0];
-    #ifndef CONFIG_VENDOR_REALME
+    #ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/* Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/08/17,
 	 * Delete for timing sequence.
 	 */
     int err;
     int ready = 0;
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     int prof_idx;
 
 
@@ -1557,7 +1557,7 @@ static int tfa98xx_set_profile(struct snd_kcontrol *kcontrol,
      * Don't call tfa_start() on TFA1 if there is no clock.
      * For TFA2 is able to load the profile without clock.
      */
-    #ifndef CONFIG_VENDOR_REALME
+    #ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/* Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/08/17,
 	 * Delete for timing sequence.
 	 */
@@ -1599,7 +1599,7 @@ static int tfa98xx_set_profile(struct snd_kcontrol *kcontrol,
     }
 
     mutex_unlock(&tfa98xx->dsp_lock);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     /* Flag DSP as invalidated as the profile change may invalidate the
      * current DSP configuration. That way, further stream start can
@@ -2069,7 +2069,7 @@ retry:
             }
             return Tfa98xx_Error_Fail;
         }
-        #ifndef CONFIG_VENDOR_REALME
+        #ifndef CONFIG_PRODUCT_REALME_RMX1801
         /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08,Modify for code error*/
         if (tfa98xx_kmsg_regs)
             dev_err(&tfa98xx->i2c->dev, "  WR reg=0x%02x, val=0x%04x %s\n",
@@ -2080,7 +2080,7 @@ retry:
             tfa98xx_trace_printk("\tWR     reg=0x%02x, val=0x%04x %s\n",
                                 subaddress, value,
                                 ret<0? "Error!!" : "");
-        #else /* CONFIG_VENDOR_REALME */
+        #else /* CONFIG_PRODUCT_REALME_RMX1801 */
         if (tfa98xx_kmsg_regs)
             dev_err(&tfa98xx->i2c->dev, "WR reg=0x%02x, val=0x%04x\n",
                                 subaddress, value);
@@ -2088,7 +2088,7 @@ retry:
         if(tfa98xx_ftrace_regs)
             tfa98xx_trace_printk("\tWR reg=0x%02x, val=0x%04x\n",
                                 subaddress, value);
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     } else {
         pr_err("No device available\n");
         error = Tfa98xx_Error_Fail;
@@ -2125,7 +2125,7 @@ retry:
         }
         *val = value & 0xffff;
 
-        #ifndef CONFIG_VENDOR_REALME
+        #ifndef CONFIG_PRODUCT_REALME_RMX1801
         /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08,Modify for code error*/
         if (tfa98xx_kmsg_regs)
             dev_err(&tfa98xx->i2c->dev, "RD   reg=0x%02x, val=0x%04x %s\n",
@@ -2135,14 +2135,14 @@ retry:
             tfa98xx_trace_printk("\tRD     reg=0x%02x, val=0x%04x %s\n",
                                 subaddress, *val,
                                 ret<0? "Error!!" : "");
-        #else /* CONFIG_VENDOR_REALME */
+        #else /* CONFIG_PRODUCT_REALME_RMX1801 */
         if (tfa98xx_kmsg_regs)
             dev_err(&tfa98xx->i2c->dev, "RD reg=0x%02x, val=0x%04x\n",
                                 subaddress, *val);
         if (tfa98xx_ftrace_regs)
             tfa98xx_trace_printk("\tRD reg=0x%02x, val=0x%04x\n",
                                 subaddress, *val);
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     } else {
         pr_err("No device available\n");
         error = Tfa98xx_Error_Fail;
@@ -2479,10 +2479,10 @@ static char *fw_name = "tfa98xx.cnt";
 module_param(fw_name, charp, S_IRUGO | S_IWUSR);
 MODULE_PARM_DESC(fw_name, "TFA98xx DSP firmware (container file) name.");
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Ming.Liu@PSW.MM.AudioDriver.SmartPA, 2016/10/17, Add for sharing software image*/
 //static char fw_name_project[30] = {0};
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static nxpTfaContainer_t *container;
 
@@ -2520,7 +2520,7 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
     pr_debug("%.8s\n", container->type);
     pr_debug("%d ndev\n", container->ndev);
     pr_debug("%d nprof\n", container->nprof);
-    #ifdef CONFIG_VENDOR_REALME
+    #ifdef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.FTM, 2017/02/15, Add for ringing*/
     if(ftm_mode == BOOT_MODE_FACTORY)
     {
@@ -2534,9 +2534,9 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
     {
         tfa_load_cnt(container, container_size);
     }
-    #else /* CONFIG_VENDOR_REALME */
+    #else /* CONFIG_PRODUCT_REALME_RMX1801 */
     tfa_load_cnt(container, container_size);
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     /* register codec with dsp */
     tfa98xx->handle = tfa98xx_register_dsp(tfa98xx);
@@ -2594,12 +2594,12 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
     mutex_lock(&tfa98xx->dsp_lock);
 
     ret = tfa98xx_tfa_start(tfa98xx, tfa98xx_profile, tfa98xx_vsteps);
-    #ifndef CONFIG_VENDOR_REALME
+    #ifndef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Modify for code error*/
     if (ret == Tfa98xx_Error_Ok)
-    #else /* CONFIG_VENDOR_REALME */
+    #else /* CONFIG_PRODUCT_REALME_RMX1801 */
     if (ret == tfa_error_ok)
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         tfa98xx->dsp_init = TFA98XX_DSP_INIT_DONE;
     mutex_unlock(&tfa98xx->dsp_lock);
     tfa98xx_interrupt_enable(tfa98xx, true);
@@ -2607,14 +2607,14 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 
 static int tfa98xx_load_container(struct tfa98xx *tfa98xx)
 {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Ming.Liu@PSW.MM.AudioDriver.SmartPA, 2016/10/17, Add for sharing software image*/
     //unsigned int prj = get_project();
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     tfa98xx->dsp_fw_state = TFA98XX_DSP_FW_PENDING;
 
-#if 0 //def CONFIG_VENDOR_REALME
+#if 0 //def CONFIG_PRODUCT_REALME_RMX1801
 /*Ming.Liu@PSW.MM.AudioDriver.SmartPA, 2016/10/17, Add for sharing software image*/
     if (prj == 0) {
         sprintf(fw_name_project, "tfa98xx.cnt");
@@ -2626,7 +2626,7 @@ static int tfa98xx_load_container(struct tfa98xx *tfa98xx)
     return request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
                                    fw_name_project, tfa98xx->dev, GFP_KERNEL,
                                    tfa98xx, tfa98xx_container_loaded);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     return request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG,
                                    fw_name, tfa98xx->dev, GFP_KERNEL,
@@ -2696,7 +2696,7 @@ static void tfa98xx_tapdet_work(struct work_struct *work)
     queue_delayed_work(tfa98xx->tfa98xx_wq, &tfa98xx->tapdet_work, HZ/10);
 }
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Delete for remove monitor*/
 static void tfa98xx_monitor(struct work_struct *work)
 {
@@ -2752,19 +2752,19 @@ static void tfa98xx_monitor(struct work_struct *work)
     queue_delayed_work(tfa98xx->tfa98xx_wq, &tfa98xx->monitor_work, 5*HZ);
 
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
 {
     int ret;
     bool failed = false;
     bool reschedule = false;
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*John.Xu@PSW.MM.AudioDriver.SmartPA, 2015/12/24,
 	 *Add for avoid pop when start.
 	 */
     u16 val;
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     if (tfa98xx->dsp_fw_state != TFA98XX_DSP_FW_OK) {
         pr_info("Skipping tfa_start (no FW: %d)\n", tfa98xx->dsp_fw_state);
@@ -2777,7 +2777,7 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
     }
 
     mutex_lock(&tfa98xx->dsp_lock);
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*John.Xu@PSW.MM.AudioDriver.SmartPA, 2015/12/24,
 	 *Add for avoid pop when start.
 	 */
@@ -2785,19 +2785,19 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
 	val |= TFA98XX_AUDIO_CTR_VOL_MSK;
 	pr_debug("val : %x", val);
 	snd_soc_write(tfa98xx->codec, TFA98XX_AUDIO_CTR, (val));
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     tfa98xx->dsp_init = TFA98XX_DSP_INIT_PENDING;
 
     if (tfa98xx->init_count < TF98XX_MAX_DSP_START_TRY_COUNT) {
         /* directly try to start DSP */
         ret = tfa98xx_tfa_start(tfa98xx, tfa98xx_profile, tfa98xx_vsteps);
-        #ifndef CONFIG_VENDOR_REALME
+        #ifndef CONFIG_PRODUCT_REALME_RMX1801
         /*xiang.fei@PSW.MM.AudioDriver.SmartPA, 2017/09/08, Modify for code error*/
         if (ret != Tfa98xx_Error_Ok) {
-        #else /* CONFIG_VENDOR_REALME */
+        #else /* CONFIG_PRODUCT_REALME_RMX1801 */
         if (ret != tfa_error_ok) {
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
             /* It may fail as we may not have a valid clock at that
              * time, so re-schedule and re-try later.
              */
@@ -2818,12 +2818,12 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
              * periodically, and re-init IC to recover if
              * needed.
              */
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Delete for remove monitor*/
             queue_delayed_work(tfa98xx->tfa98xx_wq,
                         &tfa98xx->monitor_work,
                         1*HZ);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         }
     } else {
         /* exceeded max number ot start tentatives, cancel start */
@@ -2844,7 +2844,7 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
         /* cancel other pending init works */
         cancel_delayed_work(&tfa98xx->init_work);
         tfa98xx->init_count = 0;
-        #ifdef CONFIG_VENDOR_REALME
+        #ifdef CONFIG_PRODUCT_REALME_RMX1801
         /*xiang.fei@PSW.MM.AudioDriver.FTM, 2017/02/15, Add for ringing*/
         //add for open path fail
         if(ftm_mode == BOOT_MODE_FACTORY)
@@ -2852,9 +2852,9 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
             strcpy(ftm_path, "open_path_fail");
 
         }
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     }
-    #ifdef CONFIG_VENDOR_REALME
+    #ifdef CONFIG_PRODUCT_REALME_RMX1801
     /*xiang.fei@PSW.MM.AudioDriver.FTM, 2017/02/15, Add for ringing*/
     /*add for a flag that tfa98xx is started finish*/
     if((!tfa98xx->init_count) && (ftm_mode == BOOT_MODE_FACTORY))
@@ -2862,12 +2862,12 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
         pr_info("tfa98xx_dsp_init finish\n");
         strcpy(ftm_tfa98xx_flag, "ok");
     }
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*John.Xu@PSW.MM.AudioDriver.SmartPA, 2015/12/24, Add for avoid pop when start*/
     queue_delayed_work(tfa98xx->tfa98xx_wq, &tfa98xx->vol_work, msecs_to_jiffies(10));
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     mutex_unlock(&tfa98xx->dsp_lock);
     return;
 }
@@ -2994,18 +2994,18 @@ static int tfa98xx_startup(struct snd_pcm_substream *substream,
         }
     }
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2016/07/11,
  *Modify for support rate without check profile.
  */
     return snd_pcm_hw_constraint_list(substream->runtime, 0,
                    SNDRV_PCM_HW_PARAM_RATE,
                    &tfa98xx->rate_constraint);
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
     return snd_pcm_hw_constraint_list(substream->runtime, 0,
                    SNDRV_PCM_HW_PARAM_RATE,
                    &constraints_12_24);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 }
 
 static int tfa98xx_set_dai_sysclk(struct snd_soc_dai *codec_dai,
@@ -3108,12 +3108,12 @@ static int tfa98xx_mute(struct snd_soc_dai *dai, int mute, int stream)
     }
 
     if (mute) {
-		#ifdef CONFIG_VENDOR_REALME
+		#ifdef CONFIG_PRODUCT_REALME_RMX1801
         /*John.Xu@PSW.MM.AudioDriver.SmartPA, 2015/12/24,
 		 *Add for avoid pop when start.
 		 */
         cancel_delayed_work_sync(&tfa98xx->vol_work);
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         /* stop DSP only when both playback and capture streams
          * are deactivated
          */
@@ -3124,10 +3124,10 @@ static int tfa98xx_mute(struct snd_soc_dai *dai, int mute, int stream)
         if (tfa98xx->pstream != 0 || tfa98xx->cstream != 0)
             return 0;
 
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/08/18, Delete for remove monitor*/
         cancel_delayed_work_sync(&tfa98xx->monitor_work);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         cancel_delayed_work_sync(&tfa98xx->init_work);
         if (tfa98xx->dsp_fw_state != TFA98XX_DSP_FW_OK)
             return 0;
@@ -3142,7 +3142,7 @@ static int tfa98xx_mute(struct snd_soc_dai *dai, int mute, int stream)
             tfa98xx->cstream = 1;
 
         /* Start DSP */
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA.1234963, 2018/02/07,
  *Modify for part of picture sound mute.
  */
@@ -3150,17 +3150,17 @@ static int tfa98xx_mute(struct snd_soc_dai *dai, int mute, int stream)
             queue_delayed_work(tfa98xx->tfa98xx_wq,
                             &tfa98xx->init_work,
                             0);
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 		if (tfa98xx->dsp_init != TFA98XX_DSP_INIT_PENDING) {
 			tfa98xx_dsp_init(tfa98xx);
 		}
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     }
 
     return 0;
 }
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA.1234963, 2018/02/07,
  *Delete for part of picture sound mute.
  */
@@ -3199,7 +3199,7 @@ static int tfa98xx_trigger(struct snd_pcm_substream *substream, int cmd,
 
 	return ret;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static const struct snd_soc_dai_ops tfa98xx_dai_ops = {
     .startup = tfa98xx_startup,
@@ -3207,12 +3207,12 @@ static const struct snd_soc_dai_ops tfa98xx_dai_ops = {
     .set_sysclk = tfa98xx_set_dai_sysclk,
     .hw_params = tfa98xx_hw_params,
     .mute_stream = tfa98xx_mute,
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA.1234963, 2018/02/07,
  *Delete for part of picture sound mute.
  */
     .trigger	= tfa98xx_trigger,
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 };
 
 static struct snd_soc_dai_driver tfa98xx_dai[] = {
@@ -3237,10 +3237,10 @@ static struct snd_soc_dai_driver tfa98xx_dai[] = {
         .ops = &tfa98xx_dai_ops,
         .symmetric_rates = 1,
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,14,0)
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/07/20, Delete for no sound on phone*/
         .symmetric_channels = 1,
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         .symmetric_samplebits = 1,
 #endif
     },
@@ -3262,18 +3262,18 @@ static int tfa98xx_probe(struct snd_soc_codec *codec)
         return -ENOMEM;
 
     INIT_DELAYED_WORK(&tfa98xx->init_work, tfa98xx_dsp_init_work);
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/08/18,Delete for remove monitor*/
     INIT_DELAYED_WORK(&tfa98xx->monitor_work, tfa98xx_monitor);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     INIT_DELAYED_WORK(&tfa98xx->interrupt_work, tfa98xx_interrupt);
     INIT_DELAYED_WORK(&tfa98xx->tapdet_work, tfa98xx_tapdet_work);
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*John.Xu@PSW.MM.AudioDriver.SmartPA, 2015/12/24,
 	 *Add for avoid pop when start.
 	 */
 	INIT_DELAYED_WORK(&tfa98xx->vol_work, vol_gradual_change);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     tfa98xx->codec = codec;
 
@@ -3289,11 +3289,11 @@ static int tfa98xx_probe(struct snd_soc_codec *codec)
     }
 #endif
     tfa98xx_add_widgets(tfa98xx);
-    #ifdef CONFIG_VENDOR_REALME
+    #ifdef CONFIG_PRODUCT_REALME_RMX1801
     /*John.Xu@PSW.MM.AudioDriver.FTM, 2017/01/03, Add for get spk revsion*/
     snd_soc_add_codec_controls(tfa98xx->codec,
             ftm_spk_rev_controls, ARRAY_SIZE(ftm_spk_rev_controls));
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     dev_info(codec->dev, "tfa98xx codec registered (%s)",
                             tfa98xx->fw.name);
@@ -3309,16 +3309,16 @@ static int tfa98xx_remove(struct snd_soc_codec *codec)
     tfa98xx_inputdev_unregister(tfa98xx);
 
     cancel_delayed_work_sync(&tfa98xx->interrupt_work);
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/08/18,Delete for remove monitor*/
     cancel_delayed_work_sync(&tfa98xx->monitor_work);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     cancel_delayed_work_sync(&tfa98xx->init_work);
     cancel_delayed_work_sync(&tfa98xx->tapdet_work);
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*John.Xu@PSW.MM.AudioDriver.SmartPA, 2015/12/24, Add for avoid pop when start*/
 	cancel_delayed_work_sync(&tfa98xx->vol_work);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     if (tfa98xx->tfa98xx_wq)
         destroy_workqueue(tfa98xx->tfa98xx_wq);
@@ -3619,7 +3619,7 @@ static int tfa98xx_i2c_probe(struct i2c_client *i2c,
     mutex_init(&tfa98xx->dsp_lock);
     init_waitqueue_head(&tfa98xx->wq);
 
-    #ifdef CONFIG_VENDOR_REALME
+    #ifdef CONFIG_PRODUCT_REALME_RMX1801
     /* Zhiyong.Zheng@PSW.MM.AudioDriver.SmartPA, 2016/06/14, Add for resource*/
     tfa98xx->tfa98xx_vdd = regulator_get(&i2c->dev, "tfa9890_vdd");
     if (IS_ERR(tfa98xx->tfa98xx_vdd))
@@ -3657,7 +3657,7 @@ static int tfa98xx_i2c_probe(struct i2c_client *i2c,
         devm_kfree(&i2c->dev, tfa98xx);
         return ret;
     }
-    #endif /* CONFIG_VENDOR_REALME */
+    #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     if (np)
     {
@@ -3779,7 +3779,7 @@ static int tfa98xx_i2c_probe(struct i2c_client *i2c,
 #ifdef CONFIG_DEBUG_FS
     tfa98xx_debug_init(tfa98xx, i2c);
 #endif
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*xiang.fei@PSW.MM.AudioDriver.FTM, 2017/02/15, Add for ringing*/
     // create debug file
     tfa98xx_debugfs = debugfs_create_file(TFA98XX_DEBUG_FS_NAME,
@@ -3787,7 +3787,7 @@ static int tfa98xx_i2c_probe(struct i2c_client *i2c,
 
     ftm_mode = get_boot_mode();
     pr_err("ftm_mode=%d\n", ftm_mode);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     /* Register the sysfs files for climax backdoor access */
     ret = device_create_bin_file(&i2c->dev, &dev_attr_rw);
     if (ret)
@@ -3813,16 +3813,16 @@ static int tfa98xx_i2c_remove(struct i2c_client *i2c)
     pr_debug("\n");
 
     cancel_delayed_work_sync(&tfa98xx->interrupt_work);
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/08/18, Delete for remove monitor*/
     cancel_delayed_work_sync(&tfa98xx->monitor_work);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
     cancel_delayed_work_sync(&tfa98xx->init_work);
     cancel_delayed_work_sync(&tfa98xx->tapdet_work);
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*John.Xu@PSW.MM.AudioDriver.SmartPA, 2015/12/24, Add for avoid pop when start*/
 	cancel_delayed_work_sync(&tfa98xx->vol_work);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
     device_remove_bin_file(&i2c->dev, &dev_attr_reg);
     device_remove_bin_file(&i2c->dev, &dev_attr_rw);

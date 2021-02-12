@@ -42,12 +42,12 @@ extern int proc_dostring(struct ctl_table *, int,
 extern int proc_dointvec(struct ctl_table *, int,
 			 void __user *, size_t *, loff_t *);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Ming.Liu@PSW.CN.WiFi.Network.quality.1065762, 2016/10/09
 //add for: [monitor tcp info]
 extern int proc_do_print_tcpinfo(struct ctl_table *, int,
 			 void __user *, size_t *, loff_t *);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 extern int proc_douintvec(struct ctl_table *, int,
 			 void __user *, size_t *, loff_t *);

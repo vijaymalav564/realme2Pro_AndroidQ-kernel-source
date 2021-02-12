@@ -237,7 +237,7 @@ static void show_extra_register_data(struct pt_regs *regs, int nbytes)
 	set_fs(fs);
 }
 
-#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for dump cpu contex for minidump
+#ifdef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge@bsp.drv add for dump cpu contex for minidump
 #ifdef CONFIG_QCOM_COMMON_LOG
 extern void dumpcpuregs(struct pt_regs *pt_regs);
 #else
@@ -259,7 +259,7 @@ void __show_regs(struct pt_regs *regs)
 		top_reg = 29;
 	}
 
-#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for dump cpu contex for minidump
+#ifdef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge@bsp.drv add for dump cpu contex for minidump
 	dumpcpuregs(regs);
 #endif
 	show_regs_print_info(KERN_DEFAULT);
@@ -504,7 +504,7 @@ unsigned long arch_randomize_brk(struct mm_struct *mm)
 	return randomize_base(mm->brk);
 }
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_ELSA_STUB)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_ELSA_STUB)
 //zhoumingjun@Swdp.shanghai, 2017/04/19, add process_event_notifier support
 static BLOCKING_NOTIFIER_HEAD(process_event_notifier);
 

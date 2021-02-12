@@ -27,12 +27,12 @@
 #include "dsi-panel-rm67195-amoled-fhd-cmd.dtsi"
 #include "dsi-panel-lgd-incell-sw49106-fhd-video.dtsi"
 #include "dsi-panel-hx8399c-fhd-plus-video.dtsi"
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Shengjun.Gou@PSW.MM.Display.LCD.Stability, 2017/09/18,
 // add for panel config files.
 #include "dsi-panel-oppo18316himax_hx83112a_1080_2280_video.dtsi"
 #include "dsi-panel-oppo18316dpt_jdi_nt36672a_1080_2340_video.dtsi"
-//#endif /*CONFIG_VENDOR_REALME*/
+//#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 &soc {
 	dsi_panel_pwr_supply: dsi_panel_pwr_supply {
@@ -68,7 +68,7 @@
 		};
 	};
 
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Shengjun.Gou@PSW.MM.Display.LCD.Stability, 2017/09/18,
 // add for panel power setting.
 /*
@@ -123,7 +123,7 @@
 			};
 		};
 */
-//#else if /*CONFIG_VENDOR_REALME*/
+//#else if /*CONFIG_PRODUCT_REALME_RMX1801*/
 	dsi_panel_pwr_supply_labibb_amoled:
 		dsi_panel_pwr_supply_labibb_amoled {
 			#address-cells = <1>;
@@ -147,7 +147,7 @@
 				qcom,supply-disable-load = <80>;
 			};
 		};
-//#endif /*CONFIG_VENDOR_REALME*/
+//#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	dsi_panel_pwr_supply_no_labibb: dsi_panel_pwr_supply_no_labibb {
 		#address-cells = <1>;
@@ -367,7 +367,7 @@
 	qcom,mdss-dsi-t-clk-pre = <0x2f>;
 };
 
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Shengjun.Gou@PSW.MM.Driver.Stability, 2017/09/19,
 //modify for amoled panel power supply
 
@@ -389,7 +389,7 @@
 		24 1a 08 09 05 03 04 a0];
 };
 
-//#endif /*CONFIG_VENDOR_REALME*/
+//#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 &dsi_lgd_incell_sw49106_fhd_video {
 	qcom,mdss-dsi-panel-timings-phy-v2 = [24 1f 08 09 05 03 04 a0
 		24 1f 08 09 05 03 04 a0

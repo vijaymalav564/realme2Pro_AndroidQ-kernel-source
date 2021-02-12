@@ -32,14 +32,14 @@ void nf_register_queue_handler(struct net *net, const struct nf_queue_handler *q
 void nf_unregister_queue_handler(struct net *net);
 void nf_reinject(struct nf_queue_entry *entry, unsigned int verdict);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 void nf_register_queue_imq_handler(const struct nf_queue_handler *qh);
 void nf_unregister_queue_imq_handler(void);
 #endif
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 void nf_queue_entry_get_refs(struct nf_queue_entry *entry);
 void nf_queue_entry_release_refs(struct nf_queue_entry *entry);

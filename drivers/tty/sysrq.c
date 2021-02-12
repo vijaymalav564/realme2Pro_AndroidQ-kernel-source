@@ -164,7 +164,7 @@ static struct sysrq_key_op sysrq_reboot_op = {
 	.enable_mask	= SYSRQ_ENABLE_BOOT,
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //jason.tang@TECH.BSP.Kernel.Storage, 2019-09-10, add ext4 urgent flush
 extern int panic_flush_device_cache(int timeout);
 static void sysrq_handle_flush(int key)
@@ -501,7 +501,7 @@ static struct sysrq_key_op *sysrq_key_table[36] = {
 	/* x: May be registered on sparc64 for global PMU dump */
 	NULL,				/* x */
 	/* y: May be registered on sparc64 for global register dump */
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //jason.tang@TECH.BSP.Kernel.Storage, 2019-09-10, add ext4 urgent flush
 	&sysrq_flush_op,                 /* y */
 #else

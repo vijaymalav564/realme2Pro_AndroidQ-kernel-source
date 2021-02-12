@@ -79,8 +79,8 @@ obj-y				+= l3mdev/
 endif
 obj-$(CONFIG_IPC_ROUTER)	+= ipc_router/
 obj-$(CONFIG_RMNET_DATA) += rmnet_data/
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #Yuan.Huang@PSW.CN.WiFi.Network.internet.1461349, 2018/06/18,
 #Add for WeChat lucky money recognition
 obj-y				+= oppo_nf_hooks/
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */

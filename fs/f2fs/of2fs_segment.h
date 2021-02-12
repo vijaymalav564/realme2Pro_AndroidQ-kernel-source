@@ -1,6 +1,6 @@
 /***********************************************************
 ** Copyright (C), 2008-2019, OPPO Mobile Comm Corp., Ltd.
-** CONFIG_VENDOR_REALME
+** CONFIG_PRODUCT_REALME_RMX1801
 ** File: - of2fs_segment.h
 ** Description: oppo f2fs gc code
 **

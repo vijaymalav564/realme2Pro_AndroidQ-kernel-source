@@ -950,7 +950,7 @@
 		};
 	};
 
-	//#ifdef CONFIG_VENDOR_REALME
+	//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//wanghao@Bsp.Group.TP 2017/09/20 Added for synaptics using gpio supply 2v8
 		touchpanel_vdd: touchpanel_vdd {
 			compatible = "regulator-fixed";

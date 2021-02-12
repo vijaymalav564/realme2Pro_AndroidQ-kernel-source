@@ -91,7 +91,7 @@ static void devfreq_set_freq_limits(struct devfreq *devfreq)
 	devfreq->max_freq = max;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //INDIA.Performance add support to set devfreq limit
 int devfreq_get_limit(struct devfreq *df, unsigned long *min, unsigned long *max)
 {
@@ -161,7 +161,7 @@ int devfreq_set_limit(struct devfreq *df, unsigned long min, unsigned long max)
         mutex_unlock(&df->lock);
         return 0;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 /**
  * devfreq_get_freq_level() - Lookup freq_table for the frequency

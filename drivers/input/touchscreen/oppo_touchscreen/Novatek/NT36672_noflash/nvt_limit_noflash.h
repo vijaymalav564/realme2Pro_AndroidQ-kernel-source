@@ -1,6 +1,6 @@
 /***************************************************
  * File:nvt_limit.h
- * CONFIG_VENDOR_REALME
+ * CONFIG_PRODUCT_REALME_RMX1801
  * Copyright (c)  2017 - 2030  Oppo Mobile communication Corp.ltd.
  * Description:
  *             nova nt36672 test limit data

@@ -1,6 +1,6 @@
 /**************************************************************
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd
- * CONFIG_VENDOR_REALME
+ * CONFIG_PRODUCT_REALME_RMX1801
  * File       : synaptics_drivers_s3320.c
  * Description: Source file for synaptics S3320 driver
  * Version   : 1.0

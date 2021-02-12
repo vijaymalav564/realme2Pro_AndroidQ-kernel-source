@@ -66,7 +66,7 @@ int32_t msm_sensor_driver_get_gpio_data(
 	struct msm_camera_gpio_conf **gpio_conf,
 	struct device_node *of_node);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Add by Zhengrong.Zhang@Camera 20161003 for cam vio ctrl*/
 int msm_camera_power_up_vendor(struct msm_camera_power_ctrl_t *ctrl,
 	enum msm_camera_device_type_t device_type,

@@ -1,6 +1,6 @@
 /***********************************************************
 ** Copyright (C), 2008-2019, OPPO Mobile Comm Corp., Ltd.
-** CONFIG_VENDOR_REALME
+** CONFIG_PRODUCT_REALME_RMX1801
 ** File: hans.c
 ** Description: Add for hans freeze manager
 **

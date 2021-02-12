@@ -1,6 +1,6 @@
 /**********************************************************************************
 * Copyright (c)  2017-2019  Guangdong OPPO Mobile Comm Corp., Ltd
-* CONFIG_VENDOR_REALME
+* CONFIG_PRODUCT_REALME_RMX1801
 * Description: For short circuit battery check
 * Version   : 1.0
 * Date      : 2018-05-24

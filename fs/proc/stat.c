@@ -12,12 +12,12 @@
 #include <linux/cputime.h>
 #include <linux/tick.h>
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_HEALTHINFO)
 // wenbin.liu@PSW.BSP.MM, 2018/05/02
 // Add for get cpu load
 #include <linux/delay.h>
 #include <soc/oppo/oppo_healthinfo.h>
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 #ifndef arch_irq_stat_cpu
 #define arch_irq_stat_cpu(cpu) 0
@@ -52,7 +52,7 @@ static cputime64_t get_iowait_time(int cpu)
 
 static u64 get_idle_time(int cpu)
 {
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	// liangkun@Swdp.shanghai 2015/11/03 modify to get valid stat
 	return kcpustat_cpu(cpu).cpustat[CPUTIME_IDLE];
 	#else
@@ -73,7 +73,7 @@ static u64 get_idle_time(int cpu)
 
 static u64 get_iowait_time(int cpu)
 {
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	// liangkun@Swdp.shanghai 2015/11/03 modify to get valid stat
 	return kcpustat_cpu(cpu).cpustat[CPUTIME_IOWAIT];
 	#else
@@ -147,7 +147,7 @@ static int show_stat(struct seq_file *p, void *v)
 	seq_put_decimal_ull(p, ' ', cputime64_to_clock_t(guest_nice));
 	seq_putc(p, '\n');
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	// liangkun@Swdp.shanghai 2015/11/03 modify to get all cpus stat
 	for_each_present_cpu(i) {
 	#else
@@ -220,7 +220,7 @@ static const struct file_operations proc_stat_operations = {
 	.release	= single_release,
 };
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_HEALTHINFO)
 // wenbin.liu@PSW.BSP.MM, 2018/05/02
 // Add for get cpu load
 struct cpu_load_stat {
@@ -276,7 +276,7 @@ int ohm_get_cur_cpuload(bool ctrl)
 	return 100 * load / sum;
 }
 
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static int __init proc_stat_init(void)
 {

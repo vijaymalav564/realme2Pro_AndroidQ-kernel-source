@@ -1,5 +1,5 @@
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #Added by Cong.Dai@Bsp.group.Tp for focal gt9286 ic driver
 
 config TOUCHPANEL_GOODIX_GT9286

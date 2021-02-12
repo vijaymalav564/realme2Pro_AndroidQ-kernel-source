@@ -1055,7 +1055,7 @@ static void print_slabinfo_header(struct seq_file *m)
 	seq_puts(m, " : globalstat <listallocs> <maxobjs> <grown> <reaped> <error> <maxfreeable> <nodeallocs> <remotefrees> <alienoverflow>");
 	seq_puts(m, " : cpustat <allochit> <allocmiss> <freehit> <freemiss>");
 #endif
-#if defined (CONFIG_VENDOR_REALME) && defined(CONFIG_SLAB_STAT_DEBUG)
+#if defined (CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_SLAB_STAT_DEBUG)
 /* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-12, if SLAB_STAT_DEBUG is
  * is enabled, /proc/slabinfo is created for getting more slab details. */
 	seq_puts(m, " <reclaim>");
@@ -1116,7 +1116,7 @@ static void cache_show(struct kmem_cache *s, struct seq_file *m)
 
 	seq_printf(m, " : tunables %4u %4u %4u",
 		   sinfo.limit, sinfo.batchcount, sinfo.shared);
-#if defined (CONFIG_VENDOR_REALME) && defined(CONFIG_SLAB_STAT_DEBUG)
+#if defined (CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_SLAB_STAT_DEBUG)
 /* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-12, if SLAB_STAT_DEBUG is
  * is enabled, /proc/slabinfo is created for getting more slab details. */
 	seq_printf(m, " : slabdata %6lu %6lu %6lu %1d",

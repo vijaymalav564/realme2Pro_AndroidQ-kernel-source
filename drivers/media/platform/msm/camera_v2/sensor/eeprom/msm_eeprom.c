@@ -17,7 +17,7 @@
 #include "msm_sd.h"
 #include "msm_cci.h"
 #include "msm_eeprom.h"
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Add by Zhengrong.Zhang@Camera 20160630 for merge basic modification*/
 #include <linux/proc_fs.h>
 
@@ -46,7 +46,7 @@ DEFINE_MSM_MUTEX(msm_eeprom_mutex);
 static struct v4l2_file_operations msm_eeprom_v4l2_subdev_fops;
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Added by Jinshui.Liu@Camera 20160821 for [module vendor info]*/
 uint16_t rear_module = 0;
 uint16_t rear_sensor = 0;
@@ -220,7 +220,7 @@ static int read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	struct msm_eeprom_memory_map_t *emap = block->map;
 	struct msm_eeprom_board_info *eb_info;
 	uint8_t *memptr = block->mapdata;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*add by hongbo.dai@camera 20170503*/
 	uint32_t eeprom_read_size = 0;
 #endif
@@ -232,7 +232,7 @@ static int read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	eb_info = e_ctrl->eboard_info;
 
 	for (j = 0; j < block->num_map; j++) {
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/*add by hongbo.dai@camera 20170503*/
 		if(e_ctrl->mprobe && j > 0){
 			break;
@@ -279,7 +279,7 @@ static int read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 				return rc;
 			}
 		}
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/*add by hongbo.dai@camera 20170513 only get base info in probe phase*/
 		if (emap[j].mem.valid_size) {
 			e_ctrl->i2c_client.addr_type = emap[j].mem.addr_t;
@@ -1576,7 +1576,7 @@ free_mem:
 	mem_map_array = NULL;
 	return rc;
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*add by hongbo.dai@camera 20170503 for get eeprom data*/
 static int eeprom_init_alldata(struct msm_eeprom_ctrl_t *e_ctrl)
 {
@@ -1665,7 +1665,7 @@ static int msm_eeprom_config32(struct msm_eeprom_ctrl_t *e_ctrl,
 				__func__, __LINE__);
 		}
 		break;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*add by hongbo.dai@camera 20170503*/
 	case CFG_EEPROM_INIT_ALLDATA:
 		rc = eeprom_init_alldata(e_ctrl);
@@ -1720,7 +1720,7 @@ static long msm_eeprom_subdev_fops_ioctl32(struct file *file, unsigned int cmd,
 #endif
 
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Added by Jinshui.Liu@Camera 20160821 for [module vendor info]*/
 static int msm_eeprom_read_moduleinfo(struct msm_eeprom_ctrl_t *e_ctrl)
 {
@@ -2107,7 +2107,7 @@ static int msm_eeprom_proc_init(struct msm_eeprom_ctrl_t *e_ctrl)
 	eeprom_probe_info |= (1 << e_ctrl->position);
     return 0;
 }
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static int msm_eeprom_platform_probe(struct platform_device *pdev)
 {
@@ -2135,7 +2135,7 @@ static int msm_eeprom_platform_probe(struct platform_device *pdev)
 	e_ctrl->cal_data.map = NULL;
 	e_ctrl->userspace_probe = 0;
 	e_ctrl->is_supported = 0;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*add by hongbo.dai@camera 20170503*/
 	e_ctrl->mprobe = true;
 	e_ctrl->date_info = 0;
@@ -2216,7 +2216,7 @@ static int msm_eeprom_platform_probe(struct platform_device *pdev)
 	if (rc < 0)
 		goto board_free;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Added by Jinshui.Liu@Camera 20160821 for [module vendor info]*/
         rc = of_property_read_u32(of_node, "position",
             &e_ctrl->position);
@@ -2273,7 +2273,7 @@ static int msm_eeprom_platform_probe(struct platform_device *pdev)
 		for (j = 0; j < e_ctrl->cal_data.num_data; j++)
 			CDBG("memory_data[%d] = 0x%X\n", j,
 				e_ctrl->cal_data.mapdata[j]);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Added by Jinshui.Liu@Camera 20160821 for [module vendor info]*/
 		rc = msm_eeprom_read_moduleinfo(e_ctrl);
 /*Added by hongbo.dai@Camera 20170417 for [vcm info]*/
@@ -2300,7 +2300,7 @@ static int msm_eeprom_platform_probe(struct platform_device *pdev)
 	} else
 		e_ctrl->is_supported = 1;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*add by hongbo.dai@camera 20170503*/
 	e_ctrl->mprobe = false;
 #endif

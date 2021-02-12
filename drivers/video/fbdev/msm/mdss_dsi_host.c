@@ -117,20 +117,20 @@ void mdss_dsi_ctrl_init(struct device *ctrl_dev,
 	init_completion(&ctrl->video_comp);
 	init_completion(&ctrl->dynamic_comp);
 	init_completion(&ctrl->bta_comp);
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* solve mdp dump error in monkey test */
 	init_completion(&ctrl->db_mode_wait);
-	#endif /*CONFIG_VENDOR_REALME*/
+	#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	spin_lock_init(&ctrl->irq_lock);
 	spin_lock_init(&ctrl->mdp_lock);
 	mutex_init(&ctrl->mutex);
 	mutex_init(&ctrl->cmd_mutex);
 	mutex_init(&ctrl->clk_lane_mutex);
 	mutex_init(&ctrl->cmdlist_mutex);
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* solve mdp dump error in monkey test */
 	spin_lock_init(&ctrl->db_mode_mutex);
-	#endif /*CONFIG_VENDOR_REALME*/
+	#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	mdss_dsi_buf_alloc(ctrl_dev, &ctrl->tx_buf, SZ_4K);
 	mdss_dsi_buf_alloc(ctrl_dev, &ctrl->rx_buf, SZ_4K);
 	mdss_dsi_buf_alloc(ctrl_dev, &ctrl->status_buf, SZ_4K);
@@ -1529,10 +1529,10 @@ static void mdss_dsi_schedule_dma_cmd(struct mdss_dsi_ctrl_pdata *ctrl)
 	u32 v_blank, val = 0x0;
 	struct mdss_panel_info *pinfo;
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* force disable dsi schedule dma */
 	return;
-	#endif /*CONFIG_VENDOR_REALME*/
+	#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	/* for dsi 2.0 and below dma scheduling is not supported */
 	if ((!ctrl) || (ctrl->panel_mode == DSI_CMD_MODE) ||
@@ -2190,7 +2190,7 @@ end:
 	return rp->read_cnt;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* solve mdp dump error in monkey test */
 static int mdss_dsi_cmd_buff_offset(struct mdss_dsi_ctrl_pdata *ctrl,
 		dma_addr_t dma_addr, int len)
@@ -2223,7 +2223,7 @@ static int mdss_dsi_cmd_buff_offset(struct mdss_dsi_ctrl_pdata *ctrl,
 
 	return ret;
 }
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static int mdss_dsi_cmd_dma_tx(struct mdss_dsi_ctrl_pdata *ctrl,
 					struct dsi_buf *tp)
@@ -2267,17 +2267,17 @@ static int mdss_dsi_cmd_dma_tx(struct mdss_dsi_ctrl_pdata *ctrl,
 				mdss_dsi_set_reg(mctrl, 0x10c,
 						0x0f0000, 0x0f0000);
 			}
-			#ifdef CONFIG_VENDOR_REALME
+			#ifdef CONFIG_PRODUCT_REALME_RMX1801
 			/* solve mdp dump error in monkey test */
 			ret = mdss_dsi_cmd_buff_offset(mctrl,
 						ctrl->dma_addr, len);
 			if (ret)
 				goto end;
-			#else /*CONFIG_VENDOR_REALME*/
+			#else /*CONFIG_PRODUCT_REALME_RMX1801*/
 			MIPI_OUTP(mctrl->ctrl_base + 0x048, ctrl->dma_addr);
 			MIPI_OUTP(mctrl->ctrl_base + 0x04c, len);
 			MIPI_OUTP(mctrl->ctrl_base + 0x090, 0x01); /* trigger */
-			#endif /*CONFIG_VENDOR_REALME*/
+			#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 		}
 	}
 
@@ -2287,26 +2287,26 @@ static int mdss_dsi_cmd_dma_tx(struct mdss_dsi_ctrl_pdata *ctrl,
 	}
 
 	/* send cmd to its panel */
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* solve mdp dump error in monkey test */
 	ret = mdss_dsi_cmd_buff_offset(ctrl, ctrl->dma_addr, len);
 	if (ret)
 		goto end;
-	#else /*CONFIG_VENDOR_REALME*/
+	#else /*CONFIG_PRODUCT_REALME_RMX1801*/
 	MIPI_OUTP((ctrl->ctrl_base) + 0x048, ctrl->dma_addr);
 	MIPI_OUTP((ctrl->ctrl_base) + 0x04c, len);
 	wmb();
-	#endif /*CONFIG_VENDOR_REALME*/
+	#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	/* schedule dma cmds at start of blanking region */
 	mdss_dsi_schedule_dma_cmd(ctrl);
 
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/* solve mdp dump error in monkey test */
 	/* DSI_CMD_MODE_DMA_SW_TRIGGER */
 	MIPI_OUTP((ctrl->ctrl_base) + 0x090, 0x01);
 	wmb();
-	#endif /*CONFIG_VENDOR_REALME*/
+	#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	MDSS_XLOG(ctrl->dma_addr, len);
 
 	if (ctrl->do_unicast) {
@@ -2776,7 +2776,7 @@ exit:
 	return need_wait;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for dynamic mipi dsi clk
 static void mdss_dsi_clkrate_update(struct mdss_dsi_ctrl_pdata *ctrl)
 {
@@ -2811,7 +2811,7 @@ static void mdss_dsi_clkrate_update(struct mdss_dsi_ctrl_pdata *ctrl)
 		MDSS_XLOG(0x225);
 	}
 }
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 int mdss_dsi_cmdlist_commit(struct mdss_dsi_ctrl_pdata *ctrl, int from_mdp)
 {
@@ -2851,11 +2851,11 @@ int mdss_dsi_cmdlist_commit(struct mdss_dsi_ctrl_pdata *ctrl, int from_mdp)
 		mdss_dsi_cmd_mdp_busy(ctrl);
 	}
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for dynamic mipi dsi clk
 	if (from_mdp && (!req))
 		mdss_dsi_clkrate_update(ctrl);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	/*
 	 * if secure display session is enabled

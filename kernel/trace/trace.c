@@ -295,7 +295,7 @@ int trace_array_get(struct trace_array *this_tr)
 
 	return ret;
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //fangpan@Swdp.shanghai, 2016/06/30, export the ftrace interface
 EXPORT_SYMBOL(trace_array_get);
 #endif
@@ -312,7 +312,7 @@ void trace_array_put(struct trace_array *this_tr)
 	__trace_array_put(this_tr);
 	mutex_unlock(&trace_types_lock);
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //fangpan@Swdp.shanghai, 2016/06/30, export the ftrace interface
 EXPORT_SYMBOL(trace_array_put);
 #endif
@@ -512,7 +512,7 @@ static inline void ftrace_trace_stack(struct trace_array *tr,
 
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 void tracer_tracing_on(struct trace_array *tr)
 #else
 static void tracer_tracing_on(struct trace_array *tr)
@@ -532,7 +532,7 @@ static void tracer_tracing_on(struct trace_array *tr)
 	/* Make the flag seen by readers */
 	smp_wmb();
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //fangpan@Swdp.shanghai, 2016/06/30, export the ftrace interface
 EXPORT_SYMBOL(tracer_tracing_on);
 #endif
@@ -790,7 +790,7 @@ void tracing_snapshot_alloc(void)
 EXPORT_SYMBOL_GPL(tracing_snapshot_alloc);
 #endif /* CONFIG_TRACER_SNAPSHOT */
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 void tracer_tracing_off(struct trace_array *tr)
 #else
 static void tracer_tracing_off(struct trace_array *tr)
@@ -810,7 +810,7 @@ static void tracer_tracing_off(struct trace_array *tr)
 	/* Make the flag seen by readers */
 	smp_wmb();
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //fangpan@Swdp.shanghai, 2016/06/30, export the ftrace interface
 EXPORT_SYMBOL(tracer_tracing_off);
 #endif
@@ -3707,7 +3707,7 @@ int set_tracer_flag(struct trace_array *tr, unsigned int mask, int enabled)
 	return 0;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 int trace_set_options(struct trace_array *tr, char *option)
 #else
 static int trace_set_options(struct trace_array *tr, char *option)
@@ -3750,7 +3750,7 @@ static int trace_set_options(struct trace_array *tr, char *option)
 
 	return ret;
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //fangpan@Swdp.shanghai, 2016/06/30, export the ftrace interface
 EXPORT_SYMBOL(trace_set_options);
 
@@ -4514,7 +4514,7 @@ static int __tracing_resize_ring_buffer(struct trace_array *tr,
 }
 
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 ssize_t tracing_resize_ring_buffer(struct trace_array *tr,
 #else
 static ssize_t tracing_resize_ring_buffer(struct trace_array *tr,
@@ -4542,7 +4542,7 @@ out:
 
 	return ret;
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //fangpan@Swdp.shanghai, 2016/06/30, export the ftrace interface
 EXPORT_SYMBOL(tracing_resize_ring_buffer);
 #endif
@@ -5454,7 +5454,7 @@ static int tracing_clock_show(struct seq_file *m, void *v)
 	return 0;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //fangpan@Swdp.shanghai, 2016/06/30, export the ftrace interface
 int tracing_clock_update(struct trace_array *tr, const char *buf)
 {

@@ -1,6 +1,6 @@
 /***********************************************************
 ** Copyright (C), 2008-2017, OPPO Mobile Comm Corp., Ltd.
-** CONFIG_VENDOR_REALME
+** CONFIG_PRODUCT_REALME_RMX1801
 ** File: - oppo_lowmemorymonitor.c
 ** Description: oppo customization lowmemory monitor for lowmemory and memory leak case
 ** Version: 1.0

@@ -1,5 +1,5 @@
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #Added by ZhongWenjie@Bsp.group.Tp for himax hx833112B NOFLASH ic driver
 
 config TOUCHPANEL_HIMAX_HX83112B_NOFLASH

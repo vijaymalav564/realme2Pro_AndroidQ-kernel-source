@@ -13,7 +13,7 @@ obj-y     = fork.o exec_domain.o panic.o \
 
 obj-$(CONFIG_MULTIUSER) += groups.o
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #yanwu@TECH.Storage.FS, 2019/08/27, add code to flush device cache in panic
 obj-y += panic_flush.o
 #endif

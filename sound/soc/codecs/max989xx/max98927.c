@@ -1831,7 +1831,7 @@ static int max98927_i2c_probe(struct i2c_client *i2c,
 		max98927->interleave_mode = value;
 	}
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2017/02/06,
 	 *Add for max989xx dvdd.
 	 */
@@ -1862,7 +1862,7 @@ static int max98927_i2c_probe(struct i2c_client *i2c,
 		devm_kfree(&i2c->dev, max98927);
 		return ret;
 	}
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	ret = max98927_reset(i2c, max98927);     // reset pin to chip hardware reset.
 

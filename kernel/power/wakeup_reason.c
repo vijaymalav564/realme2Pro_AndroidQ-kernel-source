@@ -27,11 +27,11 @@
 #include <linux/notifier.h>
 #include <linux/suspend.h>
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Wenxian.Zhen@BSP.Power.Basic, 2016/07/19, add for analysis power consumption
 #include <linux/notifier.h>
 #include <linux/fb.h>
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #define MAX_WAKEUP_REASON_IRQS 32
 static int irq_list[MAX_WAKEUP_REASON_IRQS];
@@ -71,7 +71,7 @@ static ssize_t last_resume_reason_show(struct kobject *kobj, struct kobj_attribu
 	return buf_offset;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Wenxian.zhen@Prd.BaseDrv, 2016/07/19, add for analysis power consumption
 extern u64 	alarm_count;
 extern u64	wakeup_source_count_rtc;
@@ -117,13 +117,13 @@ static ssize_t ap_resume_reason_stastics_show(struct kobject *kobj, struct kobj_
 	printk(KERN_WARNING "%s wakeup %lld times\n","adsp",wakeup_source_count_adsp);
 	return buf_offset;
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@Swdp.Performance.Power, 2016/05/12, add for modem wake up source
 extern u16 modem_wakeup_source;
-#endif /* CONFIG_VENDOR_REALME */
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@Swdp.Performance.Power, 2016/05/12, add for modem wake up source
 extern struct work_struct wakeup_reason_work;
 static struct kset *wakeup_reason_kset;
@@ -158,7 +158,7 @@ static int wakeup_uevent_ops_uevent(struct kset *kset, struct kobject *kobj,
 static struct kset_uevent_ops wakeup_uevent_ops = {
     .uevent = wakeup_uevent_ops_uevent,
 };
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static ssize_t last_suspend_time_show(struct kobject *kobj,
 			struct kobj_attribute *attr, char *buf)
@@ -193,17 +193,17 @@ static struct kobj_attribute resume_reason = __ATTR_RO(last_resume_reason);
 static struct kobj_attribute suspend_time = __ATTR_RO(last_suspend_time);
 
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Wenxian.Zhen@BSP.Power.Basic, 2016/04/15, Add for wake up source
 static struct kobj_attribute ap_resume_reason_stastics = __ATTR_RO(ap_resume_reason_stastics);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 static struct attribute *attrs[] = {
 	&resume_reason.attr,
 	&suspend_time.attr,
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Wenxian.Zhen@BSP.Power.Basic, 2016/04/15, Add for wake up source
 	&ap_resume_reason_stastics.attr,
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	NULL,
 };
@@ -301,7 +301,7 @@ static int wakeup_reason_pm_event(struct notifier_block *notifier,
 static struct notifier_block wakeup_reason_pm_notifier_block = {
 	.notifier_call = wakeup_reason_pm_event,
 };
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Wenxian.Zhen@BSP.Power.Basic, 2016/07/19, add for analysis power consumption
 
 static void wakeup_reason_count_out(void)
@@ -342,7 +342,7 @@ static int wakeup_src_fb_notifier_callback(struct notifier_block *self,
 static struct notifier_block wakeup_src_fb_notif = {
 	.notifier_call = wakeup_src_fb_notifier_callback,
 };
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 /* Initializes the sysfs parameter
  * registers the pm_event notifier
@@ -368,7 +368,7 @@ int __init wakeup_reason_init(void)
 		printk(KERN_WARNING "[%s] failed to create a sysfs group %d\n",
 				__func__, retval);
 	}
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jiemin.Zhu@Swdp.Performance.Power, 2016/05/24, Add for wake up source
     wakeup_reason_kset = kset_create_and_add("wakeup_reason_uevent", &wakeup_uevent_ops, kernel_kobj);
     if (!wakeup_reason_kset) {
@@ -380,11 +380,11 @@ int __init wakeup_reason_init(void)
         printk(KERN_WARNING "[%s] failed to create a sysfs group %d\n", __func__, retval);
     }
     INIT_WORK(&wakeup_reason_work, wakeup_reason_work_func);
-#endif /* CONFIG_VENDOR_REALME */
-#ifdef CONFIG_VENDOR_REALME
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Wenxian.zhen@Prd.BaseDrv, 2016/07/19, add for analysis power consumption
 	fb_register_client(&wakeup_src_fb_notif);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	return 0;
 }
 

@@ -50,11 +50,11 @@
 #include <asm/uaccess.h>
 
 #include "queue.h"
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Zhilong.Zhang@OnlineRd.Driver, 2013/10/24, Add for eMMC and DDR device information
 #include <soc/oppo/device_info.h>
 #include <soc/oppo/oppo_project.h>
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 MODULE_ALIAS("mmc:block");
 #ifdef MODULE_PARAM_PREFIX
@@ -1548,10 +1548,10 @@ static int card_busy_detect(struct mmc_card *card, unsigned int timeout_ms,
 	unsigned long timeout = jiffies + msecs_to_jiffies(timeout_ms);
 	int err = 0;
 	u32 status;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //yh@PhoneSW.BSP, 2017-1-17, send card changing to RO mode uevent to android layer
 	char *envp[2] = {"sdcard_ro=1", NULL};
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	do {
 		err = get_card_status(card, &status, 5);
@@ -1580,14 +1580,14 @@ static int card_busy_detect(struct mmc_card *card, unsigned int timeout_ms,
 			pr_err("%s: Card stuck in programming state! %s %s\n",
 				mmc_hostname(card->host),
 				req->rq_disk->disk_name, __func__);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //1.yh@bsp, 2015-10-21 Add for special card compatible
 //2.yh@PhoneSW.BSP, 2017-1-17, send card changing to RO mode uevent to android layer
 			kobject_uevent_env(
 					&(card->dev.kobj),
 					KOBJ_CHANGE, envp);
 			card->host->card_stuck_in_programing_status = true;
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 			return -ETIMEDOUT;
 		}
 
@@ -3119,7 +3119,7 @@ static struct mmc_cmdq_req *mmc_cmdq_prep_dcmd(
 
 	memset(&mqrq->cmdq_req, 0, sizeof(struct mmc_cmdq_req));
 	
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
 	cmdq_req->mrq.mrq_start = ktime_to_us(ktime_get());
 	#endif
@@ -3153,7 +3153,7 @@ static struct mmc_cmdq_req *mmc_blk_cmdq_rw_prep(
 
 	memset(&mqrq->cmdq_req, 0, sizeof(struct mmc_cmdq_req));
 	
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
 	cmdq_rq->mrq.mrq_start = ktime_to_us(ktime_get());
 	#endif
@@ -3565,7 +3565,7 @@ static void mmc_blk_cmdq_err(struct mmc_queue *mq)
 	struct mmc_request *mrq = host->err_mrq;
 	struct mmc_cmdq_context_info *ctx_info = &host->cmdq_ctx;
 	struct request_queue *q;
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
 	struct request *req = mrq->req;
 	#endif
@@ -3615,7 +3615,7 @@ static void mmc_blk_cmdq_err(struct mmc_queue *mq)
 	 * here.
 	 */
 	 
-	 #ifdef CONFIG_VENDOR_REALME
+	 #ifdef CONFIG_PRODUCT_REALME_RMX1801
 	 //rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
 	 set_bit(8, &ctx_info->curr_state);
 	 #endif
@@ -3629,7 +3629,7 @@ static void mmc_blk_cmdq_err(struct mmc_queue *mq)
 		err = mrq->cmd->error;
 	}
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
 	MMC_TRACE(host, "%s: req_tag: %d, req_addr: 0x%p start: %lu DL: %lu\n, err:%d",
 			__func__, req->tag, (void *)req, req->start_time,
@@ -4071,7 +4071,7 @@ static int mmc_blk_cmdq_issue_rq(struct mmc_queue *mq, struct request *req)
 	struct mmc_host *host = card->host;
 	unsigned int cmd_flags = req ? req->cmd_flags : 0;
 	
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
 	unsigned long long diff;
     ktime_t get_card;
@@ -4081,7 +4081,7 @@ static int mmc_blk_cmdq_issue_rq(struct mmc_queue *mq, struct request *req)
 	
 	mmc_get_card(card);
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
 	diff = ktime_to_us(ktime_sub(ktime_get(), get_card));
 	if (req) {
@@ -4778,22 +4778,22 @@ static int mmc_blk_probe(struct mmc_card *card)
 {
 	struct mmc_blk_data *md, *part_md;
 	char cap_str[10];
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//Zhilong.Zhang@OnlineRd.Driver, 2013/10/24, Add for eMMC and DDR device information
 	char * manufacturerid;
     static char temp_version[10];
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	/*
 	 * Check that the card supports the command class(es) we need.
 	 */
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //yh@bsp, 2015/08/03, remove for can not initialize specific sdcard(CSD info mismatch card real capability)
 	if (!(card->csd.cmdclass & CCC_BLOCK_READ))
 		return -ENODEV;
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Zhilong.Zhang@OnlineRd.Driver, 2013/10/24, Add for eMMC and DDR device information
 	switch (card->cid.manfid) {
 		case  0x11:
@@ -4820,7 +4820,7 @@ static int mmc_blk_probe(struct mmc_card *card)
 		register_device_proc("emmc", mmc_card_name(card), manufacturerid);
 		register_device_proc("emmc_version", mmc_card_name(card), temp_version);
 	}
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	mmc_fixup_device(card, blk_fixups);
 
 	md = mmc_blk_alloc(card);

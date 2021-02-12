@@ -111,7 +111,7 @@ extern void __pm_wakeup_event(struct wakeup_source *ws, unsigned int msec);
 extern void pm_wakeup_event(struct device *dev, unsigned int msec);
 
 /* OPPO 2013-09-17 wangjc Add begin for print wakeup source */
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 extern void pm_print_active_wakeup_sources(void);
 #endif
 

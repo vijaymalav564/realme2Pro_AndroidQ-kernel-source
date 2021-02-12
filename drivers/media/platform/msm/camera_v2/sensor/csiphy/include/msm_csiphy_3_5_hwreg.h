@@ -53,7 +53,7 @@ struct csiphy_reg_3ph_parms_t csiphy_v3_5_3ph = {
 	{0x154, 0x0},
 	{0x15C, 0x23}, //0x33
 	{0x160, ULPM_WAKE_UP_TIMER_MODE},
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*modified by yujun.hou@Camera 20180426 for c-phy*/
 	{0x164, 0x58}, //0x48
 	#else

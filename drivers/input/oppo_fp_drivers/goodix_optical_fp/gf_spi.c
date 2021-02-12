@@ -1,6 +1,6 @@
 /************************************************************************************
  ** File: - SDM660.LA.1.0\android\vendor\oppo_app\fingerprints_hal\drivers\goodix_fp\gf_spi.c
- ** CONFIG_VENDOR_REALME
+ ** CONFIG_PRODUCT_REALME_RMX1801
  ** Copyright (C), 2008-2020, OPPO Mobile Comm Corp., Ltd
  **
  ** Description:

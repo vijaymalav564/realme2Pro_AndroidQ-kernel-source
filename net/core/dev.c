@@ -141,13 +141,13 @@
 #include <net/tcp.h>
 
 #include "net-sysfs.h"
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 #include <linux/imq.h>
 #endif
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 /* Instead of increasing this, you should create a hash table. */
 #define MAX_GRO_SKBS 8
 
@@ -2781,18 +2781,18 @@ static int xmit_one(struct sk_buff *skb, struct net_device *dev,
 	unsigned int len;
 	int rc;
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Modify for limit speed function
 	if (!list_empty(&ptype_all) || !list_empty(&dev->ptype_all))
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 	if ((!list_empty(&ptype_all) || !list_empty(&dev->ptype_all)) &&
 		!(skb->imq_flags & IMQ_F_ENQUEUE))
 #else
 	if (!list_empty(&ptype_all) || !list_empty(&dev->ptype_all))
 #endif
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		dev_queue_xmit_nit(skb, dev);
 
 	len = skb->len;
@@ -2831,13 +2831,13 @@ out:
 	return skb;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Add for limit speed function
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 EXPORT_SYMBOL(dev_hard_start_xmit);
 #endif
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static struct sk_buff *validate_xmit_vlan(struct sk_buff *skb,
 					  netdev_features_t features)

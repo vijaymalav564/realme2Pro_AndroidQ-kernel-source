@@ -67,9 +67,9 @@
 #include <asm/tlbflush.h>
 #include <asm/div64.h>
 #include "internal.h"
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_MEM_MONITOR)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_MEM_MONITOR)
 #include <linux/memory_monitor.h>
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 /* prevent >1 _updater_ of zone percpu pageset ->high and ->batch fields */
 static DEFINE_MUTEX(pcp_batch_high_lock);
@@ -235,12 +235,12 @@ char * const migratetype_names[MIGRATE_TYPES] = {
 	"CMA",
 #endif
 	"HighAtomic",
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
  * Add a migrate type to manage special page alloc/free
  */
 	"OPPO2",
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 #ifdef CONFIG_MEMORY_ISOLATION
 	"Isolate",
 #endif
@@ -1775,14 +1775,14 @@ static void reserve_highatomic_pageblock(struct page *page, struct zone *zone,
 
 	/* Yoink! */
 	mt = get_pageblock_migratetype(page);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Shiming.Zhang@PSW.BSP.Kernel.MM, 2017-11-15
  * could not reserve MIGRATE_OPPO2 as MIGRATE_HIGHATOMIC
  */
 	if (mt != MIGRATE_HIGHATOMIC && mt != MIGRATE_OPPO2 &&
 #else
 	if (mt != MIGRATE_HIGHATOMIC &&
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 			!is_migrate_isolate(mt) && !is_migrate_cma(mt)) {
 		zone->nr_reserved_highatomic += pageblock_nr_pages;
 		set_pageblock_migratetype(page, MIGRATE_HIGHATOMIC);
@@ -1886,7 +1886,7 @@ __rmqueue_fallback(struct zone *zone, unsigned int order, int start_migratetype)
 		page = list_entry(area->free_list[fallback_mt].next,
 						struct page, lru);
 		if (can_steal &&
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Shiming.Zhang@PSW.BSP.Kernel.MM, 2017-11-15
  * could not steal MIGRATE_OPPO2
  */
@@ -1894,7 +1894,7 @@ __rmqueue_fallback(struct zone *zone, unsigned int order, int start_migratetype)
 			get_pageblock_migratetype(page) != MIGRATE_OPPO2)
 #else
 			get_pageblock_migratetype(page) != MIGRATE_HIGHATOMIC)
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 			steal_suitable_fallback(zone, page, start_migratetype);
 
 		/* Remove the page from the freelists */
@@ -2001,14 +2001,14 @@ static int rmqueue_bulk(struct zone *zone, unsigned int order,
 		if (is_migrate_cma(get_pcppage_migratetype(page)))
 			__mod_zone_page_state(zone, NR_FREE_CMA_PAGES,
 					      -(1 << order));
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
  * Account free pages for MIGRATE_OPPO2
  */
 		if (get_pcppage_migratetype(page) == MIGRATE_OPPO2)
 			__mod_zone_page_state(zone, NR_FREE_OPPO2_PAGES,
 					      -(1 << order));
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	}
 	__mod_zone_page_state(zone, NR_FREE_PAGES, -(i << order));
 	spin_unlock(&zone->lock);
@@ -2335,7 +2335,7 @@ int __isolate_free_page(struct page *page, unsigned int order)
 		for (; page < endpage; page += pageblock_nr_pages) {
 			int mt = get_pageblock_migratetype(page);
 			if (!is_migrate_isolate(mt) && !is_migrate_cma(mt)
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Shiming.Zhang@PSW.BSP.Kernel.MM, 2017-11-15
  * could not steal MIGRATE_OPPO2
  */
@@ -2343,7 +2343,7 @@ int __isolate_free_page(struct page *page, unsigned int order)
 				&& mt != MIGRATE_OPPO2)
 #else
 				&& mt != MIGRATE_HIGHATOMIC)
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 				set_pageblock_migratetype(page,
 							  MIGRATE_MOVABLE);
 		}
@@ -2421,14 +2421,14 @@ struct page *buffered_rmqueue(struct zone *preferred_zone,
 				trace_mm_page_alloc_zone_locked(page, order, migratetype);
 		}
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
  * Order-2 allocation use MIGRATE_OPPO2 first
  */
 		if (!page && order == 2) {
 			page = __rmqueue_smallest(zone, order, MIGRATE_OPPO2);
 		}
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		if (!page && migratetype == MIGRATE_MOVABLE &&
 				gfp_flags & __GFP_CMA)
@@ -2437,13 +2437,13 @@ struct page *buffered_rmqueue(struct zone *preferred_zone,
 		if (!page)
 			page = __rmqueue(zone, order, migratetype, gfp_flags);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Shiming.Zhang@PSW.BSP.Kernel.MM, 2017-11-15
  * order-2 allocate from MIGRATE_HIGHATOMIC instead of fail
  */
 		if (!page && order == 2)
 			page = __rmqueue_smallest(zone, order, MIGRATE_HIGHATOMIC);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		spin_unlock(&zone->lock);
 		if (!page)
@@ -2575,7 +2575,7 @@ static bool __zone_watermark_ok(struct zone *z, unsigned int order,
 	if (likely(!alloc_harder))
 		free_pages -= z->nr_reserved_highatomic;
 	else
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* Shiming.Zhang@PSW.BSP.Kernel.MM, 2017-11-15
 	 * ALLOC_HIGH:ALLOC_HARDER is about 1:10, so more for ALLOC_HARDER
 	 * and since 2-order might allocate from MIGRATE_HIGHATOMIC as fallback,
@@ -2585,7 +2585,7 @@ static bool __zone_watermark_ok(struct zone *z, unsigned int order,
 		min -= min / 4 + min / 8;
 #else
 		min -= min / 4;
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #ifdef CONFIG_CMA
 	/* If allocation can't use CMA areas don't use free CMA pages */
@@ -2593,13 +2593,13 @@ static bool __zone_watermark_ok(struct zone *z, unsigned int order,
 		free_pages -= zone_page_state(z, NR_FREE_CMA_PAGES);
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
 	 * Not order-2 allocation cannot use MIGRATE_OPPO
 	 */
 	if (order != 2)
 		free_pages -= zone_page_state(z, NR_FREE_OPPO2_PAGES);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	/*
 	 * Check watermarks for an order-0 allocation request. If these
@@ -2621,13 +2621,13 @@ static bool __zone_watermark_ok(struct zone *z, unsigned int order,
 		if (!area->nr_free)
 			continue;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
  * If MIGRATE_OPPO not empty, return true
  */
 		if (order == 2 && !list_empty(&area->free_list[MIGRATE_OPPO2]))
 			return true;
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		if (alloc_harder)
 			return true;
 		for (mt = 0; mt < MIGRATE_PCPTYPES; mt++) {
@@ -2643,13 +2643,13 @@ static bool __zone_watermark_ok(struct zone *z, unsigned int order,
 				return true;
 		}
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* Shiming.Zhang@PSW.BSP.Kernel.MM, 2017-11-15
 	 * order-2 could allocate from MIGRATE_HIGHATOMIC as last resert
 	 */
 		if (order == 2 && !list_empty(&area->free_list[MIGRATE_HIGHATOMIC]))
 			return true;
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #ifdef CONFIG_CMA
 		if ((alloc_flags & ALLOC_CMA) &&
@@ -3224,10 +3224,10 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
 	enum migrate_mode migration_mode = MIGRATE_ASYNC;
 	bool deferred_compaction = false;
 	int contended_compaction = COMPACT_CONTENDED_NONE;
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_MEM_MONITOR)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_MEM_MONITOR)
 /* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-07-07, add alloc wait monitor support*/
 	unsigned long alloc_start = jiffies;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	/*
 	 * In the slowpath, we sanity check order to avoid ever trying to
 	 * reclaim >= MAX_ORDER areas which will never succeed. Callers may
@@ -3409,10 +3409,10 @@ noretry:
 nopage:
 	warn_alloc_failed(gfp_mask, order, NULL);
 got_pg:
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_MEM_MONITOR)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_MEM_MONITOR)
 /* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-07-07, add alloc wait monitor support*/
 	memory_alloc_monitor(gfp_mask, order, jiffies_to_msecs(jiffies - alloc_start));
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	return page;
 }
 
@@ -3901,12 +3901,12 @@ static void show_migration_types(unsigned char type)
 		[MIGRATE_MOVABLE]	= 'M',
 		[MIGRATE_RECLAIMABLE]	= 'E',
 		[MIGRATE_HIGHATOMIC]	= 'H',
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
  * Add a migrate type to manage special page alloc/free
  */
 		[MIGRATE_OPPO2]		= 'O',
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 #ifdef CONFIG_CMA
 		[MIGRATE_CMA]		= 'C',
 #endif
@@ -6265,7 +6265,7 @@ static void setup_per_zone_lowmem_reserve(void)
 	calculate_totalreserve_pages();
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21 */
 /*
  * Check if a pageblock contains reserved pages
@@ -6417,7 +6417,7 @@ static void setup_zone_migrate_oppo(struct zone *zone, int reserve_migratetype)
 		}
 	}
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static void __setup_per_zone_wmarks(void)
 {
@@ -6468,25 +6468,25 @@ static void __setup_per_zone_wmarks(void)
 		zone->watermark[WMARK_LOW]  = min_wmark_pages(zone) +
 					low + (min >> 2);
 		zone->watermark[WMARK_HIGH] = min_wmark_pages(zone) +
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Shiming.Zhang@PSW.BSP.Kernel.MM, 2017-11-15
  * increase high watermark, so kswapd could kick in earlier.
  */
 					low + min*2;
 #else
 					low + (min >> 1);
-#endif/*CONFIG_VENDOR_REALME*/
+#endif/*CONFIG_PRODUCT_REALME_RMX1801*/
 
 		__mod_zone_page_state(zone, NR_ALLOC_BATCH,
 			high_wmark_pages(zone) - low_wmark_pages(zone) -
 			atomic_long_read(&zone->vm_stat[NR_ALLOC_BATCH]));
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
  * Setup MIGRATE_OPPO2 blocks for each zone
  */
 		setup_zone_migrate_oppo(zone, MIGRATE_OPPO2);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		spin_unlock_irqrestore(&zone->lock, flags);
 	}
 

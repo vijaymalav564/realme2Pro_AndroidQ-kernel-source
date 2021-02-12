@@ -50,7 +50,7 @@ struct __compat_mtp_event {
 						struct __compat_mtp_file_range)
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //yan.chen@Swdp.shanghai, 2015/12/3, add mtp callback for hypnus
 extern int mtp_register_notifier(struct notifier_block *nb);
 extern int mtp_unregister_notifier(struct notifier_block *nb);

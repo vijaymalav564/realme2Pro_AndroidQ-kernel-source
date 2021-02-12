@@ -147,7 +147,7 @@ static void tick_sched_do_timer(ktime_t now)
 		tick_do_timer_cpu = cpu;
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //xiaocheng.li@Swdp.shanghai, 2016/2/26, Fix bug that Tick is stopped.
 	/*
 	 * Let the last CPU update tick if tick_do_timer_cpu is not updated

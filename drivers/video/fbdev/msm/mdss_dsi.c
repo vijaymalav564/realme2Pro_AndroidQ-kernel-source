@@ -44,10 +44,10 @@ static struct mdss_dsi_data *mdss_dsi_res;
 #define DSI_ENABLE_PC_LATENCY PM_QOS_DEFAULT_VALUE
 
 static struct pm_qos_request mdss_dsi_pm_qos_request;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*YunRui.Chen@RM.BSP.TP.Function, 2019/02/20, add for trigger load tp fw by lcd driver after lcd reset*/
 extern void lcd_queue_load_tp_fw(void);
-#endif/*CONFIG_VENDOR_REALME*/
+#endif/*CONFIG_PRODUCT_REALME_RMX1801*/
 void mdss_dump_dsi_debug_bus(u32 bus_dump_flag,
 	u32 **dump_mem)
 {
@@ -1560,10 +1560,10 @@ int mdss_dsi_on(struct mdss_panel_data *pdata)
 
 	mdss_dsi_clamp_phy_reset_config(ctrl_pdata, true);
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* add for lcd rst before lp11 */
 	oppo_reset_before_lp11(pdata);
-	#endif /*CONFIG_VENDOR_REALME*/
+	#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	/* DSI link clocks need to be on prior to ctrl sw reset */
 	mdss_dsi_clk_ctrl(ctrl_pdata, ctrl_pdata->dsi_clk_handle,
@@ -1580,10 +1580,10 @@ int mdss_dsi_on(struct mdss_panel_data *pdata)
 		mdss_dsi_panel_reset(pdata, 1);
 	}
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*YunRui.Chen@RM.BSP.TP.Function, 2019/02/20, add for trigger load tp fw by lcd driver after lcd reset*/
 	  lcd_queue_load_tp_fw();
-	#endif/*CONFIG_VENDOR_REALME*/
+	#endif/*CONFIG_PRODUCT_REALME_RMX1801*/
 	
 	if (mipi->init_delay)
 		usleep_range(mipi->init_delay, mipi->init_delay);
@@ -2019,7 +2019,7 @@ static void __mdss_dsi_update_video_mode_total(struct mdss_panel_data *pdata,
 		return;
 	}
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* solve mdp dump error in monkey test */
 	if (ctrl_pdata->timing_db_mode) {
 		spin_lock(&ctrl_pdata->db_mode_mutex);
@@ -2028,10 +2028,10 @@ static void __mdss_dsi_update_video_mode_total(struct mdss_panel_data *pdata,
 		pr_debug("%s DB_MODE %d\n", __func__, 0x1);
 		spin_unlock(&ctrl_pdata->db_mode_mutex);
 	}
-	#else /*CONFIG_VENDOR_REALME*/
+	#else /*CONFIG_PRODUCT_REALME_RMX1801*/
 	if (ctrl_pdata->timing_db_mode)
 		MIPI_OUTP((ctrl_pdata->ctrl_base) + 0x1e8, 0x1);
-	#endif /*CONFIG_VENDOR_REALME*/
+	#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	vsync_period =
 		mdss_panel_get_vtotal(&pdata->panel_info);
@@ -2154,7 +2154,7 @@ static void __mdss_dsi_calc_dfps_delay(struct mdss_panel_data *pdata)
 						pll_delay);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for dynamic mipi dsi clk
 static int mdss_dsi_panel_update_clkrate(struct mdss_dsi_ctrl_pdata *ctrl,
 			u32 bitrate)
@@ -2174,7 +2174,7 @@ static int mdss_dsi_panel_update_clkrate(struct mdss_dsi_ctrl_pdata *ctrl,
 
 	return 0;
 }
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static int __mdss_dsi_dfps_calc_clks(struct mdss_panel_data *pdata,
 		u64 new_clk_rate)
@@ -2891,13 +2891,13 @@ static void mdss_dsi_timing_db_ctrl(struct mdss_dsi_ctrl_pdata *ctrl,
 		  MDSS_DSI_CORE_CLK, MDSS_DSI_CLK_ON);
 	MIPI_OUTP((ctrl->ctrl_base + 0x1e8), enable);
 	wmb(); /* ensure timing db is disabled */
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* solve mdp dump error in monkey test */
 	if (!enable && ctrl->timing_db_mode) {
 		complete_all(&ctrl->db_mode_wait);
 		pr_debug("%s DB_MODE %d\n", __func__, enable);
 	}
-	#endif /*CONFIG_VENDOR_REALME*/
+	#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	mdss_dsi_clk_ctrl(ctrl, ctrl->dsi_clk_handle,
 		  MDSS_DSI_CORE_CLK, MDSS_DSI_CLK_OFF);
 }
@@ -3196,7 +3196,7 @@ static int mdss_dsi_event_handler(struct mdss_panel_data *pdata,
 		rc = mdss_dsi_check_panel_status(ctrl_pdata, arg);
 		break;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for dynamic mipi dsi clk
 	case MDSS_EVENT_PANEL_UPDATE_DSI_TIMING:
 		rc = mdss_dsi_panel_update_clkrate(ctrl_pdata,
@@ -3204,7 +3204,7 @@ static int mdss_dsi_event_handler(struct mdss_panel_data *pdata,
 		pr_debug("Update dsi timing to %d\n",
 				(u32) (unsigned long) arg);
 		break;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	case MDSS_EVENT_PANEL_TIMING_SWITCH:
 		rc = mdss_dsi_panel_timing_switch(ctrl_pdata, arg);
@@ -3727,10 +3727,10 @@ static int mdss_dsi_ctrl_probe(struct platform_device *pdev)
 	ctrl_pdata->mdss_util = util;
 	atomic_set(&ctrl_pdata->te_irq_ready, 0);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //add for dynamic mipi dsi clk
 	atomic_set(&ctrl_pdata->clkrate_change_pending, 0);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	ctrl_name = of_get_property(pdev->dev.of_node, "label", NULL);
 	if (!ctrl_name)
@@ -4716,7 +4716,7 @@ static int mdss_dsi_parse_gpio_params(struct platform_device *ctrl_pdev,
 		ctrl_pdata->lcd_mode_sel_gpio = -EINVAL;
 	}
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*
  * add for lcd -5v
  */
@@ -4731,7 +4731,7 @@ static int mdss_dsi_parse_gpio_params(struct platform_device *ctrl_pdev,
 	if (!gpio_is_valid(ctrl_pdata->lcd_1v8_en_gpio)) {
 		pr_err("%s:%d lcd lcd_1v8_en_gpio not specified\n", __func__, __LINE__);
 	}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	return 0;
 }

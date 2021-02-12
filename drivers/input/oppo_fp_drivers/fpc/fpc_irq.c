@@ -1,6 +1,6 @@
 /************************************************************************************
 ** File: - drivers\input\fpc_tee\fpc_irq.c
-** CONFIG_VENDOR_REALME
+** CONFIG_PRODUCT_REALME_RMX1801
 ** Copyright (C), 2008-2016, OPPO Mobile Comm Corp., Ltd
 **
 ** Description:
@@ -120,20 +120,20 @@ struct fpc1020_data {
         struct platform_device *pldev;
         int irq_gpio;
         int rst_gpio;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
         /* Long.Liu@PSW.BSP.Fingerprint.Basic, 2019/9/18, Add for FPC driver baseon trustonic tee */
         int vdd_en_gpio;
         int cs_gpio;
         bool cs_gpio_set;
         struct pinctrl *pinctrl;
         struct pinctrl_state *pstate_cs_func;
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         struct input_dev *idev;
         int irq_num;
         struct mutex lock;
         bool prepared;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
         //LiBin@BSP.Fingerprint.Basic, 2016/10/13, modify for enable/disable irq
         int irq_enabled;
 #endif
@@ -146,12 +146,12 @@ struct fpc1020_data {
         struct wakeup_source                                fpc_wl;
         struct wakeup_source                                fpc_irq_wl;
 #endif
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
         /* Long.Liu@PSW.BSP.Fingerprint.Basic, 2019/9/18, Add for FPC driver */
         //struct regulator                                *vreg[ARRAY_SIZE(vreg_conf)];
         unsigned power_num;
         fp_power_info_t pwr_list[FP_MAX_PWR_LIST_LEN];
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 };
 
 static int fpc1020_request_named_gpio(struct fpc1020_data *fpc1020,
@@ -177,7 +177,7 @@ static int fpc1020_request_named_gpio(struct fpc1020_data *fpc1020,
 }
 
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Long.Liu@PSW.BSP.Fingerprint.Basic, 2019/9/18, Add for FPC driver */
 static int vreg_setup(struct fpc1020_data *fpc_fp, fp_power_info_t *pwr_info,
         bool enable)
@@ -320,7 +320,7 @@ int fpc_power_off(struct fpc1020_data* fpc_dev)
     return rc;
 }
 
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 
 /* -------------------------------------------------------------------------- */
@@ -374,7 +374,7 @@ static ssize_t clk_enable_set(struct device *dev,
 
 static DEVICE_ATTR(clk_enable, S_IWUSR, NULL, clk_enable_set);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //LiBin@BSP.Fingerprint.Basic, 2016/10/13, modify for enable/disable irq
 static DEFINE_SPINLOCK(fpc1020_lock);
 
@@ -459,7 +459,7 @@ static ssize_t regulator_enable_set(struct device *dev,
         return rc ? rc : count;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //LiBin@BSP.Fingerprint.Basic, 2016/10/13, modify for enable/disable irq
 static ssize_t irq_enable_set(struct device *dev,
                 struct device_attribute *attribute, const char *buffer, size_t count)
@@ -535,7 +535,7 @@ static ssize_t wakelock_enable_set(struct device *dev,
         return count;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Long.Liu@PSW.BSP.Fingerprint.Basic, 2019/9/18, Add for FPC driver */
 static ssize_t hardware_reset(struct device *dev, struct device_attribute *attribute, const char *buffer, size_t count)
 {
@@ -554,7 +554,7 @@ static ssize_t hardware_reset(struct device *dev, struct device_attribute *attri
 }
 
 static DEVICE_ATTR(irq_unexpected, S_IWUSR, NULL, hardware_reset);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 static DEVICE_ATTR(irq, S_IRUSR | S_IWUSR, irq_get, irq_ack);
 static DEVICE_ATTR(regulator_enable, S_IWUSR, NULL, regulator_enable_set);
 static DEVICE_ATTR(irq_enable, S_IRUSR | S_IWUSR, irq_enable_get, irq_enable_set);
@@ -570,10 +570,10 @@ static struct attribute *attributes[] = {
         &dev_attr_irq_enable.attr,
         &dev_attr_wakelock_enable.attr,
         &dev_attr_clk_enable.attr,
-        #ifdef CONFIG_VENDOR_REALME
+        #ifdef CONFIG_PRODUCT_REALME_RMX1801
         /* Long.Liu@PSW.BSP.Fingerprint.Basic, 2019/9/18, Add for FPC driver */
         &dev_attr_irq_unexpected.attr,
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         NULL
 };
 
@@ -607,7 +607,7 @@ static irqreturn_t fpc1020_irq_handler(int irq, void *handle)
 }
 
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Long.Liu@PSW.BSP.Fingerprint.Basic, 2019/9/18, Add for FPC driver */
 void fpc_cleanup_pwr_list(struct fpc1020_data* fpc_dev) {
     unsigned index = 0;
@@ -753,7 +753,7 @@ exit:
     return ret;
 }
 
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static int fpc1020_irq_probe(struct platform_device *pldev)
 {
@@ -770,12 +770,12 @@ static int fpc1020_irq_probe(struct platform_device *pldev)
                 goto ERR_ALLOC;
         }
 
-        #ifdef CONFIG_VENDOR_REALME
+        #ifdef CONFIG_PRODUCT_REALME_RMX1801
         /* Long.Liu@PSW.BSP.Fingerprint.Basic, 2019/9/18, Add for FPC driver */
         fpc1020->cs_gpio_set = false;
         fpc1020->pinctrl = NULL;
         fpc1020->pstate_cs_func = NULL;
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         fpc1020->dev = dev;
         dev_info(fpc1020->dev, "-->%s\n", __func__);
         dev_set_drvdata(dev, fpc1020);
@@ -801,7 +801,7 @@ static int fpc1020_irq_probe(struct platform_device *pldev)
         }
         dev_info(dev, "found fpc sensor\n");
 
-        #ifdef CONFIG_VENDOR_REALME
+        #ifdef CONFIG_PRODUCT_REALME_RMX1801
         /* Long.Liu@PSW.BSP.Fingerprint.Basic, 2019/9/18, Add for FPC driver */
         if (get_project() == 18531 || get_project() == 18161 || get_project() == 19131 || get_project() == 19132 || get_project() == 19133) {
             fpc1020->pinctrl = devm_pinctrl_get(&pldev->dev);
@@ -815,7 +815,7 @@ static int fpc1020_irq_probe(struct platform_device *pldev)
                 return PTR_ERR(fpc1020->pstate_cs_func);
             }
         }
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 5, 0))
         wake_lock_init(&fpc1020->ttw_wl, WAKE_LOCK_SUSPEND, "fpc_ttw_wl");
@@ -862,7 +862,7 @@ static int fpc1020_irq_probe(struct platform_device *pldev)
         /* Request that the interrupt should be wakeable */
         /*enable_irq_wake( gpio_to_irq( fpc1020->irq_gpio ) );*/
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
         /*LiBin@BSP.Fingerprint.Basic, 2016/10/13, modify for enable/disable irq*/
         disable_irq_nosync(gpio_to_irq(fpc1020->irq_gpio));
         fpc1020->irq_enabled = 0;
@@ -874,7 +874,7 @@ static int fpc1020_irq_probe(struct platform_device *pldev)
                 goto ERR_AFTER_WAKELOCK;
         }
 
-        #ifdef CONFIG_VENDOR_REALME
+        #ifdef CONFIG_PRODUCT_REALME_RMX1801
         /* Long.Liu@PSW.BSP.Fingerprint.Basic, 2019/9/18, Add for FPC driver */
        if (get_project() == 18531 || get_project() == 18161 || get_project() == 19131 || get_project() == 19132 || get_project() == 19133) {
         /*get cs resource*/
@@ -898,7 +898,7 @@ static int fpc1020_irq_probe(struct platform_device *pldev)
             fpc1020->cs_gpio_set = false;
         }
        }
-       #endif /* CONFIG_VENDOR_REALME */
+       #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
         rc = gpio_direction_output(fpc1020->rst_gpio, 1);
 
         if (rc) {
@@ -907,7 +907,7 @@ static int fpc1020_irq_probe(struct platform_device *pldev)
                 goto ERR_AFTER_WAKELOCK;
         }
 
-        #ifdef CONFIG_VENDOR_REALME
+        #ifdef CONFIG_PRODUCT_REALME_RMX1801
         /* Long.Liu@PSW.BSP.Fingerprint.Basic, 2019/9/18, Add for FPC driver */
         rc = fpc_parse_pwr_list(fpc1020);
         if (rc) {
@@ -918,7 +918,7 @@ static int fpc1020_irq_probe(struct platform_device *pldev)
         if (get_project() != 18531 && get_project() != 18161 && get_project() != 19131 && get_project() != 19132 && get_project() != 19133) {
            fpc_power_on(fpc1020);
         }
-        #endif /* CONFIG_VENDOR_REALME */
+        #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
         mdelay(2);
         gpio_set_value(fpc1020->rst_gpio, 1);

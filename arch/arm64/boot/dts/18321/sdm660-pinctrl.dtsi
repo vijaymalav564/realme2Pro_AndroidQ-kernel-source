@@ -20,7 +20,7 @@
 		interrupt-controller;
 		#interrupt-cells = <2>;
 
-//ifdef CONFIG_VENDOR_REALME
+//ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*ziqing.guo@phone.bsp 2017-01-20 add for fingerprint compatibility */
     oppo_fp_common{
         gpio_id1_default: gpio_id1_default {
@@ -60,9 +60,9 @@
             };
         };
     };
-//#endif/*CONFIG_VENDOR_REALME*/
+//#endif/*CONFIG_PRODUCT_REALME_RMX1801*/
 
-//ifdef CONFIG_VENDOR_REALME
+//ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*ziqing.guo@phone.bsp 2017-01-20 add for fingerprint compatibility */
 	fpc_fpc1020{
 		gpio_vdd_en_default: gpio_vdd_en_default {
@@ -90,9 +90,9 @@
 			};
 		};
     };
-//#endif/*CONFIG_VENDOR_REALME*/
+//#endif/*CONFIG_PRODUCT_REALME_RMX1801*/
 
-//ifdef CONFIG_VENDOR_REALME
+//ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* ziqing.guo@BSP.Fingerprint.Basic, 2017/04/19, add for goodix 3268 && 5288 */
     goodix_fp{
         gpio_goodix_irq_default: gpio_goodix_irq_default {
@@ -108,9 +108,9 @@
             };
         };
     };
-//#endif/*CONFIG_VENDOR_REALME*/
+//#endif/*CONFIG_PRODUCT_REALME_RMX1801*/
 
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*rendong.shi@bsp.bootloder.bootflow,2017/4/9, add for audio suboard identify */
 		hw_sub_gpio_active: hw_sub_gpio_active {
 			/* active state */
@@ -152,7 +152,7 @@
 			};
 		};
 
-//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/04/10, sjc Add for console */
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801 /* Jianchao.Shi@BSP.CHG.Basic, 2017/04/10, sjc Add for console */
 		uart_console_disable: uart_console_disable {
 			mux {
 				pins = "gpio4", "gpio5";
@@ -166,7 +166,7 @@
 				bias-disable;
 			};
 		};
-//#endif /*CONFIG_VENDOR_REALME*/
+//#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 		led_enable: led_enable {
 			mux {
@@ -196,7 +196,7 @@
 			};
 		};
 
-		//#ifndef CONFIG_VENDOR_REALME
+		//#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26,
 		 *Delete for audio config.
 		 */
@@ -215,7 +215,7 @@
 			};
 		};
 		*/
-		//#endif /* CONFIG_VENDOR_REALME */
+		//#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		ufs_dev_reset_assert: ufs_dev_reset_assert {
 			config {
 				pins = "ufs_reset";
@@ -267,7 +267,7 @@
 			config {
 				pins = "sdc1_clk";
 				bias-disable;		/* NO pull */
-//#ifndef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/03/03, sjc Modify for SDC1_CLK */
+//#ifndef CONFIG_PRODUCT_REALME_RMX1801 /* Jianchao.Shi@BSP.CHG.Basic, 2017/03/03, sjc Modify for SDC1_CLK */
 				//drive-strength = <16>;	/* 16 MA */
 //#else
 				drive-strength = <10>;	/* 10 MA */
@@ -391,7 +391,7 @@
 			};
 		};
 
-		//#ifdef CONFIG_VENDOR_REALME
+		//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26,
 		 *Add for audio config.
 		 */
@@ -583,7 +583,7 @@
 				};
 			};
 		};
-		//#endif /* CONFIG_VENDOR_REALME */
+		//#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		sdc2_cd_off: cd_off {
 			mux {
@@ -598,7 +598,7 @@
 			};
 		};
 		
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //rendong.shi@Bsp.Storage.card ,2016/12/21,Added for t-card identify
 		sim1_cd_on: sim1_cd_on {
 			mux {
@@ -699,7 +699,7 @@
 			};
 		};
 
-		//#ifdef CONFIG_VENDOR_REALME
+		//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/* Wanghao@BSP.group 2017-09-20 add for tp int and reset pin*/
 		pmx_ts_int_active {
 			ts_int_active: ts_int_active {
@@ -812,7 +812,7 @@
 			};
 		};
 
-		//#ifndef CONFIG_VENDOR_REALME
+		//#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26,
 		 *Delete for audio config.
 		 */
@@ -857,7 +857,7 @@
 			};
 		};
 		*/
-		//#endif /* CONFIG_VENDOR_REALME */
+		//#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		i2c_5 {
 			i2c_5_active: i2c_5_active {
@@ -1243,7 +1243,7 @@
 				};
 			};
 		};
-//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/08/07, sjc Modify for charging */
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801 /* Jianchao.Shi@BSP.CHG.Basic, 2017/08/07, sjc Modify for charging */
 		spi_6 {
 			spi_6_active: spi_6_active {
 				mux {
@@ -1275,7 +1275,7 @@
 				};
 			};
 		};
-//#endif //CONFIG_VENDOR_REALME
+//#endif //CONFIG_PRODUCT_REALME_RMX1801
 		spi_7 {
 			spi_7_active: spi_7_active {
 				mux {
@@ -1657,7 +1657,7 @@
 		cam_actuator_vaf_active: cam_actuator_vaf_active {
 			/* ACTUATOR POWER */
 			mux {
-				//#ifndef CONFIG_VENDOR_REALME
+				//#ifndef CONFIG_PRODUCT_REALME_RMX1801
 				/*oppo hufeng 20170213 modify for rear camera af config*/
 				/*
 				pins = "gpio50";
@@ -1669,7 +1669,7 @@
 			};
 
 			config {
-				//#ifndef CONFIG_VENDOR_REALME
+				//#ifndef CONFIG_PRODUCT_REALME_RMX1801
 				/*oppo hufeng 20170213 modify for rear camera af config*/
 				/*
 				pins = "gpio50";
@@ -1685,7 +1685,7 @@
 		cam_actuator_vaf_suspend: cam_actuator_vaf_suspend {
 			/* ACTUATOR POWER */
 			mux {
-				//#ifndef CONFIG_VENDOR_REALME
+				//#ifndef CONFIG_PRODUCT_REALME_RMX1801
 				/*oppo hufeng 20170213 modify for rear camera af config*/
 				/*
 				pins = "gpio50";
@@ -1697,7 +1697,7 @@
 			};
 
 			config {
-				//#ifndef CONFIG_VENDOR_REALME
+				//#ifndef CONFIG_PRODUCT_REALME_RMX1801
 				/*oppo hufeng 20170213 modify for rear camera af config*/
 				/*
 				pins = "gpio50";
@@ -1709,7 +1709,7 @@
 				drive-strength = <2>; /* 2 MA */
 			};
 		};
-		/*#ifdef CONFIG_VENDOR_REALME*/
+		/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 		/*oppo hufeng 20170122 add for second rear camera af*/
 		cam_actuator_vaf2_active: cam_actuator_vaf2_active {
 			/* ACTUATOR POWER */
@@ -1771,7 +1771,7 @@
 			/* MCLK0 */
 			mux {
 				/* CLK */
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*modify by lilin@camera,20180527*/
 				/*
 				pins = "gpio33";
@@ -1783,7 +1783,7 @@
 			};
 
 			config {
-			        /*#ifdef CONFIG_VENDOR_REALME*/
+			        /*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 			        /*modify by lilin@camera,20180527*/
 				/*
 				pins = "gpio33";
@@ -1800,7 +1800,7 @@
 			/* MCLK0 */
 			mux {
 				/* CLK */
-			        /*#ifdef CONFIG_VENDOR_REALME*/
+			        /*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 			        /*modify by lilin@camera,20180527*/
 				/*
 				pins = "gpio33";
@@ -1812,7 +1812,7 @@
 			};
 
 			config {
-			        /*#ifdef CONFIG_VENDOR_REALME*/
+			        /*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 			        /*modify by lilin@camera,20180527*/
 				/*
 				pins = "gpio33";
@@ -1828,7 +1828,7 @@
 		cam_sensor_rear_active: cam_sensor_rear_active {
 			/* RESET, STANDBY */
 			mux {
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*modify by hongbo.dai@camera,20170926*/
 				/*
 				pins = "gpio46","gpio44";
@@ -1840,7 +1840,7 @@
 			};
 
 			config {
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*modify by hongbo.dai@camera,20170926*/
 				/*
 				pins = "gpio46","gpio44";
@@ -1857,7 +1857,7 @@
 			/* RESET, STANDBY */
 			mux {
 				/*modify by hongbo.dai@camera,20170926*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio46","gpio44";
 				*/
@@ -1869,7 +1869,7 @@
 
 			config {
 				/*modify by hongbo.dai@camera,20170926*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio46","gpio44";
 				*/
@@ -1886,7 +1886,7 @@
 			mux {
 				/* CLK */
 			        /*modify by lilin@camera,20180527*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio32";
 				*/
@@ -1898,7 +1898,7 @@
 
 			config {
 			        /*modify by lilin@camera,20180527*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio32";
 				*/
@@ -1915,7 +1915,7 @@
 			mux {
 				/* CLK */
 			        /*modify by lilin@camera,20180527*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio32";
 				*/
@@ -1927,7 +1927,7 @@
 
 			config {
 			        /*modify by lilin@camera,20180527*/
-			        /*#ifdef CONFIG_VENDOR_REALME*/
+			        /*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio32";
 				*/
@@ -1943,7 +1943,7 @@
 			/* RESET, STANDBY */
 			mux {
 				/*modify by hongbo.dai@camera,20170926*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio48","gpio51";
 				*/
@@ -1955,7 +1955,7 @@
 
 			config {
 				/*modify by hongbo.dai@camera,20170926*/
-			    /*#ifdef CONFIG_VENDOR_REALME*/
+			    /*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio48","gpio51";
 				*/
@@ -1971,7 +1971,7 @@
 			/* RESET, STANDBY */
 			mux {
 				/*modify by hongbo.dai@camera,20170926*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio48","gpio51";
 				*/
@@ -1982,7 +1982,7 @@
 			};
 			config {
 				/*modify by hongbo.dai@camera,20170926*/
-			    /*#ifdef CONFIG_VENDOR_REALME*/
+			    /*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio48","gpio51";
 				*/
@@ -2028,7 +2028,7 @@
 			/* RESET  VANA*/
 			mux {
 				/*modify by lilin@camera,20180527*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio47", "gpio35";
 				*/
@@ -2040,7 +2040,7 @@
 
 			config {
 				/*modify by lilin@camera,20180527*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio47", "gpio35";
 				*/
@@ -2056,7 +2056,7 @@
 			/* RESET */
 			mux {
 				/*modify by lilin@camera,20180527*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio47";
 				*/
@@ -2068,7 +2068,7 @@
 
 			config {
 				/*modify by lilin@camera,20180527*/
-				/*#ifdef CONFIG_VENDOR_REALME*/
+				/*#ifdef CONFIG_PRODUCT_REALME_RMX1801*/
 				/*
 				pins = "gpio47";
 				*/
@@ -2296,7 +2296,7 @@
 				bias-disable;
 			};
 		};
-//#ifndef CONFIG_VENDOR_REALME
+//#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //rendong.shi@Bsp.boot.devices,2016/12/21,Added for vol_down & vol_up
 /*		tlmm_gpio_key {
 			gpio_key_active: gpio_key_active {
@@ -2485,7 +2485,7 @@
 				output-low;
 			};
 		};
-//#endif /*CONFIG_VENDOR_REALME*/
+//#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 		mdss_dp_usbplug_cc_active: mdss_dp_usbplug_cc_active {
 			mux {
@@ -2553,7 +2553,7 @@
 				};
 			};
 		};
-//#ifdef CONFIG_VENDOR_REALME /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/22, sjc Add for charging */
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801 /* Jianchao.Shi@BSP.CHG.Basic, 2017/01/22, sjc Add for charging */
 		charger: charger {
 			charging_switch1_active: charging_switch1_active {
 				mux {
@@ -2740,9 +2740,9 @@
 				};
 			};
 		};
-//#endif /* CONFIG_VENDOR_REALME */
+//#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Xing.xiong@BSP.TP, 2017/11/21, Add for ship mode
 		pmx_ship_sleep {
 			 ship_sleep: ship_sleep {

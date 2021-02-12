@@ -34,12 +34,12 @@
 #include "../../msm/sdm660-common.h"
 #include "../wcd-mbhc-v2.h"
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #ifdef CONFIG_OPPO_KEVENT_UPLOAD
 /*Xiaoke.Zhi@PSW.MM.AudioDriver.Stability, 2019/03/06, Add for audio driver kevent log*/
 #include <soc/qcom/oppo_mm_audio_kevent.h>
 #endif /* CONFIG_OPPO_KEVENT_UPLOAD */
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #define DRV_NAME "pmic_analog_codec"
 #define SDM660_CDC_RATES (SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |\
@@ -493,12 +493,12 @@ static int msm_anlg_cdc_mbhc_map_btn_code_to_num(struct snd_soc_codec *codec)
 		break;
 	};
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* Jianfeng.Qiu@PSW.MM.AudioDriver.Codec, 2017/04/07,
 	 * Add for headset button log.
 	 */
 	pr_info("%s: btn is %d", __func__, btn);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	return btn;
 }
@@ -1629,7 +1629,7 @@ static int msm_anlg_cdc_loopback_mode_put(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Zhaoan.Xu@PSW.MM.AudioDriver.FTM, 2016/08/24,
  *Add for AT command to enable micbias.
  */
@@ -1687,7 +1687,7 @@ static int micbias_put(struct snd_kcontrol *kcontrol,
 
 	return 0;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 static int msm_anlg_cdc_pa_gain_get(struct snd_kcontrol *kcontrol,
 				    struct snd_ctl_elem_value *ucontrol)
 {
@@ -1983,7 +1983,7 @@ static int msm_anlg_cdc_ext_spk_boost_set(struct snd_kcontrol *kcontrol,
 }
 
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Zhaoan.Xu@PSW.MM.AudioDriver.FTM, 2016/08/24,
  *Add for AT command to enable micbias.
  */
@@ -1992,7 +1992,7 @@ static char const *msm_anlg_cdc_micbias_ctrl_text[] = {
 static const struct soc_enum msm_anlg_cdc_micbias_ctl_enum[] = {
 		SOC_ENUM_SINGLE_EXT(3, msm_anlg_cdc_micbias_ctrl_text),
 };
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 static const char * const msm_anlg_cdc_loopback_mode_ctrl_text[] = {
 		"DISABLE", "ENABLE"};
 static const struct soc_enum msm_anlg_cdc_loopback_mode_ctl_enum[] = {
@@ -2041,7 +2041,7 @@ static const char * const cf_text[] = {
 	"MIN_3DB_4Hz", "MIN_3DB_75Hz", "MIN_3DB_150Hz"
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.Codec, 2017/05/12,
  *Add for set mode for pm660l_bob regulator.
  */
@@ -2119,23 +2119,23 @@ static int regulator_mode_switch_set(struct snd_kcontrol *kcontrol,
 
 	return 0;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 static const struct snd_kcontrol_new msm_anlg_cdc_snd_controls[] = {
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*Zhaoan.Xu@PSW.MM.AudioDriver.FTM, 2016/08/24,
 	 *Add for AT command to enable micbias.
 	 */
 	SOC_ENUM_EXT("Enable Micbias", msm_anlg_cdc_micbias_ctl_enum[0],
 		micbias_get, micbias_put),
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*Jianfeng.Qiu@PSW.MM.AudioDriver.Codec, 2017/05/12,
 	 *Add for set mode for pm660l_bob regulator.
 	 */
 	SOC_ENUM_EXT("Regulator Mode Switch", pm660l_bob_ctl_enum[0],
 		regulator_mode_switch_get, regulator_mode_switch_set),
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	SOC_ENUM_EXT("RX HPH Mode", msm_anlg_cdc_hph_mode_ctl_enum[0],
 		msm_anlg_cdc_hph_mode_get, msm_anlg_cdc_hph_mode_set),
@@ -4045,12 +4045,12 @@ static int sdm660_cdc_notifier_service_cb(struct notifier_block *nb,
 	unsigned long timeout;
 	static bool initial_boot = true;
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	#ifdef CONFIG_OPPO_KEVENT_UPLOAD
 	/*Xiaoke.Zhi@PSW.MM.AudioDriver.Stability, 2019/03/06, Add for audio driver kevent log*/
 	unsigned char payload[64] = "";
 	#endif /* CONFIG_OPPO_KEVENT_UPLOAD */
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	codec = sdm660_cdc_priv->codec;
 	dev_dbg(codec->dev, "%s: Service opcode 0x%lx\n", __func__, opcode);
@@ -4094,14 +4094,14 @@ static int sdm660_cdc_notifier_service_cb(struct notifier_block *nb,
 powerup:
 		if (adsp_ready)
 			msm_anlg_cdc_device_up(codec);
-		#ifdef CONFIG_VENDOR_REALME
+		#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		#ifdef CONFIG_OPPO_KEVENT_UPLOAD
 		/*Xiaoke.Zhi@PSW.MM.AudioDriver.Stability, 2019/03/06, Add for audio driver kevent log*/
 		scnprintf(payload, sizeof(payload), "EventID@@%d$$adsp_ssr",
 			OPPO_MM_AUDIO_EVENT_ID_ADSP_RESET);
 		upload_mm_audio_kevent_data(payload);
 		#endif /* CONFIG_OPPO_KEVENT_UPLOAD */
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		break;
 	default:
 		break;
@@ -4351,12 +4351,12 @@ static int msm_anlg_cdc_soc_probe(struct snd_soc_codec *codec)
 	sdm660_cdc->boost_option = BOOST_SWITCH;
 	sdm660_cdc->hph_mode = NORMAL_MODE;
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*Jianfeng.Qiu@PSW.MM.AudioDriver.Codec, 2017/05/12,
 	 *Add for set mode for pm660l_bob regulator.
 	 */
 	sdm660_cdc->bob_mode = REGULATOR_MODE_NORMAL;
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	msm_anlg_cdc_dt_parse_boost_info(codec);
 	msm_anlg_cdc_set_boost_v(codec);
 
@@ -4799,10 +4799,10 @@ static int msm_anlg_cdc_probe(struct platform_device *pdev)
 				     GFP_KERNEL);
 	if (sdm660_cdc == NULL) {
 		ret = -ENOMEM;
-		#ifdef CONFIG_VENDOR_REALME
+		#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/* Jianfeng.Qiu@PSW.MM.AudioDriver.Machine,2017/09/21, Add for log*/
 		pr_err("%s: *** -ENOMEM\n", __func__);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		goto rtn;
 	}
 

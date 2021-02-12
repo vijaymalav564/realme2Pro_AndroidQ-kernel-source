@@ -665,7 +665,7 @@ static struct ion_heap_ops system_heap_ops = {
 	.shrink = ion_system_heap_shrink,
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //fangpan@Swdp.shanghai, 2016/02/02, add ion memory status interface
 long ion_system_heap_cached_memory(struct ion_heap *heap)
 {

@@ -746,7 +746,7 @@ static int show_smap(struct seq_file *m, void *v, int is_pid)
 	if (vma->vm_flags & VM_LOCKED)
 		mss->pss_locked += mss->pss;
 
-#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv modify for android.bg get pss too slow
+#ifdef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge@bsp.drv modify for android.bg get pss too slow
 	if (strcmp(current->comm, "android.bg") == 0) {
 		if ((unsigned long)(mss->pss >> (10 + PSS_SHIFT)) > 0) {
 			seq_printf(m,
@@ -766,7 +766,7 @@ static int show_smap(struct seq_file *m, void *v, int is_pid)
 		m_cache_vma(m, vma);
 		return 0;
 	}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	if (!rollup_mode) {
 		show_map_vma(m, vma, is_pid);
@@ -1534,7 +1534,7 @@ const struct file_operations proc_pagemap_operations = {
 #endif /* CONFIG_PROC_PAGE_MONITOR */
 
 #ifdef CONFIG_PROCESS_RECLAIM
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Kui.Zhang@TEC.Kernel.Performance, 2019/03/04
  * Each reclaim lasts up to 333ms, will stop immediately if overtime.
  */
@@ -1553,7 +1553,7 @@ static int reclaim_pte_range(pmd_t *pmd, unsigned long addr,
 	LIST_HEAD(page_list);
 	int isolated;
 	int reclaimed;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, if want to cancel,
 	 * return nonzero will junp out of the loop*/
 	int ret = 0;
@@ -1566,7 +1566,7 @@ cont:
 	isolated = 0;
 	pte = pte_offset_map_lock(vma->vm_mm, pmd, addr, &ptl);
 	for (; addr != end; pte++, addr += PAGE_SIZE) {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, check whether the
 		 * reclaim process should cancel*/
 		if (rp->reclaimed_task &&
@@ -1583,7 +1583,7 @@ cont:
 		if (!page)
 			continue;
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
 		/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
 		 * we don't reclaim page in active lru list */
 		if (rp->inactive_lru && (PageActive(page) ||
@@ -1603,7 +1603,7 @@ cont:
 			break;
 	}
 	pte_unmap_unlock(pte - 1, ptl);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, check whether the
 	 * reclaim process should cancel*/
 	reclaimed = reclaim_pages_from_list(&page_list, vma, walk);
@@ -1616,7 +1616,7 @@ cont:
 	if (rp->nr_to_reclaim < 0)
 		rp->nr_to_reclaim = 0;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-12-25, if want to cancel,
 	 * if ret <0 means need jump out of the loop immediately
 	 */
@@ -1639,7 +1639,7 @@ enum reclaim_type {
 	RECLAIM_ANON,
 	RECLAIM_ALL,
 	RECLAIM_RANGE,
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
 	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
 	 * add three reclaim_type that only reclaim inactive pages */
 	RECLAIM_INACTIVE_FILE,
@@ -1658,7 +1658,7 @@ struct reclaim_param reclaim_task_anon(struct task_struct *task,
 
 	rp.nr_reclaimed = 0;
 	rp.nr_scanned = 0;
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_PROCESS_RECLAIM_ENHANCE)
 	/* Kui.Zhang@PSW.BSP.Kernel.Performance, 2018-11-07,
 	 * reclaim all active and inactive pages here */
 	rp.inactive_lru = false;
@@ -1702,7 +1702,7 @@ out:
 	return rp;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Kui.Zhang@PSW.BSP.Kernel.Performance, 2019-01-01,
  * Extract the reclaim core code for /proc/process_reclaim use*/
 ssize_t reclaim_task_write(struct task_struct* task, char *buffer)
@@ -2044,7 +2044,7 @@ out:
 out_err:
 	return -EINVAL;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 const struct file_operations proc_reclaim_operations = {
 	.write		= reclaim_write,

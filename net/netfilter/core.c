@@ -311,13 +311,13 @@ next_hook:
 		ret = NF_DROP_GETERR(verdict);
 		if (ret == 0)
 			ret = -EPERM;
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Modify for limit speed function
 	} else if ((verdict & NF_VERDICT_MASK) == NF_QUEUE) {
 		int err = nf_queue(skb, elem, state,
 				   verdict >> NF_VERDICT_QBITS);
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 	} else if ((verdict & NF_VERDICT_MASK) == NF_QUEUE ||
 		(verdict & NF_VERDICT_MASK) == NF_IMQ_QUEUE) {
@@ -329,7 +329,7 @@ next_hook:
 		int err = nf_queue(skb, elem, state,
 				   verdict >> NF_VERDICT_QBITS);
 #endif
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		if (err < 0) {
 			if (err == -ESRCH &&
 			   (verdict & NF_VERDICT_FLAG_QUEUE_BYPASS))

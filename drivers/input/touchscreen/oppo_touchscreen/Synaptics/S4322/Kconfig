@@ -1,5 +1,5 @@
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #Added by Tong.han@Bsp.group.Tp for synaptics ic driver
 
 config TOUCHPANEL_SYNAPTICS_S4322

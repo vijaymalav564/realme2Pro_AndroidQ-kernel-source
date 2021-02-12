@@ -703,10 +703,10 @@ container_of(a, struct kgsl_snapshot_attribute, attr)
 #define kobj_to_device(a) \
 container_of(a, struct kgsl_device, snapshot_kobj)
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //wenhua.Leng@PSW.MM.Display.GPU.minidump,2019-04-21
 static bool snapshot_ontrol_on = 0;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 /* Dump the sysfs binary data to the user */
 static ssize_t snapshot_show(struct file *filep, struct kobject *kobj,
@@ -723,14 +723,14 @@ static ssize_t snapshot_show(struct file *filep, struct kobject *kobj,
 	if (device == NULL)
 		return 0;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //wenhua.Leng@PSW.MM.Display.GPU.minidump,2019-04-21
     if (snapshot_ontrol_on) {
         KGSL_DRV_ERR(device,
                 "snapshot: snapshot_ontrol_on is true, skip snapshot\n");
         return 0;
 	}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	mutex_lock(&device->mutex);
 	snapshot = device->snapshot;
@@ -904,7 +904,7 @@ static SNAPSHOT_ATTR(force_panic, 0644, force_panic_show, force_panic_store);
 static SNAPSHOT_ATTR(snapshot_crashdumper, 0644, snapshot_crashdumper_show,
 	snapshot_crashdumper_store);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //wenhua.Leng@PSW.MM.Display.GPU.minidump,2019-04-21
 
 static ssize_t snapshot_control_show(struct kgsl_device *device, char *buf)
@@ -932,7 +932,7 @@ static ssize_t snapshot_control_store(struct kgsl_device *device, const char *bu
 }
 
 static SNAPSHOT_ATTR(snapshot_control, 0666, snapshot_control_show, snapshot_control_store);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static ssize_t snapshot_sysfs_show(struct kobject *kobj,
 	struct attribute *attr, char *buf)
@@ -1014,10 +1014,10 @@ int kgsl_device_snapshot_init(struct kgsl_device *device)
 	device->snapshot_faultcount = 0;
 	device->force_panic = 0;
 	device->snapshot_crashdumper = 1;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //wenhua.Leng@PSW.MM.Display.GPU.minidump,2019-04-21
 	device->snapshot_control = 0;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	ret = kobject_init_and_add(&device->snapshot_kobj, &ktype_snapshot,
 		&device->dev->kobj, "snapshot");
@@ -1041,13 +1041,13 @@ int kgsl_device_snapshot_init(struct kgsl_device *device)
 	if (ret)
 		goto done;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //wenhua.Leng@PSW.MM.Display.GPU.minidump,2019-04-21
 	ret  = sysfs_create_file(&device->snapshot_kobj,
 			&attr_snapshot_control.attr);
 	if (ret)
 		goto done;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	ret  = sysfs_create_file(&device->snapshot_kobj,
 			&attr_snapshot_crashdumper.attr);
@@ -1077,10 +1077,10 @@ void kgsl_device_snapshot_close(struct kgsl_device *device)
 	device->snapshot_faultcount = 0;
 	device->force_panic = 0;
 	device->snapshot_crashdumper = 1;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //wenhua.Leng@PSW.MM.Display.GPU.minidump,2019-04-21
 	device->snapshot_control = 0;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 }
 EXPORT_SYMBOL(kgsl_device_snapshot_close);
 

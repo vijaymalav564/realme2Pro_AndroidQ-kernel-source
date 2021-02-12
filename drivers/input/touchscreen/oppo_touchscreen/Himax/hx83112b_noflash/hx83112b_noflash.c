@@ -1,6 +1,6 @@
 /**************************************************************
  * Copyright (c)  2008- 2030  Oppo Mobile communication Corp.ltd
- * CONFIG_VENDOR_REALME
+ * CONFIG_PRODUCT_REALME_RMX1801
  * File       : hx83112b_drivers_s4322.c
  * Description: Source file for hx83112b S4322 driver
  * Version   : 1.0

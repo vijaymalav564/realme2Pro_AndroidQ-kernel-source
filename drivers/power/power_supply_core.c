@@ -32,7 +32,7 @@ static struct device_type power_supply_dev_type;
 
 #define POWER_SUPPLY_DEFERRED_REGISTER_TIME	msecs_to_jiffies(10)
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*yanwu@TECH.Storage.FS, 2019-07-15, add control f2fs fsync nobarrier*/
 extern int sysctl_f2fs_fsync_nobarrier;
 /*jason.tang@TECH.BSP.Kernel.Storage, 2019-05-20, add control ext4 fsync*/
@@ -118,7 +118,7 @@ static void power_supply_changed_work(struct work_struct *work)
 		class_for_each_device(power_supply_class, NULL, psy,
 				      __power_supply_changed_work);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*yanwu@TECH.Storage.FS, 2019-07-15, add control f2fs fsync nobarrier*/
 /*jason.tang@TECH.BSP.Kernel.Storage, 2019-05-20, add control ext4 fsync*/
 		if(sysctl_ext4_fsync_enable) {
@@ -127,7 +127,7 @@ static void power_supply_changed_work(struct work_struct *work)
 			if(ext4_fsync_enable_status != 0)
 				ext4_fsync_enable_status = 0;
 		}
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 		atomic_notifier_call_chain(&power_supply_notifier,
 				PSY_EVENT_PROP_CHANGED, psy);
 		kobject_uevent(&psy->dev.kobj, KOBJ_CHANGE);

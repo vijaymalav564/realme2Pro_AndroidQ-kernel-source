@@ -1,10 +1,10 @@
 # MSM Machine Support
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 #Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/12/19, Modify for card register fail
 #snd-soc-hostless-pcm-objs := msm-pcm-hostless.o
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 snd-soc-hostless-pcm-objs := msm-pcm-hostless.o audio_test_mod.o
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 obj-$(CONFIG_SND_SOC_MSM_HOSTLESS_PCM) += snd-soc-hostless-pcm.o
 
 obj-$(CONFIG_SND_SOC_MSM_QDSP6V2_INTF) += qdsp6v2/
@@ -33,12 +33,12 @@ obj-$(CONFIG_SND_SOC_MSM8998) += snd-soc-msm8998.o
 # for SDM660 sound card driver
 snd-soc-sdm660-common-objs := sdm660-common.o
 obj-$(CONFIG_SND_SOC_SDM660_COMMON) += snd-soc-sdm660-common.o
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/12/19, Modify for card register fail
 ifdef CONFIG_OPPO_KEVENT_UPLOAD
 obj-y += oppo_mm_audio_kevent.o
 endif
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 # for SDM660 sound card driver
 snd-soc-int-codec-objs := sdm660-internal.o

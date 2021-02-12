@@ -751,7 +751,7 @@ static int __ftrace_set_clr_event(struct trace_array *tr, const char *match,
 	return ret;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 int ftrace_set_clr_event(struct trace_array *tr, char *buf, int set)
 #else
 static int ftrace_set_clr_event(struct trace_array *tr, char *buf, int set)
@@ -792,7 +792,7 @@ static int ftrace_set_clr_event(struct trace_array *tr, char *buf, int set)
 
 	return ret;
 }
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //fangpan@Swdp.shanghai, 2016/06/30, export the ftrace interface
 EXPORT_SYMBOL(ftrace_set_clr_event);
 #endif

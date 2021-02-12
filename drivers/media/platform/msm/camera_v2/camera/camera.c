@@ -28,7 +28,7 @@
 #include <linux/platform_device.h>
 #include <media/v4l2-fh.h>
 #include <media/videobuf2-v4l2.h>
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Added by Jinshui.Liu@Camera 20150714 start for print camera time*/
 #include <linux/time.h>
 #include <linux/rtc.h>
@@ -630,7 +630,7 @@ static int camera_v4l2_open(struct file *filep)
 	struct v4l2_event event;
 	struct msm_video_device *pvdev = video_drvdata(filep);
 	unsigned long opn_idx, idx;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Added by Jinshui.Liu@Camera 20150714 start for print camera time*/
 	struct timespec ts;
 	struct rtc_time tm;
@@ -638,7 +638,7 @@ static int camera_v4l2_open(struct file *filep)
 	BUG_ON(!pvdev);
 
 	mutex_lock(&pvdev->video_drvdata_mutex);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Added by Jinshui.Liu@Camera 20150714 start for print camera time*/
 	if (!atomic_read(&pvdev->opened)) {
 		getnstimeofday(&ts);
@@ -759,7 +759,7 @@ static int camera_v4l2_close(struct file *filep)
 	struct camera_v4l2_private *sp = fh_to_private(filep->private_data);
 	unsigned int opn_idx, mask;
 	struct msm_session *session;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Added by Jinshui.Liu@Camera 20150714 start for print camera time*/
 	struct timespec ts;
 	struct rtc_time tm;
@@ -811,7 +811,7 @@ static int camera_v4l2_close(struct file *filep)
 	}
 
 	camera_v4l2_fh_release(filep);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Added by Jinshui.Liu@Camera 20150714 start for print camera time*/
 	if (atomic_read(&pvdev->opened) == 0) {
 		getnstimeofday(&ts);

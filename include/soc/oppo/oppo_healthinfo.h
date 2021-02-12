@@ -1,6 +1,6 @@
 /**********************************************************************************
 * Copyright (c)  2008-2015  Guangdong OPPO Mobile Comm Corp., Ltd
-* CONFIG_VENDOR_REALME
+* CONFIG_PRODUCT_REALME_RMX1801
 * Description:    OPPO Healthinfo Monitor
 *                          Record Kernel Resourse Abnormal Stat
 * Version    : 2.0

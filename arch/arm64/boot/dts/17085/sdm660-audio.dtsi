@@ -15,14 +15,14 @@
 #include "sdm660-lpi.dtsi"
 
 &slim_aud {
-	//#ifndef CONFIG_VENDOR_REALME
+	//#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/* Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/09/21,
 	 * Modify for audio config.
 	 */
 	//status = "okay";
-	//#else /* CONFIG_VENDOR_REALME */
+	//#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 	status = "disabled";
-	//#endif /* CONFIG_VENDOR_REALME */
+	//#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	dai_slim: msm_dai_slim {
 		compatible = "qcom,msm-dai-slim";
 		elemental-addr = [ff ff ff fe 17 02];
@@ -62,7 +62,7 @@
 	};
 
 	wcd934x_cdc: tavil_codec {
-		//#ifdef CONFIG_VENDOR_REALME
+		//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.Machine, 2017/01/26, Add for audio config*/
 		status = "disabled";
 		//#endif
@@ -124,14 +124,14 @@
 
 &pm660l_3 {
 	pmic_analog_codec: analog-codec@f000 {
-		//#ifndef CONFIG_VENDOR_REALME
+		//#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/* Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2017/09/21,
 		 * Modify for audio config.
 		 */
 		//status = "disabled";
-		//#else /* CONFIG_VENDOR_REALME */
+		//#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 		status = "okay";
-		//#endif /* CONFIG_VENDOR_REALME */
+		//#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		compatible = "qcom,pmic-analog-codec";
 		reg = <0xf000 0x200>;
 		#address-cells = <2>;
@@ -185,7 +185,7 @@
 					   "cdc-vdd-pa";
 
 		qcom,cdc-on-demand-supplies = "cdc-vdd-mic-bias";
-		//#ifdef CONFIG_VENDOR_REALME
+		//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.Codec, 2017/01/26,
 		 *Add for set micbias output voltage 2.7v.
 		 */

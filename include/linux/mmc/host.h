@@ -26,7 +26,7 @@
 
 #define MMC_AUTOSUSPEND_DELAY_MS	3000
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //jie.cheng@swdp.shanghai, 2016-08-10 Add emmc scaling control api
 #define MAX_MMC_STORE_HOST 3
 extern struct mmc_host* mmc_store_host[MAX_MMC_STORE_HOST];
@@ -525,10 +525,10 @@ struct mmc_host {
 
 	struct delayed_work	detect;
 	int			detect_change;	/* card detect flag */
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Lycan.Wang@Prd.BasicDrv, 2014-07-10 Add for retry 5 times when new sdcard init error
     int detect_change_retry;
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	struct mmc_slot		slot;
 
 	const struct mmc_bus_ops *bus_ops;	/* current bus driver */
@@ -543,10 +543,10 @@ struct mmc_host {
 	struct task_struct	*sdio_irq_thread;
 	bool			sdio_irq_pending;
 	atomic_t		sdio_irq_thread_abort;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //yh@bsp, 2015-10-21 Add for special card compatible
 	bool                    card_stuck_in_programing_status;
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	mmc_pm_flag_t		pm_flags;	/* requested pm features */
 
 	struct led_trigger	*led;		/* activity led */

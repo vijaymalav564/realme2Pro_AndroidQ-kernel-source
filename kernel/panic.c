@@ -65,7 +65,7 @@ void __weak panic_smp_self_stop(void)
 		cpu_relax();
 }
 
-#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for dump cpu contex for minidump
+#ifdef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge@bsp.drv add for dump cpu contex for minidump
 #ifdef CONFIG_QCOM_COMMON_LOG
 static int in_panic = 0;
 int panic_count(void)
@@ -77,16 +77,16 @@ extern void dumpcpuregs(struct pt_regs *pt_regs);
 #else
 void dumpcpuregs(struct pt_regs *pt_regs){}
 #endif /*CONFIG_QCOM_COMMON_LOG*/
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*yanwu@TECH.Storage.FS, 2019-08-27, flush device cache before goto dump mode*/
 extern int panic_flush_device_cache(int timeout);
-#endif  /*CONFIG_VENDOR_REALME*/
-#ifdef CONFIG_VENDOR_REALME
+#endif  /*CONFIG_PRODUCT_REALME_RMX1801*/
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*yanghao@BSP.Kernel.Stability, 2019-9-5*/
 extern int get_download_mode(void);
-#endif  /*CONFIG_VENDOR_REALME*/
+#endif  /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 /**
  *	panic - halt the system
@@ -104,13 +104,13 @@ void panic(const char *fmt, ...)
 	long i, i_next = 0;
 	int state = 0;
 
-#ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for dump cpu contex for minidump
+#ifdef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge@bsp.drv add for dump cpu contex for minidump
 #ifdef CONFIG_QCOM_COMMON_LOG
 	in_panic++;
 	dumpcpuregs(NULL);
 
 #endif /*CONFIG_QCOM_COMMON_LOG*/
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	trace_kernel_panic(0);
 
 	/*
@@ -140,7 +140,7 @@ void panic(const char *fmt, ...)
 	vsnprintf(buf, sizeof(buf), fmt, args);
 	va_end(args);
 	dump_stack_minidump(0);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*yanwu@TECH.Storage.FS, 2019-08-27, flush device cache before goto dump mode*/
 	/*yanghao@BSP.Kernel.Stability, 2019-9-5*/
 	if(!get_download_mode())

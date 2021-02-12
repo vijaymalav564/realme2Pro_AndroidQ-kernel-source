@@ -1,6 +1,6 @@
  /************************************************************************************
 ** File: - fingerprints_hal\drivers\goodix_fp\gf_spi_tee.h
-** CONFIG_VENDOR_REALME
+** CONFIG_PRODUCT_REALME_RMX1801
 ** Copyright (C), 2008-2016, OPPO Mobile Comm Corp., Ltd
 **
 ** Description:

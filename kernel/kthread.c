@@ -405,7 +405,7 @@ struct task_struct *kthread_create_on_cpu(int (*threadfn)(void *data),
 	return p;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //jie.cheng@swdp.sh, 2016/07/04, let the cpu hotplug be safer
 static void __kthread_unpark(struct task_struct *k, struct kthread *kthread)
 {
@@ -439,7 +439,7 @@ static void __kthread_unpark(struct task_struct *k, struct kthread *kthread)
 		wake_up_state(k, TASK_PARKED);
 	}
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 /**
  * kthread_unpark - unpark a thread created by kthread_create().

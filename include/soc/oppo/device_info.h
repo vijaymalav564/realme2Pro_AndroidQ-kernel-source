@@ -1,6 +1,6 @@
 /**
  * Copyright 2008-2013 OPPO Mobile Comm Corp., Ltd, All rights reserved.
- * CONFIG_VENDOR_REALME:
+ * CONFIG_PRODUCT_REALME_RMX1801:
  * FileName:devinfo.h
  * ModuleName:devinfo
  * Author: wangjc

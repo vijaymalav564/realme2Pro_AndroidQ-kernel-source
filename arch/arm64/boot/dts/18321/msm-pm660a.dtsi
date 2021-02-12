@@ -10,7 +10,7 @@
  * GNU General Public License for more details.
  */
 
-//#ifndef CONFIG_VENDOR_REALME
+//#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /* Disable WLED */
 //&pm660l_wled {
 //	status = "disabled";

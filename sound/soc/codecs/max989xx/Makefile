@@ -2,7 +2,7 @@
 #** Copyright (C), 2016-2020, OPPO Mobile Comm Corp., Ltd
 #** All rights reserved.
 #**
-#** CONFIG_VENDOR_REALME
+#** CONFIG_PRODUCT_REALME_RMX1801
 #**
 #** Description: -
 #**      add for max989xx driver

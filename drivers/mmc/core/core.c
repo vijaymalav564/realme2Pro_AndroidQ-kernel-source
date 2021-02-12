@@ -4502,7 +4502,7 @@ void mmc_stop_host(struct mmc_host *host)
 		disable_irq(host->slot.cd_irq);
 
 	host->rescan_disable = 1;
-#ifndef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv modify
+#ifndef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge@bsp.drv modify
 	cancel_delayed_work_sync(&host->detect);
 #else
 	cancel_delayed_work(&host->detect);

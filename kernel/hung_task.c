@@ -18,13 +18,13 @@
 #include <linux/utsname.h>
 #include <trace/events/sched.h>
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_OPPO_HEALTHINFO)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_HEALTHINFO)
 // jiheng.xie@PSW.TECH.KERNEL, 2018/12/28
 // Add for iowait hung monitor
 #include <soc/oppo/oppo_healthinfo.h>
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* fanhui@PhoneSW.BSP, 2016/02/02, DeathHealer, record the hung task killing
  * format: task_name,reason. e.g. system_server,uninterruptible for 60 secs
  */
@@ -92,7 +92,7 @@ static struct notifier_block panic_block = {
 	.notifier_call = hung_task_panic,
 };
 
-#if defined(CONFIG_VENDOR_REALME)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801)
 //yixue.ge@PhoneSW.BSP,20170228 modify for use is_zygote64_process replace "main"
 static bool is_zygote_process(struct task_struct *t)
 {
@@ -105,7 +105,7 @@ static bool is_zygote_process(struct task_struct *t)
 }
 #endif
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_DEATH_HEALER)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_DEATH_HEALER)
 /*yixue.ge@PhoneSW.BSP,2018/03/05,add io wait monitor*/
 static void check_hung_task(struct task_struct *t, unsigned long timeout, unsigned int *iowait_count)
 #else
@@ -114,13 +114,13 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
 {
 	unsigned long switch_count = t->nvcsw + t->nivcsw;
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_DEATH_HEALER)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_DEATH_HEALER)
 	static unsigned long long last_death_time = 0;
 	unsigned long long cur_death_time = 0;
 	static int death_count = 0;
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	if(!strncmp(t->comm,"mdss_dsi_event", TASK_COMM_LEN)||
 		!strncmp(t->comm,"msm-core:sampli", TASK_COMM_LEN)||
 		!strncmp(t->comm,"kworker/u16:1", TASK_COMM_LEN) ||
@@ -136,7 +136,7 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
 	 * Also, skip vfork and any other user process that freezer should skip.
 	 */
 	if (unlikely(t->flags & (PF_FROZEN | PF_FREEZER_SKIP)))
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_DEATH_HEALER)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_DEATH_HEALER)
 /* fanhui@PhoneSW.BSP, 2016/02/02, DeathHealer, kill D/T/t state tasks */
 	{
 		if (is_zygote_process(t) || !strncmp(t->comm,"system_server", TASK_COMM_LEN)
@@ -165,7 +165,7 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
 
 	trace_sched_process_hang(t);
 
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_DEATH_HEALER)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_DEATH_HEALER)
 /* fanhui@PhoneSW.BSP, 2016/02/02, DeathHealer, kill D/T/t state tasks */
 	//if this task blocked at iowait.2018/03/05 so maybe we should reboot system first
 	if(t->in_iowait){
@@ -224,7 +224,7 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
 	 * Ok, the task did not get scheduled for more than 2 minutes,
 	 * complain:
 	 */
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 // jiheng.xie@PSW.TECH.KERNEL, 2018/12/28
 // Modify for iowait hung monitor
 	pr_err("INFO: task %s:%d blocked for more than %ld seconds.\n",
@@ -245,7 +245,7 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
 	touch_nmi_watchdog();
 
 	if (sysctl_hung_task_panic) {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@SWDP.BSP.Kernel.Debug, 2017-05-01
  * Panic on critical process D-state
  */
@@ -287,7 +287,7 @@ static bool rcu_lock_break(struct task_struct *g, struct task_struct *t)
  * a warning.
  */
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 // wenbin.liu@PSW.PLATFORM.KERNEL, 2018/12/19
 // Add for iowait hung ctrl set by QualityProtect APK RUS
 extern bool ohm_iowait_hung_ctrl;
@@ -295,14 +295,14 @@ extern bool ohm_iowait_hung_trig;
 extern unsigned int  iowait_hung_cnt;
 extern unsigned int  iowait_panic_cnt;
 extern void ohm_action_trig(int type);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static void check_hung_uninterruptible_tasks(unsigned long timeout)
 {
 	int max_count = sysctl_hung_task_check_count;
 	unsigned long last_break = jiffies;
 	struct task_struct *g, *t;
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_DEATH_HEALER)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_DEATH_HEALER)
 	unsigned int iowait_count = 0;
 #endif
 
@@ -323,7 +323,7 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
 			last_break = jiffies;
 		}
 		/* use "==" to skip the TASK_KILLABLE tasks waiting on NFS */
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_DEATH_HEALER)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_DEATH_HEALER)
 /* fanhui@PhoneSW.BSP, 2016/02/02, DeathHealer, detect D/T/t state tasks */
 /*yixue.ge@PhoneSW.BSP,20180305,add io wait monitor*/
 		if (t->state == TASK_UNINTERRUPTIBLE || t->state == TASK_STOPPED || t->state == TASK_TRACED)
@@ -335,7 +335,7 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
 #endif
 	}
  unlock:
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_DEATH_HEALER) && defined(CONFIG_OPPO_HEALTHINFO)
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_DEATH_HEALER) && defined(CONFIG_OPPO_HEALTHINFO)
 /*yixue.ge@PhoneSW.BSP,20180305,add io wait monitor*/
 // jiheng.xie@PSW.TECH.KERNEL, 2018/12/28
 // Add for iowait hung monitor

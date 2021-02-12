@@ -290,18 +290,18 @@ void smpboot_park_threads(unsigned int cpu)
 {
 	struct smp_hotplug_thread *cur;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//Haitao.Zhou@BSP.Kernel.Stablity, 2017/03/13, Modify for merge the kernel stablity checklist
 	struct task_struct *tsk;
 	int cnt;
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	mutex_lock(&smpboot_threads_lock);
 	list_for_each_entry_reverse(cur, &hotplug_threads, list)
 		smpboot_park_thread(cur, cpu);
 	mutex_unlock(&smpboot_threads_lock);
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 next:
 	//Haitao.Zhou@BSP.Kernel.Stablity, 2017/03/13, Modify for merge the kernel stablity checklist
 	cnt = 0;
@@ -316,7 +316,7 @@ next:
 		}
 		goto next;
 	}
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 }
 

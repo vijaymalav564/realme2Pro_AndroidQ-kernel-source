@@ -50,7 +50,7 @@
 #include "ufs_quirks.h"
 #include "ufs-debugfs.h"
 #include "ufs-qcom.h"
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Chunyi.Mei@PSW.BSP.Storage.UFS, 2018-08-21 add for ufs device in /proc/devinfo
 #include <soc/oppo/device_info.h>
 #endif
@@ -7253,7 +7253,7 @@ static int ufshcd_scsi_add_wlus(struct ufs_hba *hba)
 	struct scsi_device *sdev_rpmb;
 	struct scsi_device *sdev_boot;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Chunyi.Mei@PSW.BSP.Storage.UFS, 2018-08-21 add for ufs device in /proc/devinfo
 	static char temp_version[5] = {0};
 	static char vendor[9] = {0};
@@ -7268,7 +7268,7 @@ static int ufshcd_scsi_add_wlus(struct ufs_hba *hba)
 		goto out;
 	}
 	scsi_device_put(hba->sdev_ufs_device);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Chunyi.Mei@PSW.BSP.Storage.UFS, 2018-08-21 add for ufs device in /proc/devinfo
 	strncpy(temp_version, hba->sdev_ufs_device->rev, 4);
 	strncpy(vendor, hba->sdev_ufs_device->vendor, 8);
@@ -9877,7 +9877,7 @@ out:
 	return count;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //cuixiaogang@SRC.hypnus.2018.04.02. add support for ufs clk scale
 int ufshcd_clk_scaling_enable(struct ufs_hba *hba, int val)
 {

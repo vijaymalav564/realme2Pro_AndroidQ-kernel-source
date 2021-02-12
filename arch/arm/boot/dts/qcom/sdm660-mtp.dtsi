@@ -94,7 +94,7 @@
 	qcom,mdss-pref-prim-intf = "dsi";
 };
 
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Gou shengjun@PSW.MM.Display.LCD.Stability, 2017/11/30,
 //add for panel config
 /*
@@ -144,7 +144,7 @@
 	qcom,platform-reset-gpio = <&tlmm 53 0>;
 	qcom,platform-te-gpio = <&tlmm 59 0>;
 };
-//#endif /*CONFIG_VENDOR_REALME*/
+//#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 &mdss_dp_ctrl {
 	pinctrl-names = "mdss_dp_active", "mdss_dp_sleep";
@@ -294,7 +294,7 @@
 	qcom,battery-data = <&mtp_batterydata>;
 };
 
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 &i2c_1 {
 	//Wanghao@BSP.group 2017-11-01 add for enable i2c_1
 	status = "okay";

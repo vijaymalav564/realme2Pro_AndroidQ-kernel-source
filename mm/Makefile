@@ -103,11 +103,11 @@ obj-$(CONFIG_IDLE_PAGE_TRACKING) += page_idle.o
 obj-$(CONFIG_FRAME_VECTOR) += frame_vector.o
 obj-$(CONFIG_PROCESS_RECLAIM)	+= process_reclaim.o
 obj-$(CONFIG_HARDENED_USERCOPY) += usercopy.o
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-07-07, add alloc wait monitor support*/
 obj-$(CONFIG_OPPO_MEM_MONITOR) += memory_monitor.o
-#endif /*CONFIG_VENDOR_REALME*/
-#if defined(CONFIG_VENDOR_REALME) && defined(CONFIG_PROCESS_RECLAIM)
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_PROCESS_RECLAIM)
 #/* Kui.Zhang@TEC.Kernel.Performance, 2019-03-13, add new interface for process memory reclaim*/
 obj-$(CONFIG_PROCESS_RECLAIM) += process_mm_reclaim.o
-#endif /*defined(CONFIG_VENDOR_REALME) && defined(CONFIG_VIRTUAL_RESERVE_MEMORY)*/
+#endif /*defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_VIRTUAL_RESERVE_MEMORY)*/

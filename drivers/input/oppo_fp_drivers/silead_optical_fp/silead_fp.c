@@ -118,10 +118,10 @@ struct silfp_data {
 
     spinlock_t		irq_lock;
     int		int_port;
-//#ifdef CONFIG_VENDOR_REALME
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Zemin.Li@BSP.Fingerprint.Basic, 2019.11.29, fix failed to get irq
     int     irq_gpio;
-//#endif CONFIG_VENDOR_REALME
+//#endif CONFIG_PRODUCT_REALME_RMX1801
     int		irq;
     s32 irq_is_disable;
     int   irq_ignore;

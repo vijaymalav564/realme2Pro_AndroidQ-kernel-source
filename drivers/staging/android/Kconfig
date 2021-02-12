@@ -99,7 +99,7 @@ config ANDROID_VSOC
 	  a 'cuttlefish' Android image inside QEmu. The driver interacts with
 	  a QEmu ivshmem device. If built as a module, it will be called vsoc.
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 #Kun.Zhou@ROM.Framework, 2019/09/23, add for hans freeze manager
 config OPPO_HANS
         bool "HANS kernel and HANS native communication channel"

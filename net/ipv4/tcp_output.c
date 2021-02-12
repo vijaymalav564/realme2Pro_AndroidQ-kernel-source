@@ -2290,7 +2290,7 @@ void tcp_send_loss_probe(struct sock *sk)
 	/* At most one outstanding TLP retransmission. */
 	if (tp->tlp_high_seq)
 		goto rearm_timer;
-#if CONFIG_VENDOR_REALME
+#if CONFIG_PRODUCT_REALME_RMX1801
 //Zhenjian Jiang@BSP.Kernel.Stability, 2019/02/01, add for fix tcp warn_on issue
 	/* Already in TCP_FIN_WAIT1, if there is nothing in write queue 
 	* do not rearm the timers 

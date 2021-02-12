@@ -9,7 +9,7 @@ extern int sysctl_hung_task_warnings;
 extern int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
 					 void __user *buffer,
 					 size_t *lenp, loff_t *ppos);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* fanhui@PhoneSW.BSP, 2016/02/02, DeathHealer, record the hung task killing */
 extern char sysctl_hung_task_oppo_kill[];
 #endif

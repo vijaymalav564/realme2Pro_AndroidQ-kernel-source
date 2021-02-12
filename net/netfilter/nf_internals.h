@@ -17,12 +17,12 @@ unsigned int nf_iterate(struct list_head *head, struct sk_buff *skb,
 			struct nf_hook_state *state, struct nf_hook_ops **elemp);
 
 /* nf_queue.c */
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Junyuan.Huang@PSW.CN.WiFi.Network.1471780, 2018/06/26,
 //Modify for limit speed function
 int nf_queue(struct sk_buff *skb, struct nf_hook_ops *elem,
 	     struct nf_hook_state *state, unsigned int queuenum);
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 #if defined(CONFIG_IMQ) || defined(CONFIG_IMQ_MODULE)
 int nf_queue(struct sk_buff *skb, struct nf_hook_ops *elem,
 	     struct nf_hook_state *state, unsigned int queuenum, unsigned int queuetype);
@@ -30,7 +30,7 @@ int nf_queue(struct sk_buff *skb, struct nf_hook_ops *elem,
 int nf_queue(struct sk_buff *skb, struct nf_hook_ops *elem,
 	     struct nf_hook_state *state, unsigned int queuenum);
 #endif
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 void nf_queue_nf_hook_drop(struct net *net, struct nf_hook_ops *ops);
 int __init netfilter_queue_init(void);

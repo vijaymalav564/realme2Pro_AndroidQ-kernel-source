@@ -76,10 +76,10 @@ int tfa98xx_select_mode(struct tfa98xx *tfa98xx, enum Tfa98xx_Mode mode);
 int tfa98xx_write_dsp_mem(struct tfa98xx *tfa98xx, struct nxpTfaDspMem *cfmem);
 int tfa98xx_write_filter(struct tfa98xx *tfa98xx, struct nxpTfaBiquadSettings *bq);
 int tfa98xx_powerdown(struct tfa98xx *tfa98xx, int powerdown);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //John.Xu@PhoneSw.AudioDriver, 2016/02/01, Add for delay first time open speaker
 void set_first_start(int val);
 int is_first_start(void);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 #endif

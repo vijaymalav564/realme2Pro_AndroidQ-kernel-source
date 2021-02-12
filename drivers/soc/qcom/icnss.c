@@ -4637,7 +4637,7 @@ static int icnss_get_vbatt_info(struct icnss_priv *priv)
 	return 0;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Laixin@PSW.CN.WiFi.Basic.Switch.1069763, 2018/08/08
 //Add for: check fw status for switch issue
 static void icnss_create_fw_state_kobj(void);
@@ -4655,7 +4655,7 @@ struct driver_attribute fw_ready_attr = {
 	.show = icnss_show_fw_ready,
 	//read only so we don't need to impl store func
 };
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static int icnss_probe(struct platform_device *pdev)
 {
@@ -4853,11 +4853,11 @@ static int icnss_probe(struct platform_device *pdev)
 
 	penv = priv;
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//Laixin@PSW.CN.WiFi.Basic.Switch.1069763, 2018/08/08
 	//Add for: check fw status for switch issue
 	icnss_create_fw_state_kobj();
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	init_completion(&priv->unblock_shutdown);
 	icnss_pr_info("Platform driver probed successfully\n");
@@ -5050,7 +5050,7 @@ static struct platform_driver icnss_driver = {
 	},
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Laixin@PSW.CN.WiFi.Basic.Switch.1069763, 2018/08/08
 //Add for: check fw status for switch issue
 static void icnss_create_fw_state_kobj(void) {
@@ -5058,7 +5058,7 @@ static void icnss_create_fw_state_kobj(void) {
 		icnss_pr_info("failed to create %s", fw_ready_attr.attr.name);
 	}
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static int __init icnss_initialize(void)
 {

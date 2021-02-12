@@ -1,6 +1,6 @@
 /***************************************************************
 ** Copyright (C),  2019,  OPPO Mobile Comm Corp.,  Ltd
-** CONFIG_VENDOR_REALME
+** CONFIG_PRODUCT_REALME_RMX1801
 ** File : oppo_mm_audio_kevent.h
 ** Description : MM audio kevent data
 ** Version : 1.0

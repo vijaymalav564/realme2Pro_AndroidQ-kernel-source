@@ -1,6 +1,6 @@
 /************************************************************************************
 ** File: - MSM8953_LA_1_0\android\kernel\include\soc\oppo\oppo_secure_common.h
-** CONFIG_VENDOR_REALME
+** CONFIG_PRODUCT_REALME_RMX1801
 ** Copyright (C), 2008-2016, OPPO Mobile Comm Corp., Ltd
 **
 ** Description:

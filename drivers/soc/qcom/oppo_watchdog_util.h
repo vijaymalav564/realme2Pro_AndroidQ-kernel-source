@@ -1,6 +1,6 @@
 /**********************************************************************************
 * Copyright (c)  2008-2016  Guangdong OPPO Mobile Comm Corp., Ltd
-* CONFIG_VENDOR_REALME
+* CONFIG_PRODUCT_REALME_RMX1801
 * Description: Provide some utils for watchdog to enhance log and action after wdt
 * Version   : 1.0
 * Date      : 2016-06-22

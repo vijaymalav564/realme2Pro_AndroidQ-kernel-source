@@ -1,6 +1,6 @@
 /************************************************************************************
 ** File: - android\kernel\arch\arm\mach-msm\include\mach\oppo_boot.h
-** CONFIG_VENDOR_REALME
+** CONFIG_PRODUCT_REALME_RMX1801
 ** Copyright (C), 2008-2012, OPPO Mobile Comm Corp., Ltd
 ** 
 ** Description:  
@@ -23,21 +23,21 @@ enum{
 	MSM_BOOT_MODE__CHARGE,
 	MSM_BOOT_MODE__SILENCE,
 	MSM_BOOT_MODE__SAU,
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	MSM_BOOT_MODE__SAFE = 999,
 #endif
 };
 
 extern int get_boot_mode(void);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Fuchun.Liao@Mobile.BSP.CHG 2016-01-14 add for charge
 extern bool qpnp_is_power_off_charging(void);
 #endif
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //PengNan@SW.BSP add for detect charger when reboot 2016-04-22
 extern bool qpnp_is_charger_reboot(void);
-#endif /*CONFIG_VENDOR_REALME*/
-#ifdef CONFIG_VENDOR_REALME
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Xianlin.Wu@ROM.Security add for detect bootloader unlock state 2019-10-28*/
 enum{
         VERIFIED_BOOT_STATE__GREEN,
@@ -47,5 +47,5 @@ enum{
 };
 
 extern bool is_bootloader_unlocked(void);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 #endif

@@ -49,7 +49,7 @@
 
 #include <asm/uaccess.h>
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //nanwei.deng@bsp.drv 20160204 add for disable uart print
 //this modify can reduce poweron time add ftm mode
 #include <soc/oppo/boot_mode.h>
@@ -66,7 +66,7 @@
 extern void printascii(char *);
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jingchun.Wang@bsp.drv, 2017/04/19,
 //add for get disable uart value from cmdline
 #ifdef CONFIG_OPPO_DEBUG_BUILD
@@ -79,7 +79,7 @@ bool oem_get_uartlog_status(void)
 {
 	return !printk_disable_uart;
 }
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 int console_printk[4] = {
 	CONSOLE_LOGLEVEL_DEFAULT,	/* console_loglevel */
 	MESSAGE_LOGLEVEL_DEFAULT,	/* default_message_loglevel */
@@ -454,7 +454,7 @@ static int log_store(int facility, int level,
 	u32 size, pad_len;
 	u16 trunc_msg_len = 0;
 
-	#ifdef CONFIG_VENDOR_REALME 
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801 
 	//part 1/2: yixue.ge 2015-04-22 add for add cpu number and current id and current comm to kmsg
     int this_cpu = smp_processor_id();
     char tbuf[64];
@@ -493,7 +493,7 @@ static int log_store(int facility, int level,
 
 	/* fill message */
 	msg = (struct printk_log *)(log_buf + log_next_idx);
-	#ifndef CONFIG_VENDOR_REALME 
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801 
 	//part 2/2: yixue.ge 2015-04-22 add for add cpu number and current id and current comm to kmsg
 	memcpy(log_text(msg), text, text_len);
 	#else
@@ -1087,11 +1087,11 @@ static inline void boot_delay_msec(int level)
 
 static bool printk_time = IS_ENABLED(CONFIG_PRINTK_TIME);
 module_param_named(time, printk_time, bool, S_IRUGO | S_IWUSR);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Jingchun.Wang@bsp.drv, 2017/04/19,
 //add for get disable uart value from cmdline
 module_param_named(disable_uart, printk_disable_uart, bool, S_IRUGO | S_IWUSR);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static size_t print_time(u64 ts, char *buf)
 {
@@ -1500,7 +1500,7 @@ static void call_console_drivers(int level,
 		return;
 
 	for_each_console(con) {
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //yixue.ge@bsp.drv 20160204 add for disable uart print
 //this modify can reduce poweron time add ftm mode
 		if(get_boot_mode() == MSM_BOOT_MODE__FACTORY)

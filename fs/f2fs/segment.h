@@ -617,12 +617,12 @@ static inline int utilization(struct f2fs_sb_info *sbi)
  * F2FS_IPUT_DISABLE - disable IPU. (=default option)
  */
 #define DEF_MIN_IPU_UTIL	70
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Chunyi.Mei@PSW.BSP.FS.f2fs, 2017-10-1, Modify for performance
 #define DEF_MIN_FSYNC_BLOCKS	8
-#else/* CONFIG_VENDOR_REALME */
+#else/* CONFIG_PRODUCT_REALME_RMX1801 */
 #define DEF_MIN_FSYNC_BLOCKS	20
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 #define DEF_MIN_HOT_BLOCKS	16
 
 #define SMALL_VOLUME_SEGMENTS	(16 * 512)	/* 16GB */
@@ -875,7 +875,7 @@ wake_up:
 	wake_up_interruptible_all(&dcc->discard_wait_queue);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*shifei.ge@TECH.Storage.FS, 2019-09-01, add for oDiscard */
 static inline void wake_up_odiscard(struct f2fs_sb_info *sbi)
 {

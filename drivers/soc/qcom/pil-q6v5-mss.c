@@ -44,7 +44,7 @@
 
 #define subsys_to_drv(d) container_of(d, struct modem_data, subsys_desc)
 
-#ifndef CONFIG_VENDOR_REALME //yixue.ge add for modem subsystem crash
+#ifndef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge add for modem subsystem crash
 static void log_modem_sfr(void)
 {
 	u32 size;
@@ -108,7 +108,7 @@ extern unsigned int mdmrest_count;
 
 static void restart_modem(struct modem_data *drv)
 {
-#ifdef CONFIG_VENDOR_REALME //yixue.ge modify
+#ifdef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge modify
 	int restart_level = log_modem_sfr();
 #else
 	log_modem_sfr();
@@ -119,7 +119,7 @@ static void restart_modem(struct modem_data *drv)
 	mdmrest_count++;
 #endif
 	drv->ignore_errors = true;
-#ifndef CONFIG_VENDOR_REALME //yixue.ge modify
+#ifndef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge modify
 	subsystem_restart_dev(drv->subsys);
 #else
 	subsystem_restart_dev_level(drv->subsys,restart_level);

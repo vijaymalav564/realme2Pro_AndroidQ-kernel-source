@@ -212,7 +212,7 @@ static inline int __sched __down_common(struct semaphore *sem, long state,
 	waiter.up = false;
 
 	for (;;) {
-		//#ifdef CONFIG_VENDOR_REALME fangpan@Swdp.shanghai,2015/11/12
+		//#ifdef CONFIG_PRODUCT_REALME_RMX1801 fangpan@Swdp.shanghai,2015/11/12
 		if (signal_pending_state(state, task) || hung_long_and_fatal_signal_pending(task))
 		//#endif
 			goto interrupted;

@@ -53,12 +53,12 @@ struct cluster_data {
 	unsigned int first_cpu;
 	unsigned int boost;
 	struct kobject kobj;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@BSP.Kernel.Driver, 2017-2-10, hypnus;
  * provide interface to disable core_ctl dynamicly
  */
 	bool disabled;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 };
 
 struct cpu_data {
@@ -129,7 +129,7 @@ static ssize_t show_max_cpus(const struct cluster_data *state, char *buf)
 	return snprintf(buf, PAGE_SIZE, "%u\n", state->max_cpus);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //cuixiaogang@SRC.hypnus, 2019.05.20 add for hypnus-daemon
 int hypnus_set_min_max_cpus(unsigned int index, unsigned int min, unsigned int max)
 {
@@ -147,7 +147,7 @@ int hypnus_set_min_max_cpus(unsigned int index, unsigned int min, unsigned int m
         wake_up_core_ctl_thread(state);
         return 0;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static ssize_t store_offline_delay_ms(struct cluster_data *state,
 					const char *buf, size_t count)
@@ -352,14 +352,14 @@ static ssize_t show_global_state(const struct cluster_data *state, char *buf)
 						cluster->nr_isolated_cpus);
 		count += snprintf(buf + count, PAGE_SIZE - count,
 				"\tBoost: %u\n", (unsigned int) cluster->boost);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@BSP.Kernel.Driver, 2017-2-10, hypnus;
  * provide interface to disable core_ctl dynamicly
  */
 		count += snprintf(buf + count, PAGE_SIZE - count,
 				"\tStatus: %s\n",
 				cluster->disabled ? "disabled" : "enabled");
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	}
 	spin_unlock_irq(&state_lock);
 
@@ -407,7 +407,7 @@ static ssize_t show_not_preferred(const struct cluster_data *state, char *buf)
 	return count;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@BSP.Kernel.Driver, 2017-2-10, hypnus;
  * provide interface to disable core_ctl dynamicly
  */
@@ -436,7 +436,7 @@ static ssize_t show_disable(const struct cluster_data *state, char *buf)
 {
 	return snprintf(buf, PAGE_SIZE, "%u\n", state->disabled);
 }
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 struct core_ctl_attr {
 	struct attribute attr;
@@ -464,12 +464,12 @@ core_ctl_attr_ro(active_cpus);
 core_ctl_attr_ro(global_state);
 core_ctl_attr_rw(not_preferred);
 core_ctl_attr_rw(enable);
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@BSP.Kernel.Driver, 2017-2-10, hypnus;
  * provide interface to disable core_ctl dynamicly
  */
 core_ctl_attr_rw(disable);
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 static struct attribute *default_attrs[] = {
 	&min_cpus.attr,
@@ -484,12 +484,12 @@ static struct attribute *default_attrs[] = {
 	&active_cpus.attr,
 	&global_state.attr,
 	&not_preferred.attr,
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@BSP.Kernel.Driver, 2017-2-10, hypnus;
  * provide interface to disable core_ctl dynamicly
  */
 	&disable.attr,
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 	NULL
 };
 
@@ -723,13 +723,13 @@ static void wake_up_core_ctl_thread(struct cluster_data *cluster)
 {
 	unsigned long flags;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* Hui.Fan@BSP.Kernel.Driver, 2017-2-10, hypnus;
  * provide interface to disable core_ctl dynamicly
  */
 	if(unlikely(cluster->disabled))
 		return;
-#endif /*CONFIG_VENDOR_REALME*/
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	spin_lock_irqsave(&cluster->pending_lock, flags);
 	cluster->pending = true;

@@ -53,7 +53,7 @@ arm64-obj-$(CONFIG_HIBERNATION)		+= hibernate.o hibernate-asm.o
 arm64-obj-$(CONFIG_ARM64_ACPI_PARKING_PROTOCOL)	+= acpi_parking_protocol.o
 arm64-obj-$(CONFIG_PARAVIRT)		+= paravirt.o
 
-# ifdef CONFIG_VENDOR_REALME //yixue.ge@bsp.drv add for minidump
+# ifdef CONFIG_PRODUCT_REALME_RMX1801 //yixue.ge@bsp.drv add for minidump
 obj-y 					+=get_regs.o
 # endif
 

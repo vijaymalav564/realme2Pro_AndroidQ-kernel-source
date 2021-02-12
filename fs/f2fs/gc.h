@@ -11,7 +11,7 @@
 						 * or not
 						 */
 #define DEF_GC_THREAD_URGENT_SLEEP_TIME	500	/* 500 ms */
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 //Chunyi.Mei@PSW.BSP.FS.F2FS, 2018-4-18, Modify for optimization f2fs discard
 #define DEF_GC_THREAD_MIN_SLEEP_TIME	30000	/* milliseconds */
 #else
@@ -41,7 +41,7 @@ struct f2fs_gc_kthread {
 
 	/* for changing gc mode */
 	unsigned int gc_wake;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Chunyi.Mei@PSW.BSP.FS.F2FS, 2018-5-25, Add for optimization f2fs gc
 	unsigned int gc_hurryup;
 #endif

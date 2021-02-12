@@ -857,12 +857,12 @@ static void __init do_initcall_level(int level)
 		do_one_initcall(*fn);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //INDIA.Performance add for hypnusd
 #ifdef CONFIG_OPPO_HYPNUS
 extern int __init hypnus_init(void);
 #endif
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static void __init do_initcalls(void)
 {
@@ -871,12 +871,12 @@ static void __init do_initcalls(void)
 	for (level = 0; level < ARRAY_SIZE(initcall_levels) - 1; level++)
 		do_initcall_level(level);
 		
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	//INDIA.Performance add for hypnusd
 	#ifdef CONFIG_OPPO_HYPNUS
 		hypnus_init();
 	#endif
-	#endif /* CONFIG_VENDOR_REALME */		
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */		
 }
 
 /*

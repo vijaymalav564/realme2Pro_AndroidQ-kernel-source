@@ -5422,14 +5422,14 @@ static irqreturn_t fg_empty_soc_irq_handler(int irq, void *_chip)
 		goto done;
 	}
 
-    #ifndef CONFIG_VENDOR_REALME
+    #ifndef CONFIG_PRODUCT_REALME_RMX1801
     // wenbin.liu@BSP.CHG.Gauge, 2016/12/07
     // Add for trace empty soc IRQ
 	if (fg_debug_mask & FG_IRQS)
 		pr_info("triggered 0x%x\n", soc_rt_sts);
     #else
     pr_err("triggered 0x%x\n", soc_rt_sts);
-    #endif /*CONFIG_VENDOR_REALME*/
+    #endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 	if (fg_is_batt_empty(chip)) {
 		fg_stay_awake(&chip->empty_check_wakeup_source);

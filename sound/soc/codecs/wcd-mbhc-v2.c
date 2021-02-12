@@ -40,7 +40,7 @@
 				  SND_JACK_BTN_2 | SND_JACK_BTN_3 | \
 				  SND_JACK_BTN_4 | SND_JACK_BTN_5 )
 #define OCP_ATTEMPT 20
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/04/10,
  *Modify for headphone detect.
  */
@@ -354,7 +354,7 @@ out_micb_en:
 			wcd_enable_curr_micbias(mbhc, WCD_MBHC_EN_PULLUP);
 		else
 			/* enable current source and disable mb, pullup*/
-			#ifndef CONFIG_VENDOR_REALME
+			#ifndef CONFIG_PRODUCT_REALME_RMX1801
 			/* Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2017/04/10,
 			 * 1.Modify for some headset button not work after headset mic
 			 * stop use.(ex: stop recording, hangup voice call without plug
@@ -364,7 +364,7 @@ out_micb_en:
 			 * then plug in a headphone, it detect as headset.
 			 */
 			wcd_enable_curr_micbias(mbhc, WCD_MBHC_EN_CS);
-			#else /* CONFIG_VENDOR_REALME */
+			#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 			{
 				pr_info("%s: current_plug %d\n", __func__, mbhc->current_plug);
 				if (mbhc->current_plug == MBHC_PLUG_TYPE_HEADSET) {
@@ -373,7 +373,7 @@ out_micb_en:
 					wcd_enable_curr_micbias(mbhc, WCD_MBHC_EN_CS);
 				}
 			}
-			#endif /* CONFIG_VENDOR_REALME */
+			#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		/* configure cap settings properly when micbias is disabled */
 		if (mbhc->mbhc_cb->set_cap_mode)
@@ -641,12 +641,12 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 				enum snd_jack_types jack_type)
 {
 	struct snd_soc_codec *codec = mbhc->codec;
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03,
 	 *Delete for headphone detect.
 	 */
 	bool is_pa_on = false;
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	WCD_MBHC_RSC_ASSERT_LOCKED(mbhc);
 
@@ -662,7 +662,7 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 		if (wcd_cancel_btn_work(mbhc)) {
 			pr_debug("%s: button press is canceled\n", __func__);
 		} else if (mbhc->buttons_pressed) {
-			#ifndef CONFIG_VENDOR_REALME
+			#ifndef CONFIG_PRODUCT_REALME_RMX1801
 			/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03,
 			 *Modify for headset detect.
 			 */
@@ -670,7 +670,7 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 				 __func__, jack_type);
 			wcd_mbhc_jack_report(mbhc, &mbhc->button_jack, 0,
 					    mbhc->buttons_pressed);
-			#else /* CONFIG_VENDOR_REALME */
+			#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 			pr_info("%s: release of button press%d\n",
 				 __func__, jack_type);
 			/* Ming.Liu@PSW.MM.AudioDriver.HeadsetDet, 2017/07/12,
@@ -680,7 +680,7 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 				wcd_mbhc_jack_report(mbhc, &mbhc->button_jack, 0,
 					    mbhc->buttons_pressed);
 			}
-			#endif /* CONFIG_VENDOR_REALME */
+			#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 			mbhc->buttons_pressed &=
 				~WCD_MBHC_JACK_BUTTON_MASK;
 		}
@@ -703,16 +703,16 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 
 		mbhc->hph_type = WCD_MBHC_HPH_NONE;
 		mbhc->zl = mbhc->zr = 0;
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*John.Xu@PSW.MM.AudioDriver.HeadsetDet 2016/01/01,
 		 *Modify for necessary log.
 		 */
 		pr_debug("%s: Reporting removal %d(%x)\n", __func__,
 			 jack_type, mbhc->hph_status);
-		#else /* CONFIG_VENDOR_REALME */
+		#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 		pr_info("%s: Reporting removal %d(%x)\n", __func__,
 			 jack_type, mbhc->hph_status);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		wcd_mbhc_jack_report(mbhc, &mbhc->headset_jack,
 				mbhc->hph_status, WCD_MBHC_JACK_MASK);
@@ -794,7 +794,7 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 		} else if (jack_type == SND_JACK_ANC_HEADPHONE)
 			mbhc->current_plug = MBHC_PLUG_TYPE_ANC_HEADPHONE;
 
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03,
 		 *Delete for headphone detect.
 		 */
@@ -833,18 +833,18 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 				__func__);
 			}
 		}
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		mbhc->hph_status |= jack_type;
 
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03, Modify for log*/
 		pr_debug("%s: Reporting insertion %d(%x)\n", __func__,
 			 jack_type, mbhc->hph_status);
 		wcd_mbhc_jack_report(mbhc, &mbhc->headset_jack,
 				    (mbhc->hph_status | SND_JACK_MECHANICAL),
 				    WCD_MBHC_JACK_MASK);
-		#else /* CONFIG_VENDOR_REALME */
+		#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 		pr_err("%s: Reporting insertion jack_type=%d, (hph_status=%x)\
 			[1:headphone 3:headset 4:lineout]\n",
 			__func__, jack_type, mbhc->hph_status);
@@ -853,7 +853,7 @@ static void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 				(mbhc->hph_status | SND_JACK_MECHANICAL),
 				WCD_MBHC_JACK_MASK);
 		}
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		wcd_mbhc_clr_and_turnon_hph_padac(mbhc);
 	}
 	pr_debug("%s: leave hph_status %x\n", __func__, mbhc->hph_status);
@@ -951,14 +951,14 @@ static void wcd_mbhc_find_plug_and_report(struct wcd_mbhc *mbhc,
 	bool anc_mic_found = false;
 	enum snd_jack_types jack_type;
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*John.Xu@PSW.MM.AudioDriver.HeadsetDet, 2016/01/01, Modify for necessary log*/
 	pr_debug("%s: enter current_plug(%d) new_plug(%d)\n",
 		 __func__, mbhc->current_plug, plug_type);
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 	pr_info("%s: enter current_plug(%d) new_plug(%d)\n",
 		 __func__, mbhc->current_plug, plug_type);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	WCD_MBHC_RSC_ASSERT_LOCKED(mbhc);
 
@@ -1022,15 +1022,15 @@ static void wcd_mbhc_find_plug_and_report(struct wcd_mbhc *mbhc,
 		     mbhc->current_plug, plug_type);
 	}
 exit:
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /*John.Xu@PSW.MM.AudioDriver.HeadsetDet, 2016/01/01, Modify for necessary log*/
 	pr_debug("%s: leave\n", __func__);
-#else /* CONFIG_VENDOR_REALME */
+#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 	pr_info("%s: leave\n", __func__);
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 }
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /* Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2017/09/25,
  * Delete for no need to check for cross connection.
  */
@@ -1087,7 +1087,7 @@ static int wcd_check_cross_conn(struct wcd_mbhc *mbhc)
 
 	return (plug_type == MBHC_PLUG_TYPE_GND_MIC_SWAP) ? true : false;
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static bool wcd_is_special_headset(struct wcd_mbhc *mbhc)
 {
@@ -1097,13 +1097,13 @@ static bool wcd_is_special_headset(struct wcd_mbhc *mbhc)
 	u16 hs_comp_res;
 	bool is_spl_hs = false;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2016/09/26,
  *Add for necessary log.
  */
 #undef pr_debug
 #define pr_debug pr_info
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	/*
 	 * Increase micbias to 2.7V to detect headsets with
@@ -1241,16 +1241,16 @@ static void wcd_enable_mbhc_supply(struct wcd_mbhc *mbhc,
 					wcd_enable_curr_micbias(mbhc,
 							WCD_MBHC_EN_PULLUP);
 			else
-				#ifndef CONFIG_VENDOR_REALME
+				#ifndef CONFIG_PRODUCT_REALME_RMX1801
 				/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/22,
 				 *Modify for hook key.
 				 */
 				wcd_enable_curr_micbias(mbhc,
 							WCD_MBHC_EN_CS);
-				#else /* CONFIG_VENDOR_REALME */
+				#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 				wcd_enable_curr_micbias(mbhc,
 							WCD_MBHC_EN_MB);
-				#endif /* CONFIG_VENDOR_REALME */
+				#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		} else if (plug_type == MBHC_PLUG_TYPE_HEADPHONE) {
 			wcd_enable_curr_micbias(mbhc, WCD_MBHC_EN_CS);
 		} else {
@@ -1314,45 +1314,45 @@ static void wcd_correct_swch_plug(struct work_struct *work)
 	unsigned long timeout;
 	u16 hs_comp_res = 0, hphl_sch = 0, mic_sch = 0, btn_result = 0;
 	bool wrk_complete = false;
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03,
 	 *Delete for headset detect.
 	 */
 	int pt_gnd_mic_swap_cnt = 0;
 	int no_gnd_mic_swap_cnt = 0;
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	bool is_pa_on = false, spl_hs = false, spl_hs_reported = false;
 	bool micbias2 = false;
 	bool micbias1 = false;
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03,
 	 *Delete for headset detect.
 	 */
 	int ret = 0;
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	int rc, spl_hs_count = 0;
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/* Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2017/09/25,
 	 * Delete for no need to check for cross connection.
 	 */
 	int cross_conn;
 	int try = 0;
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03,
 	 *Add for headset detect.
 	 */
 	int headset_count = 0;
 	int headphone_count = 0;
 	int high_hph_count = 0;
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2016/09/26, Add for log*/
 #undef pr_debug
 #define pr_debug pr_info
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	pr_debug("%s: enter\n", __func__);
 
@@ -1366,12 +1366,12 @@ static void wcd_correct_swch_plug(struct work_struct *work)
 	 * is handled with ref-counts by individual codec drivers, there is
 	 * no need to enabale micbias/pullup here
 	 */
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/26,
 	 *Delete for pop noise.
 	 */
 	wcd_enable_curr_micbias(mbhc, WCD_MBHC_EN_MB);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	/* Enable HW FSM */
 	WCD_MBHC_REG_UPDATE_BITS(WCD_MBHC_FSM_EN, 1);
@@ -1385,11 +1385,11 @@ static void wcd_correct_swch_plug(struct work_struct *work)
 	WCD_MBHC_REG_READ(WCD_MBHC_BTN_RESULT, btn_result);
 	WCD_MBHC_REG_READ(WCD_MBHC_HS_COMP_RESULT, hs_comp_res);
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03, Add for log*/
 	pr_info("%s: btn_result=%d hs_comp_res=%d\n", __func__,
 			btn_result, hs_comp_res);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	if (!rc) {
 		pr_debug("%s No btn press interrupt\n", __func__);
@@ -1406,7 +1406,7 @@ static void wcd_correct_swch_plug(struct work_struct *work)
 			plug_type = MBHC_PLUG_TYPE_INVALID;
 	}
 
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/* Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2017/09/25,
 	 * Delete for no need to check for cross connection.
 	 */
@@ -1426,9 +1426,9 @@ static void wcd_correct_swch_plug(struct work_struct *work)
 			 __func__, plug_type);
 		goto correct_plug_type;
 	}
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03,
 	 *Modify for headset/headphone detect.
 	 */
@@ -1439,7 +1439,7 @@ static void wcd_correct_swch_plug(struct work_struct *work)
 		wcd_mbhc_find_plug_and_report(mbhc, plug_type);
 		WCD_MBHC_RSC_UNLOCK(mbhc);
 	}
-	#else /* CONFIG_VENDOR_REALME */
+	#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 	if ((plug_type == MBHC_PLUG_TYPE_HEADSET)
 			&& (!wcd_swch_level_remove(mbhc))) {
 		WCD_MBHC_RSC_LOCK(mbhc);
@@ -1458,14 +1458,14 @@ static void wcd_correct_swch_plug(struct work_struct *work)
 			&& (!wcd_swch_level_remove(mbhc))) {
 		high_hph_count ++;
 	}
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-#ifndef CONFIG_VENDOR_REALME
+#ifndef CONFIG_PRODUCT_REALME_RMX1801
 /* Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2017/09/25,
  * Delete for no use.
  */
 correct_plug_type:
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	timeout = jiffies + msecs_to_jiffies(HS_DETECT_PLUG_TIME_MS);
 	while (!time_after(jiffies, timeout)) {
@@ -1517,10 +1517,10 @@ correct_plug_type:
 		if (mbhc->mbhc_cb->hph_pa_on_status)
 			is_pa_on = mbhc->mbhc_cb->hph_pa_on_status(codec);
 
-		#ifdef CONFIG_VENDOR_REALME
+		#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03, Add for log*/
 		pr_info("%s:  is_pa_on: %x\n", __func__, is_pa_on);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		/*
 		 * instead of hogging system by contineous polling, wait for
 		 * sometime and re-check stop request again.
@@ -1529,12 +1529,12 @@ correct_plug_type:
 		if (hs_comp_res && (spl_hs_count < WCD_MBHC_SPL_HS_CNT)) {
 			spl_hs = wcd_mbhc_check_for_spl_headset(mbhc,
 								&spl_hs_count);
-			#ifdef CONFIG_VENDOR_REALME
+			#ifdef CONFIG_PRODUCT_REALME_RMX1801
 			/*Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2017/09/25,
 			 *Add for log.
 			 */
 			pr_info("%s:  spl_hs_count: %d\n", __func__, spl_hs_count);
-			#endif /* CONFIG_VENDOR_REALME */
+			#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 			if (spl_hs_count == WCD_MBHC_SPL_HS_CNT) {
 				hs_comp_res = 0;
@@ -1543,7 +1543,7 @@ correct_plug_type:
 			}
 		}
 
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03,
 		 *Delete for headset detect.
 		 */
@@ -1597,22 +1597,22 @@ correct_plug_type:
 				}
 			}
 		}
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		WCD_MBHC_REG_READ(WCD_MBHC_HPHL_SCHMT_RESULT, hphl_sch);
 		WCD_MBHC_REG_READ(WCD_MBHC_MIC_SCHMT_RESULT, mic_sch);
 
-		#ifdef CONFIG_VENDOR_REALME
+		#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03, Add for log*/
 		pr_info("%s: hs_comp_res=%d hphl_sch=%d mic_sch=%d\n", __func__,
 					hs_comp_res, hphl_sch, mic_sch);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 		if (hs_comp_res && !(hphl_sch || mic_sch)) {
 			pr_debug("%s: cable is extension cable\n", __func__);
 			plug_type = MBHC_PLUG_TYPE_HIGH_HPH;
 			wrk_complete = true;
-			#ifdef CONFIG_VENDOR_REALME
+			#ifdef CONFIG_PRODUCT_REALME_RMX1801
 			/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/06,
 			 *Add for HIGH_HPH detect.
 			 */
@@ -1627,7 +1627,7 @@ correct_plug_type:
 			}
 
 			continue;
-			#endif /* CONFIG_VENDOR_REALME */
+			#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		} else {
 			pr_debug("%s: cable might be headset: %d\n", __func__,
 					plug_type);
@@ -1648,7 +1648,7 @@ correct_plug_type:
 				 * and if there is not button press without
 				 * release
 				 */
-				#ifndef CONFIG_VENDOR_REALME
+				#ifndef CONFIG_PRODUCT_REALME_RMX1801
 				/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/04/10,
 				 *Add for headset detect.
 				 */
@@ -1658,30 +1658,30 @@ correct_plug_type:
 				      MBHC_PLUG_TYPE_ANC_HEADPHONE)) &&
 				    !wcd_swch_level_remove(mbhc) &&
 				    !mbhc->btn_press_intr) {
-				#else /* CONFIG_VENDOR_REALME */
+				#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 				if ((!wcd_swch_level_remove(mbhc)) && (!mbhc->btn_press_intr)) {
-				#endif /* CONFIG_VENDOR_REALME */
+				#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 					pr_debug("%s: cable is %sheadset\n",
 						__func__,
 						((spl_hs_count ==
 							WCD_MBHC_SPL_HS_CNT) ?
 							"special ":""));
 
-					#ifndef CONFIG_VENDOR_REALME
+					#ifndef CONFIG_PRODUCT_REALME_RMX1801
 					/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/10,
 					 *Modify for headset detect.
 					 */
 					goto report;
-					#else /* CONFIG_VENDOR_REALME */
+					#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 					if (((high_hph_count > 0)
 							|| (mbhc->current_plug == MBHC_PLUG_TYPE_HEADPHONE))
 							&& (headset_count == 1)) {
 					    goto report;
 					}
 					headset_count ++;
-					#endif /* CONFIG_VENDOR_REALME */
+					#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 				}
-				#ifdef CONFIG_VENDOR_REALME
+				#ifdef CONFIG_PRODUCT_REALME_RMX1801
 				/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/10,
 				 *Add for headphone detect.
 				 */
@@ -1707,7 +1707,7 @@ correct_plug_type:
 					}
 					headphone_count ++;
 				}
-				#endif /* CONFIG_VENDOR_REALME */
+				#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 			}
 			wrk_complete = false;
 		}
@@ -1725,14 +1725,14 @@ correct_plug_type:
 	    (plug_type == MBHC_PLUG_TYPE_ANC_HEADPHONE))) {
 		pr_debug("%s: plug_type:0x%x already reported\n",
 			 __func__, mbhc->current_plug);
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/06,
 		 *Modify for headphone change to headset detect.
 		 */
 		goto enable_supply;
-		#else /* CONFIG_VENDOR_REALME */
+		#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 		goto report;
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	}
 
 	if (plug_type == MBHC_PLUG_TYPE_HIGH_HPH &&
@@ -1755,7 +1755,7 @@ report:
 		wcd_cancel_btn_work(mbhc);
 		plug_type = MBHC_PLUG_TYPE_HEADPHONE;
 	}
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/06, Modify for hp report*/
 	/* Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2017/07/11,
 	 * Add for report headphone remove bug[1042404] */
@@ -1765,7 +1765,7 @@ report:
 	WCD_MBHC_RSC_LOCK(mbhc);
 	wcd_mbhc_find_plug_and_report(mbhc, plug_type);
 	WCD_MBHC_RSC_UNLOCK(mbhc);
-	#else /* CONFIG_VENDOR_REALME */
+	#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 	pr_info("%s: Valid plug found, plug type %d wrk_cmpt %d btn_intr %d\n",
 			__func__, plug_type, wrk_complete,
 			mbhc->btn_press_intr);
@@ -1791,7 +1791,7 @@ report:
 		wcd_mbhc_find_plug_and_report(mbhc, plug_type);
 	}
 	WCD_MBHC_RSC_UNLOCK(mbhc);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 enable_supply:
 	if (mbhc->mbhc_cb->mbhc_micbias_control)
@@ -1856,13 +1856,13 @@ static void wcd_mbhc_detect_plug_type(struct wcd_mbhc *mbhc)
 {
 	struct snd_soc_codec *codec = mbhc->codec;
 	bool micbias1 = false;
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2016/09/26,
  *Add for necessary log.
  */
 #undef pr_debug
 #define pr_debug pr_info
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 
 	pr_debug("%s: enter\n", __func__);
@@ -1883,14 +1883,14 @@ static void wcd_mbhc_detect_plug_type(struct wcd_mbhc *mbhc)
 		mbhc->mbhc_cb->mbhc_micbias_control(codec, MIC_BIAS_2,
 						    MICB_ENABLE);
 	else
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/26,
 		 *Modify for pop noise.
 		 */
 		wcd_enable_curr_micbias(mbhc, WCD_MBHC_EN_MB);
-		#else /* CONFIG_VENDOR_REALME */
+		#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 		wcd_enable_curr_micbias(mbhc, WCD_MBHC_EN_CS);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	/* Re-initialize button press completion object */
 	reinit_completion(&mbhc->btn_press_compl);
@@ -1898,7 +1898,7 @@ static void wcd_mbhc_detect_plug_type(struct wcd_mbhc *mbhc)
 	pr_debug("%s: leave\n", __func__);
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/04/15, Add for headset detect*/
 static void wcd_mbhc_detect_plug_type_new(struct work_struct *work)
 {
@@ -1939,7 +1939,7 @@ static void wcd_mbhc_detect_plug_type_new(struct work_struct *work)
 	WCD_MBHC_RSC_UNLOCK(mbhc);
 	pr_err("%s: leave\n", __func__);
 }
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 static void wcd_mbhc_swch_irq_handler(struct wcd_mbhc *mbhc)
 {
@@ -1947,20 +1947,20 @@ static void wcd_mbhc_swch_irq_handler(struct wcd_mbhc *mbhc)
 	bool micbias1 = false;
 	struct snd_soc_codec *codec = mbhc->codec;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2016/09/26,
  *Add for necessary log.
  */
 #undef pr_debug
 #define pr_debug pr_info
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-	#ifndef CONFIG_VENDOR_REALME
+	#ifndef CONFIG_PRODUCT_REALME_RMX1801
 	/*John.Xu@PSW.MM.AudioDriver.HeadsetDet, 2016/01/01, Modify for log*/
 	dev_dbg(codec->dev, "%s: enter\n", __func__);
-	#else /* CONFIG_VENDOR_REALME */
+	#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 	pr_info("%s: enter\n", __func__);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	WCD_MBHC_RSC_LOCK(mbhc);
 
@@ -2016,23 +2016,23 @@ static void wcd_mbhc_swch_irq_handler(struct wcd_mbhc *mbhc)
 			mbhc->mbhc_cb->enable_mb_source(mbhc, true);
 		mbhc->btn_press_intr = false;
 		mbhc->is_btn_press = false;
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/04/15,
 		 *Modify for headset detect.
 		 */
 		wcd_mbhc_detect_plug_type(mbhc);
-		#else /* CONFIG_VENDOR_REALME */
+		#else /* CONFIG_PRODUCT_REALME_RMX1801 */
 		schedule_delayed_work(&mbhc->hp_detect_work, msecs_to_jiffies(400));
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	} else if ((mbhc->current_plug != MBHC_PLUG_TYPE_NONE)
 			&& !detection_type) {
-		#ifdef CONFIG_VENDOR_REALME
+		#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/26,
 		 *Add for pop noise.
 		 */
 		cancel_delayed_work_sync(&mbhc->hp_detect_work);
 		WCD_MBHC_REG_UPDATE_BITS(WCD_MBHC_MICB_CTRL, 0);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		/* Disable external voltage source to micbias if present */
 		if (mbhc->mbhc_cb->enable_mb_source)
 			mbhc->mbhc_cb->enable_mb_source(mbhc, false);
@@ -2093,12 +2093,12 @@ static void wcd_mbhc_swch_irq_handler(struct wcd_mbhc *mbhc)
 			wcd_mbhc_report_plug(mbhc, 0, SND_JACK_ANC_HEADPHONE);
 		}
 	} else if (!detection_type) {
-		#ifdef CONFIG_VENDOR_REALME
+		#ifdef CONFIG_PRODUCT_REALME_RMX1801
 		/*Zhaoan.Xu@PSW.MM.AudioDriver.HeadsetDet.1099977, 2017/09/01,
 		 *Add for Headset detect.
 		 */
 		cancel_delayed_work_sync(&mbhc->hp_detect_work);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		/* Disable external voltage source to micbias if present */
 		if (mbhc->mbhc_cb->enable_mb_source)
 			mbhc->mbhc_cb->enable_mb_source(mbhc, false);
@@ -2119,18 +2119,18 @@ static irqreturn_t wcd_mbhc_mech_plug_detect_irq(int irq, void *data)
 	int r = IRQ_HANDLED;
 	struct wcd_mbhc *mbhc = data;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2016/09/26,
  *Add for necessary log.
  */
 #undef pr_debug
 #define pr_debug pr_info
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03, Add for headset*/
 	disable_irq_nosync(irq);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	pr_debug("%s: enter\n", __func__);
 	if (unlikely((mbhc->mbhc_cb->lock_sleep(mbhc, true)) == false)) {
@@ -2141,10 +2141,10 @@ static irqreturn_t wcd_mbhc_mech_plug_detect_irq(int irq, void *data)
 		wcd_mbhc_swch_irq_handler(mbhc);
 		mbhc->mbhc_cb->lock_sleep(mbhc, false);
 	}
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/03/03, Add for headset*/
 	enable_irq(irq);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	pr_debug("%s: leave %d\n", __func__, r);
 	return r;
@@ -2431,13 +2431,13 @@ static void wcd_btn_lpress_fn(struct work_struct *work)
 	struct wcd_mbhc *mbhc;
 	s16 btn_result = 0;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2016/09/26,
  *Add for necessary log.
  */
 #undef pr_debug
 #define pr_debug pr_info
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	pr_debug("%s: Enter\n", __func__);
 
@@ -2485,13 +2485,13 @@ static irqreturn_t wcd_mbhc_btn_press_handler(int irq, void *data)
 	int mask;
 	unsigned long msec_val;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2016/09/26,
  *Add for necessary log.
  */
 #undef pr_debug
 #define pr_debug pr_info
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	pr_debug("%s: enter\n", __func__);
 	complete(&mbhc->btn_press_compl);
@@ -2543,13 +2543,13 @@ static irqreturn_t wcd_mbhc_release_handler(int irq, void *data)
 	struct wcd_mbhc *mbhc = data;
 	int ret;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Jianfeng.Qiu@PSW.MM.AudioDriver.HeadsetDet, 2016/09/26,
  *Add for necessary log.
  */
 #undef pr_debug
 #define pr_debug pr_info
-#endif /* CONFIG_VENDOR_REALME */
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	pr_debug("%s: enter\n", __func__);
 	WCD_MBHC_RSC_LOCK(mbhc);
@@ -2571,12 +2571,12 @@ static irqreturn_t wcd_mbhc_release_handler(int irq, void *data)
 	 * headset not headphone.
 	 */
 	if (mbhc->current_plug == MBHC_PLUG_TYPE_HEADPHONE) {
-		#ifndef CONFIG_VENDOR_REALME
+		#ifndef CONFIG_PRODUCT_REALME_RMX1801
 		/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/04/15,
 		 *Delete for headset detect.
 		 */
 		wcd_mbhc_find_plug_and_report(mbhc, MBHC_PLUG_TYPE_HEADSET);
-		#endif /* CONFIG_VENDOR_REALME */
+		#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		goto exit;
 
 	}
@@ -2756,12 +2756,12 @@ static int wcd_mbhc_initialise(struct wcd_mbhc *mbhc)
 	wcd_program_hs_vref(mbhc);
 
 	wcd_program_btn_threshold(mbhc, false);
-	#ifdef CONFIG_VENDOR_REALME
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*xiang.fei@PSW.MM.AudioDriver.HeadsetDet, 2017/04/15,
 	 *Add for headset detect.
 	 */
 	INIT_DELAYED_WORK(&mbhc->hp_detect_work, wcd_mbhc_detect_plug_type_new);
-	#endif /* CONFIG_VENDOR_REALME */
+	#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	INIT_WORK(&mbhc->correct_plug_swch, wcd_correct_swch_plug);
 

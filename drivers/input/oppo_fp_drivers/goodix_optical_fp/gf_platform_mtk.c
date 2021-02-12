@@ -1,6 +1,6 @@
 /************************************************************************************
  ** File: - \android\vendor\oppo_app\fingerprints_hal\drivers\goodix_fp\gf_platform.c
- ** CONFIG_VENDOR_REALME
+ ** CONFIG_PRODUCT_REALME_RMX1801
  ** Copyright (C), 2008-2017, OPPO Mobile Comm Corp., Ltd
  **
  ** Description:

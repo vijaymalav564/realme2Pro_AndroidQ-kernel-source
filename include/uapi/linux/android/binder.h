@@ -538,7 +538,7 @@ enum binder_driver_command_protocol {
 	 */
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 //zhoumingjun@Swdp.shanghai, 2017/07/10, notify user space when binder transaction starts
 struct process_event_binder {
     struct task_struct *src;

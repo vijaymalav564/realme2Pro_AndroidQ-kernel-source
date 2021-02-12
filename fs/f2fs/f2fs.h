@@ -250,7 +250,7 @@ enum {
 
 #define MAX_DISCARD_BLOCKS(sbi)		BLKS_PER_SEC(sbi)
 #define DEF_MAX_DISCARD_REQUEST		8	/* issue 8 discards per round */
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*shifei.ge@TECH.Storage.FS, 2019-09-01, add for oDiscard */
 #define DEF_URGENT_DISCARD_ISSUE_TIME	50	/* 50 ms, if force */
 #define DEF_MIN_DISCARD_ISSUE_TIME	100	/* 100 ms, if exists */
@@ -258,7 +258,7 @@ enum {
 #define DEF_MIN_DISCARD_ISSUE_TIME	50	/* 50 ms, if exists */
 #endif
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*shifei.ge@TECH.Storage.FS, 2019-09-01, add for oDiscard */
 #define DEF_MID_DISCARD_ISSUE_TIME	2000		/* 2 s, if dev is busy */
 #define DEF_MAX_DISCARD_ISSUE_TIME	120000	/* 120 s, if no candidates */
@@ -349,7 +349,7 @@ struct discard_entry {
 #define plist_idx(blk_num)	((blk_num) >= MAX_PLIST_NUM ?		\
 					(MAX_PLIST_NUM - 1) : ((blk_num) - 1))
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*shifei.ge@TECH.Storage.FS, 2019-09-01, add for oDiscard */
 #define FS_FREE_SPACE_PERCENT		20
 #define DEVICE_FREE_SPACE_PERCENT	10
@@ -399,14 +399,14 @@ enum {
 	DPOLICY_FORCE,
 	DPOLICY_FSTRIM,
 	DPOLICY_UMOUNT,
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*shifei.ge@TECH.Storage.FS, 2019-09-01, add for oDiscard */
 	DPOLICY_ODISCARD,
 #endif
 	MAX_DPOLICY,
 };
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*shifei.ge@TECH.Storage.FS, 2019-09-24, discard for dev gc */
 enum {
 	F2FS_TRIM_START,
@@ -414,7 +414,7 @@ enum {
 	F2FS_TRIM_INTERRUPT,
 };
 #endif
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*shifei.ge@TECH.Storage.FS, 2019-09-25, run discard jobs when put_super */
 #define DEF_UMOUNT_DISCARD_TIMEOUT	5	/* 5 secs */
 #endif
@@ -431,7 +431,7 @@ struct discard_policy {
 	bool sync;			/* submit discard with REQ_SYNC flag */
 	bool ordered;			/* issue discard by lba order */
 	unsigned int granularity;	/* discard granularity */
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/* shifei.ge@TECH.Storage.FS, 2019-09-25 */
 	int timeout;			/* discard timeout for put_super */
 #endif
@@ -445,7 +445,7 @@ struct discard_cmd_control {
 	struct list_head fstrim_list;		/* in-flight discard from fstrim */
 	wait_queue_head_t discard_wait_queue;	/* waiting queue for wake-up */
 	unsigned int discard_wake;		/* to wake up discard thread */
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*shifei.ge@TECH.Storage.FS, 2019-09-1, add to for oDiscard & oTrim */
 	unsigned int odiscard_wake;		/* to wake up discard thread,for odiscard */
 	unsigned int otrim_wake;		/* to wake up discard thread,for otrim */
@@ -1238,7 +1238,7 @@ enum {
 enum {
 	CP_TIME,
 	REQ_TIME,
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* yanwu@TECH.Storage.FS.oF2FS, 2019-09-17, log last fsync after last cp in panic */
 	FSYNC_TIME,
 #endif
@@ -1471,7 +1471,7 @@ struct f2fs_sb_info {
 	unsigned long last_wp_odc_jiffies;
 	int odiscard_already_run;
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* yanwu@TECH.Storage.FS.oF2FS, 2019-09-17, log last fsync after last cp in panic */
 	nid_t last_fsync_ino;
 	struct notifier_block panic_notifier;
@@ -1538,7 +1538,7 @@ static inline bool f2fs_is_multi_device(struct f2fs_sb_info *sbi)
 (((u64)part_stat_read((s)->sb->s_bdev->bd_part, sectors[1]) -		 \
 		(s)->sectors_written_start) >> 1)
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* yanwu@TECH.Storage.FS.oF2FS, 2019-09-17, log last fsync after last cp in panic */
 static inline unsigned long f2fs_get_time(struct f2fs_sb_info *sbi, int type)
 {
@@ -3035,7 +3035,7 @@ static inline bool __is_valid_data_blkaddr(block_t blkaddr)
 	return true;
 }
 
-#ifdef CONFIG_VENDOR_REALME
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*shifei.ge@TECH.Storage.FS, 2019-09-01, add for oDiscard */
 static inline block_t fs_free_space_threshold(struct f2fs_sb_info *sbi)
 {

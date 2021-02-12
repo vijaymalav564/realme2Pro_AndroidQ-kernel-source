@@ -1597,7 +1597,6 @@ static int cred_has_capability(const struct cred *cred,
 		return -EINVAL;
 	}
 
-
 	rc = avc_has_perm_noaudit(sid, sid, sclass, av, 0, &avd);
 	if (audit == SECURITY_CAP_AUDIT) {
 		int rc2 = avc_audit(sid, sid, sclass, av, &avd, rc, &ad, 0);
@@ -2922,7 +2921,6 @@ static int selinux_inode_permission(struct inode *inode, int mask)
 
 	sid = cred_sid(cred);
 	isec = inode->i_security;
-
 
 	rc = avc_has_perm_noaudit(sid, isec->sid, isec->sclass, perms, 0, &avd);
 	audited = avc_audit_required(perms, &avd, rc,
@@ -4847,15 +4845,7 @@ static int selinux_nlmsg_perm(struct sock *sk, struct sk_buff *skb)
 			       " protocol=%hu nlmsg_type=%hu sclass=%s\n",
 			       sk->sk_protocol, nlh->nlmsg_type,
 			       secclass_map[sksec->sclass - 1].name);
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-/* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
- * between enforcing mode and permissive mode via /selinux/enforce or
- * selinux_enforcing symbol in normal/silence mode of release build.
- */
-			if (!is_selinux_enforcing() || security_get_allow_unknown())
-#else
 			if (!selinux_enforcing || security_get_allow_unknown())
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 				err = 0;
 		}
 
@@ -6165,15 +6155,7 @@ static __init int selinux_init(void)
 	if (avc_add_callback(selinux_netcache_avc_callback, AVC_CALLBACK_RESET))
 		panic("SELinux: Unable to register AVC netcache callback\n");
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-/* Xianlin.Wu@ROM.Security, 2019/07/27, add for disallow toggling the kernel
- * between enforcing mode and permissive mode via /selinux/enforce or
- * selinux_enforcing symbol in normal/silence mode of release build.
- */
-	if (is_selinux_enforcing())
-#else
 	if (selinux_enforcing)
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		printk(KERN_DEBUG "SELinux:  Starting in enforcing mode\n");
 	else
 		printk(KERN_DEBUG "SELinux:  Starting in permissive mode\n");
@@ -6194,7 +6176,6 @@ void selinux_complete_init(void)
 	printk(KERN_DEBUG "SELinux:  Setting up existing superblocks.\n");
 	iterate_supers(delayed_superblock_init, NULL);
 }
-
 
 /* SELinux requires early initialization in order to label
    all processes and objects when they are created. */

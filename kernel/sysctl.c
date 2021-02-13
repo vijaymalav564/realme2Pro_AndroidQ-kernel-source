@@ -501,27 +501,27 @@ static struct ctl_table kern_table[] = {
 },
 #endif /* CONFIG_NUMA_BALANCING */
 #endif /* CONFIG_SCHED_DEBUG */
-{
-	.procname	= "sched_rt_period_us",
-	.data		= &sysctl_sched_rt_period,
-	.maxlen		= sizeof(unsigned int),
-	.mode		= 0644,
-	.proc_handler	= sched_rt_handler,
-},
-{
-	.procname	= "sched_rt_runtime_us",
-	.data		= &sysctl_sched_rt_runtime,
-	.maxlen		= sizeof(int),
-	.mode		= 0644,
-	.proc_handler	= sched_rt_handler,
-},
-{
-	.procname	= "sched_rr_timeslice_ms",
-	.data		= &sched_rr_timeslice,
-	.maxlen		= sizeof(int),
-	.mode		= 0644,
-	.proc_handler	= sched_rr_handler,
-},
+	{
+		.procname	= "sched_rt_period_us",
+		.data		= &sysctl_sched_rt_period,
+		.maxlen		= sizeof(unsigned int),
+		.mode		= 0644,
+		.proc_handler	= sched_rt_handler,
+	},
+	{
+		.procname	= "sched_rt_runtime_us",
+		.data		= &sysctl_sched_rt_runtime,
+		.maxlen		= sizeof(int),
+		.mode		= 0644,
+		.proc_handler	= sched_rt_handler,
+	},
+	{
+		.procname	= "sched_rr_timeslice_ms",
+		.data		= &sysctl_sched_rr_timeslice,
+		.maxlen		= sizeof(int),
+		.mode		= 0644,
+		.proc_handler	= sched_rr_handler,
+	},
 #ifdef CONFIG_SCHED_AUTOGROUP
 {
 	.procname	= "sched_autogroup_enabled",
@@ -1562,7 +1562,7 @@ static struct ctl_table vm_table[] = {
 		.procname	= "drop_caches",
 		.data		= &sysctl_drop_caches,
 		.maxlen		= sizeof(int),
-		.mode		= 0644,
+		.mode		= 0200,
 		.proc_handler	= drop_caches_sysctl_handler,
 		.extra1		= &one,
 		.extra2		= &four,

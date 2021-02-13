@@ -15,8 +15,8 @@ CONFIG=RMX1801_defconfig
 CORES=$(grep -c ^processor /proc/cpuinfo)
 THREAD="-j$CORES"
 CROSS_COMPILE+="ccache "
-CROSS_COMPILE+="$PWD/tool64/bin/aarch64-linux-android-"
-CROSS_COMPILE_ARM32+="$PWD/tool/bin/arm-linux-androideabi-"
+CROSS_COMPILE+="$PWD/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
+CROSS_COMPILE_ARM32+="$PWD/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-"
 
 # Modules environtment
 OUTDIR="$PWD/out/"
@@ -24,7 +24,7 @@ SRCDIR="$PWD/"
 MODULEDIR="$PWD/AnyKernel3/modules/system/lib/modules/"
 PRIMA="$PWD/AnyKernel3/modules/vendor/lib/modules/wlan.ko"
 PRONTO="$PWD/AnyKernel3/modules/vendor/lib/modules/pronto/pronto_wlan.ko"
-STRIP="$PWD/tool64/bin/$(echo "$(find "$PWD/tool64/bin" -type f -name "aarch64-*-gcc")" | awk -F '/' '{print $NF}' |\
+STRIP="$PWD/aarch64-linux-android-4.9/bin/$(echo "$(find "$PWD/aarch64-linux-android-4.9/bin" -type f -name "aarch64-*-gcc")" | awk -F '/' '{print $NF}' |\
 			sed -e 's/gcc/strip/')"
 
 # Export
@@ -49,8 +49,8 @@ while true; do
 
 	if [ "$choice" == "1" ]; then
 		echo -e "\n(i) Cloning toolcahins if folder not exist..."
-		git clone https://gitlab.com/Vijaymalav564/aarch64-linux-android-4.9.git --depth 69 tool64
-                git clone https://gitlab.com/Vijaymalav564/arm-linux-androideabi-4.9.git --depth 69 tool
+		git clone https://github.com/vijaymalav564/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9 arm-linux-androideabi-4.9
+                git clone https://github.com/vijaymalav564/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 aarch64-linux-android-4.9
 		echo -e ""
 		make  O=out $CONFIG $THREAD &>/dev/null
 		make  O=out $THREAD & pid=$!
@@ -120,7 +120,7 @@ while true; do
 	if [ "$choice" == "4" ]; then
 		echo -e "\n#######################################################################"
         echo -e "\n(i) Cloning AnyKernel3 if folder not exist..."
-		git clone -b rmx1801 https://gitlab.com/Vijaymalav564/AnyKernel3.git
+		git clone -b rmx1801 https://github.com/Vijaymalav564/AnyKernel3.git
 		echo -e "\n(i) Strip and move modules to AnyKernel3..."
 
 		# thanks to @adekmaulana

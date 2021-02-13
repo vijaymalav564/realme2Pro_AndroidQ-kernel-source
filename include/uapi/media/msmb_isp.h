@@ -28,6 +28,7 @@
 
 struct msm_vfe_cfg_cmd_list;
 
+
 enum ISP_START_PIXEL_PATTERN {
 	ISP_BAYER_RGRGRG,
 	ISP_BAYER_GRGRGR,

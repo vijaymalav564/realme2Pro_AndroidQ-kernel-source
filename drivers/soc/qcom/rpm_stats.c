@@ -402,7 +402,7 @@ static ssize_t oppo_rpmstats_file_read(struct file *file, char __user *bufu,
 			prvdata->len = oppo_rpmstats_copy_stats(prvdata);
 		else if (prvdata->platform_data->version == 2)
 			prvdata->len = oppo_rpmstats_copy_stats_v2(prvdata);
-			*ppos = 0;
+		*ppos = 0;
 	} else {
 		//pr_err("%s read_idx:%d, num_records:%d\n", __func__,
 			//prvdata->read_idx, prvdata->num_records);

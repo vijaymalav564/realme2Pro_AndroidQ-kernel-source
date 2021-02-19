@@ -15,8 +15,8 @@ CONFIG=RMX1801_defconfig
 CORES=$(grep -c ^processor /proc/cpuinfo)
 THREAD="-j$CORES"
 CROSS_COMPILE+="ccache "
-CROSS_COMPILE+="$PWD/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
-CROSS_COMPILE_ARM32+="$PWD/arm-linux-androideabi-4.9/bin/arm-linux-androideabi-"
+CROSS_COMPILE+="$PWD/tool64/bin/aarch64-linux-gnu-"
+CROSS_COMPILE_ARM32+="$PWD/tool32/bin/arm-linux-gnueabihf-"
 
 # Modules environtment
 OUTDIR="$PWD/out/"
@@ -24,7 +24,7 @@ SRCDIR="$PWD/"
 MODULEDIR="$PWD/AnyKernel3/modules/system/lib/modules/"
 PRIMA="$PWD/AnyKernel3/modules/vendor/lib/modules/wlan.ko"
 PRONTO="$PWD/AnyKernel3/modules/vendor/lib/modules/pronto/pronto_wlan.ko"
-STRIP="$PWD/aarch64-linux-android-4.9/bin/$(echo "$(find "$PWD/aarch64-linux-android-4.9/bin" -type f -name "aarch64-*-gcc")" | awk -F '/' '{print $NF}' |\
+STRIP="$PWD/tool64/bin/$(echo "$(find "$PWD/tool64/bin" -type f -name "aarch64-*-gcc")" | awk -F '/' '{print $NF}' |\
 			sed -e 's/gcc/strip/')"
 
 # Export
@@ -49,8 +49,9 @@ while true; do
 
 	if [ "$choice" == "1" ]; then
 		echo -e "\n(i) Cloning toolcahins if folder not exist..."
-		git clone https://github.com/vijaymalav564/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9 arm-linux-androideabi-4.9
-                git clone https://github.com/vijaymalav564/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 aarch64-linux-android-4.9
+		wget https://releases.linaro.org/components/toolchain/binaries/6.1-2016.08/aarch64-linux-gnu/gcc-linaro-6.1.1-2016.08-x86_64_aarch64-linux-gnu.tar.xz && tar -xvf gcc-linaro-6.1.1-2016.08-x86_64_aarch64-linux-gnu.tar.xz && mv gcc-linaro-6.1.1-2016.08-x86_64_aarch64-linux-gnu tool64
+		wget https://releases.linaro.org/components/toolchain/binaries/6.1-2016.08/arm-linux-gnueabihf/gcc-linaro-6.1.1-2016.08-x86_64_arm-linux-gnueabihf.tar.xz && tar -xvf gcc-linaro-6.1.1-2016.08-x86_64_arm-linux-gnueabihf.tar.xz && mv gcc-linaro-6.1.1-2016.08-x86_64_arm-linux-gnueabihf tool32
+
 		echo -e ""
 		make  O=out $CONFIG $THREAD &>/dev/null
 		make  O=out $THREAD & pid=$!

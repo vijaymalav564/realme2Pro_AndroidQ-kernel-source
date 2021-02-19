@@ -415,8 +415,8 @@ sub_mainboard_set:
 			else if(id2 == 0)
 				snprintf(speaker_mainboard_info.manufacture, INFO_BUF_LEN, "%d-speaker-oversea", get_project());
 			else
-				speaker_mainboard_info.manufacture = "sub-UNSPECIFIED";
-				register_device_proc("speaker_mainboard", speaker_mainboard_info.version, speaker_mainboard_info.manufacture);
+			speaker_mainboard_info.manufacture = "sub-UNSPECIFIED";
+			register_device_proc("speaker_mainboard", speaker_mainboard_info.version, speaker_mainboard_info.manufacture);
 				break;
 		}
 		case OPPO_17085:

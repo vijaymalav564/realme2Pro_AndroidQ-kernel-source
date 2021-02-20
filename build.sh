@@ -15,8 +15,8 @@ CONFIG=RMX1801_defconfig
 CORES=$(grep -c ^processor /proc/cpuinfo)
 THREAD="-j$CORES"
 CROSS_COMPILE+="ccache "
-CROSS_COMPILE+="$PWD/tool64/bin/aarch64-linux-android-"
-CROSS_COMPILE_ARM32+="$PWD/tool/bin/arm-linux-androideabi-"
+CROSS_COMPILE+="$PWD/tool64/bin/aarch64-linux-gnu-"
+CROSS_COMPILE_ARM32+="$PWD/tool32/bin/arm-linux-gnueabihf-"
 
 # Modules environtment
 OUTDIR="$PWD/out/"
@@ -49,8 +49,7 @@ while true; do
 
 	if [ "$choice" == "1" ]; then
 		echo -e "\n(i) Cloning toolcahins if folder not exist..."
-		git clone https://gitlab.com/Vijaymalav564/aarch64-linux-android-4.9.git --depth 69 tool64
-                git clone https://gitlab.com/Vijaymalav564/arm-linux-androideabi-4.9.git --depth 69 tool
+
 		echo -e ""
 		make  O=out $CONFIG $THREAD &>/dev/null
 		make  O=out $THREAD & pid=$!
@@ -120,7 +119,7 @@ while true; do
 	if [ "$choice" == "4" ]; then
 		echo -e "\n#######################################################################"
         echo -e "\n(i) Cloning AnyKernel3 if folder not exist..."
-		git clone -b rmx1801 https://gitlab.com/Vijaymalav564/AnyKernel3.git
+		git clone -b rmx1801 https://github.com/Vijaymalav564/AnyKernel3.git
 		echo -e "\n(i) Strip and move modules to AnyKernel3..."
 
 		# thanks to @adekmaulana

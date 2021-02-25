@@ -11,7 +11,7 @@ static struct kobject *systeminfo_kobj;
 
 #define MAX_CMD_LENGTH 32
 
-static int ftm_mode  __ro_after_init = MSM_BOOT_MODE__NORMAL;
+static int ftm_mode = MSM_BOOT_MODE__NORMAL;
 
 int __init  board_mfg_mode_init(void)
 {	
@@ -36,8 +36,6 @@ int __init  board_mfg_mode_init(void)
             ftm_mode = MSM_BOOT_MODE__SILENCE;
         else if(strncmp(substr, "ftmsau", 6) == 0)
             ftm_mode = MSM_BOOT_MODE__SAU;
-		else if (strncmp(substr, "ftmsafe", 7) == 0)
-			ftm_mode = MSM_BOOT_MODE__SAFE;
     } 	
 
 	pr_err("board_mfg_mode_init, " "ftm_mode=%d\n", ftm_mode);
@@ -108,7 +106,7 @@ static struct attribute_group attr_group = {
 
 #ifdef CONFIG_PRODUCT_REALME_RMX1801
 /* OPPO 2013-09-03 heiwei add for add interface start reason and boot_mode begin */
-char pwron_event[MAX_CMD_LENGTH + 1];
+char pwron_event[MAX_CMD_LENGTH];
 static int __init start_reason_init(void)
 {
     int i;
@@ -127,7 +125,7 @@ static int __init start_reason_init(void)
 }
 //__setup("androidboot.startupmode=", start_reason_setup);
 
-char boot_mode[MAX_CMD_LENGTH + 1]  __ro_after_init;
+char boot_mode[MAX_CMD_LENGTH];
 
 #ifdef CONFIG_PRODUCT_REALME_RMX1801
 //Fuchun.Liao@Mobile.BSP.CHG 2016-01-14 add for charge
@@ -142,7 +140,7 @@ bool qpnp_is_power_off_charging(void)
 #endif
 #ifdef CONFIG_PRODUCT_REALME_RMX1801
 //PengNan@SW.BSP add for detect charger when reboot 2016-04-22
-char charger_reboot[MAX_CMD_LENGTH + 1];
+char charger_reboot[MAX_CMD_LENGTH];
 bool qpnp_is_charger_reboot(void)
 {
 	pr_err("%s charger_reboot:%s\n", __func__, charger_reboot);
@@ -168,32 +166,6 @@ static int __init oppo_charger_reboot(void)
 }
 #endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-/*Xianlin.Wu@ROM.Security add for detect bootloader unlock state 2019-10-28*/
-static int verified_boot_state __ro_after_init = VERIFIED_BOOT_STATE__GREEN;
-bool is_bootloader_unlocked(void)
-{
-        return verified_boot_state == VERIFIED_BOOT_STATE__ORANGE;
-}
-
-static int __init verified_boot_state_init(void)
-{
-        char * substr = strstr(boot_command_line, "androidboot.verifiedbootstate=");
-        if (substr) {
-                substr += strlen("androidboot.verifiedbootstate=");
-                if (strncmp(substr, "green", 5) == 0) {
-                        verified_boot_state = VERIFIED_BOOT_STATE__GREEN;
-                } else if (strncmp(substr, "orange", 6) == 0) {
-                        verified_boot_state = VERIFIED_BOOT_STATE__ORANGE;
-                } else if (strncmp(substr, "yellow", 6) == 0) {
-                        verified_boot_state = VERIFIED_BOOT_STATE__YELLOW;
-                } else if (strncmp(substr, "red", 3) == 0) {
-                        verified_boot_state = VERIFIED_BOOT_STATE__RED;
-                }
-        }
-        return 0;
-}
-#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 int __init  board_boot_mode_init(void)
 {	
@@ -235,10 +207,7 @@ static int __init boot_mode_init(void)
 //PengNan@SW.BSP add for detect charger when reboot 2016-04-22
 	oppo_charger_reboot();
 #endif /*CONFIG_PRODUCT_REALME_RMX1801*/
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-/*Xianlin.Wu@ROM.Security add for detect bootloader unlock state 2019-10-28*/
-        verified_boot_state_init();
-#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
+
 /* OPPO 2013-09-03 zhanglong add for add interface start reason and boot_mode end */
 	/* OPPO 2013.07.09 hewei add begin for factory mode*/
 	systeminfo_kobj = kobject_create_and_add("systeminfo", NULL);

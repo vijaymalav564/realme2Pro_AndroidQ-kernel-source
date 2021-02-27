@@ -6466,12 +6466,6 @@ void mdss_fb_report_panel_dead(struct msm_fb_data_type *mfd)
 		return;
 	}
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//add for backlight key log
-		mm_keylog_write("mdss lcd exception\n", "mdss report lcd panel dead\n", TYPE_ESD_EXCEPTION);
-#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
-
-
 	pdata->panel_info.panel_dead = true;
 	kobject_uevent_env(&mfd->fbi->dev->kobj,
 		KOBJ_CHANGE, envp);

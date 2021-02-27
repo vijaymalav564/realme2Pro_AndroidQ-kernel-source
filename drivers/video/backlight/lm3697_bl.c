@@ -637,9 +637,6 @@ static int lm3697_bl_probe(struct i2c_client *client,
     ret = lm3697_chip_init(pchip);
     if (ret < 0) {
         dev_err(&client->dev, "fail : init chip\n");
-        //YongPeng.Yi@MultiMedia.Display.LCD.Stability, 2017/03/08,
-        //add for bl key log
-        mm_keylog_write("No Backlight\n", "Backlight device probe failed\n", TYPE_BL_EXCEPTION);
         goto error_enable;
     }
 

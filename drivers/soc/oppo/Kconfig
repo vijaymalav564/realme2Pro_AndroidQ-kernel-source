@@ -23,33 +23,4 @@ source "drivers/soc/oppo/oppo_project/Kconfig"
 
 source "drivers/soc/oppo/oppo_devinfo/Kconfig"
 
-source "drivers/soc/oppo/oppo_trace/Kconfig"
-source "drivers/soc/oppo/oppo_mdmrst/Kconfig"
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-#//John.Xu@PhoneSw.AudioDriver, 2016/02/22, Add for critical_log
-source "drivers/soc/oppo/oppo_criticallog/Kconfig"
 #endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-#//jie.cheng@swdp.sh, 2016/04/15, Add hypnus helper
-source "drivers/soc/oppo/oppo_hypnus/Kconfig"
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-#//wenbin.liu@PSW.Kernel.MM, 2018/05/23, Add for Healthinfo monitor
-source "drivers/soc/oppo/oppo_healthinfo/Kconfig"
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-#//Wen.Luo@BSP
-source "drivers/soc/oppo/oppo_shutdown_detect/Kconfig"
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-#//GaoTing.Gan@PSW.MultiMedia.MediaServer, 2019/03/07, Add for kevent feedback
-source "drivers/soc/oppo/oppo_kevent_feedback/Kconfig"
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-

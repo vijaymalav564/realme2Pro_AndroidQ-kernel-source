@@ -42,11 +42,6 @@
 #define CREATE_TRACE_POINTS
 #include <trace/events/trace_msm_pil_event.h>
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//GaoTing.Gan@PSW.MultiMedia.MediaServer, 2019/03/06, Add for record vnus ramdump
-#include <soc/oppo/oppo_kevent_feedback.h>
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
-
 #include "peripheral-loader.h"
 
 #define pil_err(desc, fmt, ...)						\
@@ -280,11 +275,6 @@ int pil_do_ramdump(struct pil_desc *desc,
 	struct ramdump_segment *ramdump_segs, *s;
 	void __iomem *offset;
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//GaoTing.Gan@PSW.MultiMedia.MediaServer, 2019/03/06, Add for record ramdump
-	unsigned char payload[100] = "";
-#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
-
 	memcpy(&offset, &priv->minidump_ss, sizeof(priv->minidump_ss));
 	/*
 	 * Collect minidump if smem base is initialized,
@@ -322,14 +312,6 @@ int pil_do_ramdump(struct pil_desc *desc,
 	if (ret)
 		pil_err(desc, "%s: Ramdump collection failed for subsys %s rc:%d\n",
 				__func__, desc->name, ret);
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-//GaoTing.Gan@PSW.MultiMedia.MediaServer, 2019/03/06, Add for record ramdump
-	scnprintf(payload, sizeof(payload), "EventID@@%d$$SUBSYS_NAME@@%s$$RAMDUMP_RET@@%d",OPPO_MM_DIRVER_FB_EVENT_ID_VIDEO_DUMP,desc->name, ret);
-	upload_mm_kevent_feedback_data(OPPO_MM_DIRVER_FB_EVENT_MODULE_VIDEO,payload);
-	pil_err(desc, "%s: ggt Ramdump collection for SUBSYS_NAME:%s rc:%d  vmid:%d\n",
-				__func__, desc->name, ret, desc->subsys_vmid);
-#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	if (desc->subsys_vmid > 0)
 		ret = pil_assign_mem_to_subsys(desc, priv->region_start,

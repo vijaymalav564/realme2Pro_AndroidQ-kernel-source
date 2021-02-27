@@ -927,10 +927,6 @@ static int kgsl_iommu_fault_handler(struct iommu_domain *domain,
 
 		KGSL_MEM_CRIT(ctx->kgsldev,
 			"GPU PAGE FAULT: addr = %lX pid= %d\n", addr, ptname);
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-/* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2017/11/25  Add for keylog */
-		mm_keylog_write("kgsl iommu fault\n", "GPU PAGE FAULT\n", TYPE_IOMMU_ERROR);
-#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 		KGSL_MEM_CRIT(ctx->kgsldev,
 			"context=%s ctx_type=%s TTBR0=0x%llx CIDR=0x%x (%s %s fault)\n",
 			ctx->name, api_str, ptbase, contextidr,

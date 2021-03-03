@@ -1881,7 +1881,6 @@ static int __mdss_fb_ffl_thread(void *data)
 		}
 
 		if(index < system_backlight_target) {
-			for(index = index; index < system_backlight_target; index =index + BACKUPRATE) {
 				if(is_ffl_enable ==FFL_EXIT_FULLY_CONTROL)
 					break;
 				else if ((is_ffl_enable ==FFL_EXIT_CONTROL)||(is_ffl_enable ==FFL_TRIGGLE_CONTROL)) {
@@ -1891,8 +1890,7 @@ static int __mdss_fb_ffl_thread(void *data)
 					mdelay(6);
 				}
 			}
-		} else if (index > system_backlight_target) {
-			for(index =index; index > system_backlight_target; index =index - BACKUPRATE) {
+		 else if (index > system_backlight_target) {
 				if(is_ffl_enable ==FFL_EXIT_FULLY_CONTROL)
 					break;
 				else if ((is_ffl_enable ==FFL_EXIT_CONTROL)||(is_ffl_enable ==FFL_TRIGGLE_CONTROL)) {
@@ -1902,7 +1900,6 @@ static int __mdss_fb_ffl_thread(void *data)
 					mdelay(6);
 				}
 			}
-		}
 
 		mutex_lock(&mfd->bl_lock);
 		mdss_fb_set_backlight(mfd, system_backlight_target);

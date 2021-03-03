@@ -2931,7 +2931,7 @@ enum Tfa98xx_Error tfaRunStartup(Tfa98xx_handle_t handle, int profile)
         if (tfa98xx_runtime_verbose) pr_debug("Timed out\n");
         return Tfa98xx_Error_StateTimedOut;
     }  else
-        if (tfa98xx_runtime_verbose) pr_debug(" OK (tries=%d)\n", tries);
+           if (tfa98xx_runtime_verbose) pr_debug(" OK (tries=%d)\n", tries);
 	#ifdef CONFIG_PRODUCT_REALME_RMX1801
 	/*Ping.Zhang@PSW.MM.AudioDriver.SmartPA, 2016/08/22, Add for current*/
 	status = TFA_GET_BF(handle, CLKS);

@@ -576,7 +576,10 @@ __mutex_lock_common(struct mutex *lock, long state, unsigned int subclass,
 		 * got a signal? (This code gets eliminated in the
 		 * TASK_UNINTERRUPTIBLE case.)
 		 */
-		if (unlikely(signal_pending_state(state, task))) {
+		//#ifdef CONFIG_PRODUCT_REALME_RMX1801 fangpan@Swdp.shanghai,2015/11/12
+		if (unlikely(signal_pending_state(state, task))
+			|| hung_long_and_fatal_signal_pending(task)) {
+		//#endif
 			ret = -EINTR;
 			goto err;
 		}

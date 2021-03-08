@@ -42,7 +42,6 @@
 #include <linux/memory.h>
 #include <linux/printk.h>
 #include <linux/userfaultfd_k.h>
-#include <linux/mm.h>
 
 #include <asm/uaccess.h>
 #include <asm/cacheflush.h>
@@ -1495,6 +1494,7 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
 	return addr;
 }
 
+
 SYSCALL_DEFINE6(mmap_pgoff, unsigned long, addr, unsigned long, len,
 		unsigned long, prot, unsigned long, flags,
 		unsigned long, fd, unsigned long, pgoff)
@@ -1538,6 +1538,7 @@ SYSCALL_DEFINE6(mmap_pgoff, unsigned long, addr, unsigned long, len,
 	flags &= ~(MAP_EXECUTABLE | MAP_DENYWRITE);
 
 	retval = vm_mmap_pgoff(file, addr, len, prot, flags, pgoff);
+
 out_fput:
 	if (file)
 		fput(file);
@@ -2513,6 +2514,7 @@ static void unmap_region(struct mm_struct *mm,
 	struct vm_area_struct *next = prev ? prev->vm_next : mm->mmap;
 	struct mmu_gather tlb;
 
+
 	lru_add_drain();
 	tlb_gather_mmu(&tlb, mm, start, end);
 	update_hiwater_rss(mm);
@@ -2532,8 +2534,8 @@ detach_vmas_to_be_unmapped(struct mm_struct *mm, struct vm_area_struct *vma,
 {
 	struct vm_area_struct **insertion_point;
 	struct vm_area_struct *tail_vma = NULL;
-
 	insertion_point = (prev ? &prev->vm_next : &mm->mmap);
+
 	vma->vm_prev = NULL;
 	do {
 		vma_rb_erase(vma, &mm->mm_rb);
@@ -2948,6 +2950,7 @@ unsigned long vm_brk(unsigned long addr, unsigned long request)
 }
 EXPORT_SYMBOL(vm_brk);
 
+
 /* Release all mmaps. */
 void exit_mmap(struct mm_struct *mm)
 {
@@ -2972,6 +2975,7 @@ void exit_mmap(struct mm_struct *mm)
 	vma = mm->mmap;
 	if (!vma)	/* Can happen if dup_mmap() received an OOM */
 		return;
+
 
 	lru_add_drain();
 	flush_cache_mm(mm);

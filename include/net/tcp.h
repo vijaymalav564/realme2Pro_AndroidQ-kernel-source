@@ -300,6 +300,19 @@ extern int sysctl_tcp_use_userconfig;
 extern struct percpu_counter tcp_sockets_allocated;
 extern int tcp_memory_pressure;
 
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+//Ming.Liu@PSW.CN.WiFi.Network.quality.1065762, 2016/10/09,
+//add for: [monitor tcp info]
+extern int sysctl_tcp_info_print;
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+//Mengqing.Zhao@PSW.CN.WiFi.Network.internet.1394484, 2019/04/02,
+//add for: When find TCP SYN-ACK Timestamp value error, just do not use Timestamp
+extern int sysctl_tcp_ts_control[2];
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+
+
 /* optimized version of sk_under_memory_pressure() for TCP sockets */
 static inline bool tcp_under_memory_pressure(const struct sock *sk)
 {

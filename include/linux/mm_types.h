@@ -533,7 +533,9 @@ struct mm_struct {
 #endif
 
 	struct work_struct async_put_work;
+
 };
+
 
 static inline void mm_init_cpumask(struct mm_struct *mm)
 {

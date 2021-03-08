@@ -57,6 +57,12 @@ enum {
 #endif
 	MIGRATE_PCPTYPES, /* the number of types on the pcp lists */
 	MIGRATE_HIGHATOMIC = MIGRATE_PCPTYPES,
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+/* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
+ * Add a migrate type to manage special page alloc/free
+ */
+	MIGRATE_OPPO2,
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 #ifdef CONFIG_MEMORY_ISOLATION
 	MIGRATE_ISOLATE,	/* can't allocate from here */
 #endif
@@ -175,6 +181,16 @@ enum zone_stat_item {
 	WORKINGSET_NODERECLAIM,
 	NR_ANON_TRANSPARENT_HUGEPAGES,
 	NR_FREE_CMA_PAGES,
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+/* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
+ * Account free pages for MIGRATE_OPPO
+ */
+	NR_FREE_OPPO2_PAGES,
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+/*Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-09-25, add ion cached account*/
+	NR_IONCACHE_PAGES,
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	NR_SWAPCACHE,
 	NR_INDIRECTLY_RECLAIMABLE_BYTES, /* measured in bytes */
 	NR_VM_ZONE_STAT_ITEMS };
@@ -355,6 +371,13 @@ struct zone {
 	unsigned long watermark[NR_WMARK];
 
 	unsigned long nr_reserved_highatomic;
+
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+/* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
+ * Number of MIGRATE_OPPO page block.
+ */
+	unsigned long nr_migrate_oppo2_block;
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 	/*
 	 * We don't know if the memory that we're going to allocate will be

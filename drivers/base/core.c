@@ -56,11 +56,19 @@ void lock_device_hotplug(void)
 {
 	mutex_lock(&device_hotplug_lock);
 }
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+//jie.cheng@swdp.shanghai, 2016/06/24, export some symbol
+EXPORT_SYMBOL(lock_device_hotplug);
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 void unlock_device_hotplug(void)
 {
 	mutex_unlock(&device_hotplug_lock);
 }
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+//jie.cheng@swdp.shanghai, 2016/06/24, export some symbol
+EXPORT_SYMBOL(unlock_device_hotplug);
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 int lock_device_hotplug_sysfs(void)
 {
@@ -1624,6 +1632,10 @@ int device_offline(struct device *dev)
 
 	return ret;
 }
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+//jie.cheng@swdp.shanghai, 2016/06/24, export some symbol
+EXPORT_SYMBOL(device_offline);
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 /**
  * device_online - Put the device back online after successful device_offline().
@@ -1655,6 +1667,10 @@ int device_online(struct device *dev)
 
 	return ret;
 }
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+//jie.cheng@swdp.shanghai, 2016/06/24, export some symbol
+EXPORT_SYMBOL(device_online);
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 
 struct root_device {
 	struct device dev;

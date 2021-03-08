@@ -18,6 +18,10 @@
 #include <asm/page.h>
 #include <asm/pgtable.h>
 #include "internal.h"
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
+#include <linux/ion.h>
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 void __attribute__((weak)) arch_report_meminfo(struct seq_file *m)
 {
@@ -146,6 +150,15 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
 		"CmaTotal:       %8lu kB\n"
 		"CmaFree:        %8lu kB\n"
 #endif
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+/* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21 */
+		"Oppo2Free:      %8lu kB\n"
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_ION)
+/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
+		"IonTotalCache:  %8lu kB\n"
+		"IonTotalUsed:   %8lu kB\n"
+#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 		,
 		K(i.totalram),
 		K(i.freeram),
@@ -205,6 +218,15 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
 		, K(totalcma_pages)
 		, K(global_page_state(NR_FREE_CMA_PAGES))
 #endif
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+/* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21 */
+		, K(global_page_state(NR_FREE_OPPO2_PAGES))
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+#if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_ION)
+/* Huacai.Zhou@PSW.BSP.Kernel.MM, 2018-06-26, add ion total used account*/
+		, K(global_page_state(NR_IONCACHE_PAGES))
+		, K(ion_total() >> PAGE_SHIFT)
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 		);
 
 	hugetlb_report_meminfo(m);

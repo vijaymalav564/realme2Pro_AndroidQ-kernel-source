@@ -852,7 +852,6 @@ static void msm_isp_sync_dual_cam_frame_id(
 				ms_res->src_info[i]->dual_hw_ms_info.index);
 		}
 	}
-				frame_id - (src_info->frame_id + 1);
 	ms_res->active_src_mask |= (1 << src_info->dual_hw_ms_info.index);
 	src_info->frame_id = frame_id;
 	src_info->dual_hw_ms_info.sync_state = MSM_ISP_DUAL_CAM_SYNC;

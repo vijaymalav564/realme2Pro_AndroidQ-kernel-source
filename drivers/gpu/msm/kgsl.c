@@ -376,7 +376,7 @@ static int kgsl_mem_entry_track_gpuaddr(struct kgsl_device *device,
 /* Commit the entry to the process so it can be accessed by other operations */
 static void kgsl_mem_entry_commit_process(struct kgsl_mem_entry *entry)
 {
-	nf (!entry)
+	if (!entry)
 		return;
 
 	spin_lock(&entry->priv->mem_lock);

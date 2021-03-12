@@ -6370,7 +6370,7 @@ boosted_cpu_util(int cpu)
 	unsigned long util = cpu_util_freq(cpu);
 	int margin;
 
-	trace_sched_boost_cpu(cpu, util, margin);
+//	trace_sched_boost_cpu(cpu, util, margin);
 
 #ifdef CONFIG_DYNAMIC_STUNE_BOOST
 	if (dsb_boosting || sched_feat(SCHEDTUNE_BOOST_UTIL))

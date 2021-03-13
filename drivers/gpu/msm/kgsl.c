@@ -4488,7 +4488,6 @@ static unsigned long _search_range(struct kgsl_process_private *private,
 	return result;
 }
 
-
 static unsigned long _get_svm_area(struct kgsl_process_private *private,
 		struct kgsl_mem_entry *entry, unsigned long hint,
 		unsigned long len, unsigned long flags)
@@ -4556,16 +4555,6 @@ static unsigned long _get_svm_area(struct kgsl_process_private *private,
 
 	return result;
 }
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-/* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2018/06/08  Add for keylog */
-static DEFINE_MUTEX(kgsl_failed_mutex);
-#define FAILED_PID_CNT 20
-static int ucm_index = 0;
-static pid_t ucm[FAILED_PID_CNT];
-
-static int nucm_index = 0;
-static pid_t nucm[FAILED_PID_CNT];
-#endif
 
 static unsigned long
 kgsl_get_unmapped_area(struct file *file, unsigned long addr,
@@ -4578,11 +4567,6 @@ kgsl_get_unmapped_area(struct file *file, unsigned long addr,
 	struct kgsl_process_private *private = dev_priv->process_priv;
 	struct kgsl_device *device = dev_priv->device;
 	struct kgsl_mem_entry *entry = NULL;
-	#ifdef CONFIG_PRODUCT_REALME_RMX1801
-	/* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2018/06/08  Add for keylog */
-	int i = 0;
-	int saved = 0;
-	#endif
 
 	if (vma_offset == (unsigned long) device->memstore.gpuaddr)
 		return get_unmapped_area(NULL, addr, len, pgoff, flags);
@@ -4599,67 +4583,19 @@ kgsl_get_unmapped_area(struct file *file, unsigned long addr,
 
 	if (!kgsl_memdesc_use_cpu_map(&entry->memdesc)) {
 		val = get_unmapped_area(NULL, addr, len, 0, flags);
-#ifndef CONFIG_PRODUCT_REALME_RMX1801
-/* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2017/11/25  Add for keylog */
 		if (IS_ERR_VALUE(val))
 			KGSL_DRV_ERR_RATELIMIT(device,
 				"get_unmapped_area: pid %d addr %lx pgoff %lx len %ld failed error %d\n",
-				private->pid, addr, pgoff, len, (int) val);
-#else
-		if (IS_ERR_VALUE(val)) {
-			KGSL_DRV_ERR_RATELIMIT(device,
-				"get_unmapped_area: pid %d:%s addr %lx pgoff %lx len %ld failed error %d\n",
-				private->pid, private->comm, addr, pgoff, len, (int) val);
-
-			mutex_lock(&kgsl_failed_mutex);
-			for (i = 0; i < FAILED_PID_CNT; i++) {
-				if (nucm[i] == private->pid) {
-					saved = 1;
-					break;
-				}
-			}
-			if (!saved) {
-				nucm[nucm_index++] = private->pid;
-				if (nucm_index >= FAILED_PID_CNT) {
-					nucm_index = 0;
-				}
-			}
-			mutex_unlock(&kgsl_failed_mutex);
-		}
-#endif
+				pid_nr(private->pid), addr,
+				pgoff, len, (int) val);
 	} else {
 		 val = _get_svm_area(private, entry, addr, len, flags);
-#ifndef CONFIG_PRODUCT_REALME_RMX1801
-/* Rongchun.Zhang@PSW.MM.Display.GPU.Log, 2017/11/25  Add for keylog */
 		 if (IS_ERR_VALUE(val))
 			KGSL_DRV_ERR_RATELIMIT(device,
 				"_get_svm_area: pid %d mmap_base %lx addr %lx pgoff %lx len %ld failed error %d\n",
 				pid_nr(private->pid),
 				current->mm->mmap_base, addr,
 				pgoff, len, (int) val);
-#else
-		 if (IS_ERR_VALUE(val)) {
-			KGSL_DRV_ERR_RATELIMIT(device,
-				"_get_svm_area: pid %d:%s mmap_base %lx addr %lx pgoff %lx len %ld failed error %d\n",
-				private->pid, private->comm, current->mm->mmap_base, addr,
-				pgoff, len, (int) val);
-
-			mutex_lock(&kgsl_failed_mutex);
-			for (i = 0; i < FAILED_PID_CNT; i++) {
-				if (ucm[i] == private->pid) {
-					saved = 1;
-					break;
-				}
-			}
-			if (!saved) {
-				ucm[ucm_index++] = private->pid;
-				if (ucm_index >= FAILED_PID_CNT) {
-					ucm_index = 0;
-				}
-			}
-			mutex_unlock(&kgsl_failed_mutex);
-		}
-#endif
 	}
 
 put:

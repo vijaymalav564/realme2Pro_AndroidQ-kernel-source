@@ -282,6 +282,13 @@ static inline void __mod_zone_freepage_state(struct zone *zone, int nr_pages,
 	__mod_zone_page_state(zone, NR_FREE_PAGES, nr_pages);
 	if (is_migrate_cma(migratetype))
 		__mod_zone_page_state(zone, NR_FREE_CMA_PAGES, nr_pages);
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+/* Hui.Fan@PSW.BSP.Kernel.MM, 2017-8-21
+ * Account free pages for MIGRATE_OPPO2
+ */
+	if (migratetype == MIGRATE_OPPO2)
+		__mod_zone_page_state(zone, NR_FREE_OPPO2_PAGES, nr_pages);
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 }
 
 extern const char * const vmstat_text[];

@@ -110,6 +110,14 @@ struct mmc_request {
 	struct mmc_host		*host;
 	struct mmc_cmdq_req	*cmdq_req;
 	struct request *req;
+	#ifdef CONFIG_PRODUCT_REALME_RMX1801
+	//rendong.shi@BSP.Storage.emmc,2017/4/29,merge debug patch1918004 for emmc issue
+	unsigned long long mrq_start;
+	#endif
+        #if defined(CONFIG_PRODUCT_REALME_RMX1801) && defined(CONFIG_OPPO_HEALTHINFO)
+        //yh@PSW.BSP.Storage.Emmc, 2018-09-30, Add for monitor cmdq driver wait time
+	ktime_t cmdq_request_time_start;
+        #endif
 	ktime_t io_start;
 #ifdef CONFIG_BLOCK
 	int					lat_hist_enabled;

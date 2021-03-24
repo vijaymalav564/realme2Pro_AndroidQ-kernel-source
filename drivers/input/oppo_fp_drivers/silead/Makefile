@@ -4,6 +4,4 @@ ccflags-y += -DUSED_GPIO_PWR
 ccflags-y += -DCONFIG_MSM_855
 endif
 
-ifeq ($(CONFIG_OPPO_FINGERPRINT_QCOM),y)
 obj-y += silead_fp_platform.o
-endif

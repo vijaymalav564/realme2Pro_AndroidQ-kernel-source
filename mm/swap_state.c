@@ -58,7 +58,10 @@ unsigned long total_swapcache_pages(void)
 		ret += swapper_spaces[i].nrpages;
 	return ret;
 }
-
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+//fangpan@Swdp.shanghai, 2015/11/26, add interface for resmon module
+EXPORT_SYMBOL(total_swapcache_pages);
+#endif
 static atomic_t swapin_readahead_hits = ATOMIC_INIT(4);
 
 void show_swap_cache_info(void)

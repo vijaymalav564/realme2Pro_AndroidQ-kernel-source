@@ -3106,6 +3106,11 @@ int mmc_attach_mmc(struct mmc_host *host)
 
 	register_reboot_notifier(&host->card->reboot_notify);
 
+//#ifdef CONFIG_PRODUCT_REALME_RMX1801
+//cuixiaogang@SRC, 2018-04-03. add emmc scaling api
+//	device_use_mmc = true;
+//#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+
 	return 0;
 
 remove_card:

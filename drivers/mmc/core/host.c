@@ -615,7 +615,10 @@ struct mmc_host *mmc_alloc_host(int extra, struct device *dev)
 	}
 
 	dev_set_name(&host->class_dev, "mmc%d", host->index);
-
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+//yh@bsp, 2015-10-21 Add for special card compatible
+        host->card_stuck_in_programing_status = false;
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
 	host->parent = dev;
 	host->class_dev.parent = dev;
 	host->class_dev.class = &mmc_host_class;
@@ -631,6 +634,11 @@ struct mmc_host *mmc_alloc_host(int extra, struct device *dev)
 	spin_lock_init(&host->lock);
 	init_waitqueue_head(&host->wq);
 	INIT_DELAYED_WORK(&host->detect, mmc_rescan);
+#ifdef CONFIG_PRODUCT_REALME_RMX1801
+    //Lycan.Wang@Prd.BasicDrv, 2014-07-09 Add for retry 5 times when new sdcard init error
+    host->detect_change_retry = 5;
+#endif /* CONFIG_PRODUCT_REALME_RMX1801 */
+
 #ifdef CONFIG_PM
 	host->pm_notify.notifier_call = mmc_pm_notify;
 #endif
@@ -914,7 +922,6 @@ int mmc_add_host(struct mmc_host *host)
 	mmc_start_host(host);
 	if (!(host->pm_flags & MMC_PM_IGNORE_PM_NOTIFY))
 		register_pm_notifier(&host->pm_notify);
-
 	return 0;
 }
 

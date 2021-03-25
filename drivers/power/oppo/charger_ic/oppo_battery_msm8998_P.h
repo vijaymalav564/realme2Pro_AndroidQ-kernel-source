@@ -1,24 +1,18 @@
-/* Copyright (c) 2016-2017 The Linux Foundation. All rights reserved.
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 and
- * only version 2 as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- */
+#ifndef _OPPO_BATTERY_QCOM_MSM8998_P_H_
+#define _OPPO_BATTERY_QCOM_MSM8998_P_H_
 
-#ifndef __SMB2_CHARGER_H
-#define __SMB2_CHARGER_H
+#include <linux/of.h>
 #include <linux/types.h>
 #include <linux/interrupt.h>
 #include <linux/irqreturn.h>
 #include <linux/regulator/driver.h>
 #include <linux/regulator/consumer.h>
 #include <linux/extcon.h>
-#include "storm-watch.h"
+
+#include "../../../../kernel/msm-4.4/drivers/power/supply/qcom/smb-reg.h"
+#include "../../../../kernel/msm-4.4/drivers/power/supply/qcom/battery.h"
+#include "../../../../kernel/msm-4.4/drivers/power/supply/qcom/step-chg-jeita.h"
+#include "../../../../kernel/msm-4.4/drivers/power/supply/qcom/storm-watch.h"
 
 enum print_reason {
 	PR_INTERRUPT	= BIT(0),
@@ -65,9 +59,6 @@ enum print_reason {
 #define OTG_DELAY_VOTER			"OTG_DELAY_VOTER"
 #define USBIN_I_VOTER			"USBIN_I_VOTER"
 #define WEAK_CHARGER_VOTER		"WEAK_CHARGER_VOTER"
-#define WBC_VOTER			"WBC_VOTER"
-#define OV_VOTER			"OV_VOTER"
-#define FCC_STEPPER_VOTER		"FCC_STEPPER_VOTER"
 
 #define VCONN_MAX_ATTEMPTS	3
 #define OTG_MAX_ATTEMPTS	3
@@ -86,8 +77,6 @@ enum {
 	TYPEC_CC2_REMOVAL_WA_BIT	= BIT(2),
 	QC_AUTH_INTERRUPT_WA_BIT	= BIT(3),
 	OTG_WA				= BIT(4),
-	OV_IRQ_WA_BIT			= BIT(5),
-	TYPEC_PBS_WA_BIT		= BIT(6),
 };
 
 enum smb_irq_index {
@@ -130,12 +119,6 @@ enum smb_irq_index {
 	TEMPERATURE_CHANGE_IRQ,
 	SWITCH_POWER_OK_IRQ,
 	SMB_IRQ_MAX,
-};
-
-enum try_sink_exit_mode {
-	ATTACHED_SRC = 0,
-	ATTACHED_SINK,
-	UNATTACHED_SINK,
 };
 
 struct smb_irq_info {
@@ -242,7 +225,6 @@ struct smb_charger {
 	struct smb_params	param;
 	struct smb_iio		iio;
 	int			*debug_mask;
-	int			*try_sink_enabled;
 	enum smb_mode		mode;
 	struct smb_chg_freq	chg_freq;
 	int			smb_version;
@@ -359,13 +341,11 @@ struct smb_charger {
 	u8			float_cfg;
 	bool			use_extcon;
 	bool			otg_present;
-	bool			fcc_stepper_mode;
 
 	/* workaround flag */
 	u32			wa_flags;
 	bool			cc2_detach_wa_active;
 	bool			typec_en_dis_active;
-	bool			try_sink_active;
 	int			boost_current_ua;
 	int			temp_speed_reading_count;
 
@@ -383,6 +363,55 @@ struct smb_charger {
 /* Jianchao.Shi@BSP.CHG.Basic, 2017/08/10, sjc Add for charging */
 	int			pre_current_ma;
 #endif
+};
+
+enum skip_reason {
+	REASON_OTG_ENABLED	= BIT(0),
+	REASON_FLASH_ENABLED	= BIT(1)
+};
+
+struct smb_dt_props {
+	int	usb_icl_ua;
+	int	dc_icl_ua;
+	int	boost_threshold_ua;
+	int	wipower_max_uw;
+	int	min_freq_khz;
+	int	max_freq_khz;
+	struct	device_node *revid_dev_node;
+	int	float_option;
+	int	chg_inhibit_thr_mv;
+	bool	no_battery;
+	bool	hvdcp_disable;
+	bool	auto_recharge_soc;
+	int	wd_bark_time;
+};
+
+struct smb2 {
+	struct smb_charger	chg;
+	struct dentry		*dfs_root;
+	struct smb_dt_props	dt;
+	bool			bad_part;
+};
+
+struct qcom_pmic {
+	struct smb2 *smb2_chip;
+	struct qpnp_vadc_chip	*pm660_vadc_dev;
+
+	/* for complie*/
+	bool			otg_pulse_skip_dis;
+	int			pulse_cnt;
+	unsigned int	therm_lvl_sel;
+	bool			psy_registered;
+	int			usb_online;
+	
+	/* copy from msm8976_pmic begin */
+	int			bat_charging_state;
+	bool	 		suspending;
+	bool			aicl_suspend;
+	bool			usb_hc_mode;
+	int    		usb_hc_count;
+	bool			hc_mode_flag;
+	/* copy form msm8976_pmic end */
 };
 
 int smblib_read(struct smb_charger *chg, u16 addr, u8 *val);
@@ -453,6 +482,14 @@ int smblib_get_prop_batt_health(struct smb_charger *chg,
 int smblib_get_prop_system_temp_level(struct smb_charger *chg,
 				union power_supply_propval *val);
 int smblib_get_prop_input_current_limited(struct smb_charger *chg,
+				union power_supply_propval *val);
+int smblib_get_prop_batt_voltage_now(struct smb_charger *chg,
+				union power_supply_propval *val);
+int smblib_get_prop_batt_current_now(struct smb_charger *chg,
+				union power_supply_propval *val);
+int smblib_get_prop_batt_temp(struct smb_charger *chg,
+				union power_supply_propval *val);
+int smblib_get_prop_batt_charge_counter(struct smb_charger *chg,
 				union power_supply_propval *val);
 int smblib_set_prop_input_suspend(struct smb_charger *chg,
 				const union power_supply_propval *val);
@@ -541,13 +578,9 @@ int smblib_get_icl_current(struct smb_charger *chg, int *icl_ua);
 int smblib_get_charge_current(struct smb_charger *chg, int *total_current_ua);
 int smblib_get_prop_pr_swap_in_progress(struct smb_charger *chg,
 				union power_supply_propval *val);
-int smblib_get_prop_from_bms(struct smb_charger *chg,
-				enum power_supply_property psp,
-				union power_supply_propval *val);
 int smblib_set_prop_pr_swap_in_progress(struct smb_charger *chg,
 				const union power_supply_propval *val);
-void smblib_usb_typec_change(struct smb_charger *chg);
 
 int smblib_init(struct smb_charger *chg);
 int smblib_deinit(struct smb_charger *chg);
-#endif /* __SMB2_CHARGER_H */
+#endif /* _OPPO_BATTERY_QCOM_MSM8998_O_H_ */

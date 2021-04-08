@@ -37,16 +37,6 @@
 #include "kgsl_cffdump.h"
 #include "kgsl_pwrctrl.h"
 
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-/* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2017/11/25  Add for keylog */
-#include <soc/oppo/mmkey_log.h>
-#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
-
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-/* Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm dcs for gpu. */
-#include <linux/oppo_mm_kevent_fb.h>
-#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
-
 #define _IOMMU_PRIV(_mmu) (&((_mmu)->priv.iommu))
 
 #define ADDR_IN_GLOBAL(_mmu, _a) \
@@ -871,11 +861,6 @@ static int kgsl_iommu_fault_handler(struct iommu_domain *domain,
 
 	if (kgsl_iommu_suppress_pagefault(addr, write, context)) {
 		iommu->pagefault_suppression_count++;
-		#ifdef CONFIG_PRODUCT_REALME_RMX1801
-		/* Wenhua.Leng@PSW.MM.Display.LCD.Machine, 2019/02/11,add for mm kevent gpu. */
-		KGSL_CORE_ERR("kgsl_iommu_suppress_pagefault, falut_type=%s\n",
-			fault_type);
-		#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 		kgsl_context_put(context);
 		return ret;
 	}
@@ -1127,7 +1112,6 @@ static void setup_64bit_pagetable(struct kgsl_mmu *mmu,
 		pt->compat_va_end = KGSL_IOMMU_SECURE_BASE(mmu);
 		pt->va_start = KGSL_IOMMU_VA_BASE64;
 		pt->va_end = KGSL_IOMMU_VA_END64;
-
 	}
 
 	if (pagetable->name != KGSL_MMU_GLOBAL_PT &&

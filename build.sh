@@ -15,7 +15,7 @@ CONFIG=RMX1801_defconfig
 CORES=$(grep -c ^processor /proc/cpuinfo)
 THREAD="-j$CORES"
 CROSS_COMPILE+="ccache "
-CROSS_COMPILE+="$PWD/aarch64-linaro-gcc-6.1/bin/aarch64-linux-gnu-"
+CROSS_COMPILE+="$PWD/aarch64-cortex_a53-linux-gnueabi-uber/bin/aarch64-cortex_a53-linux-gnueabi-"
 CROSS_COMPILE_ARM32+="$PWD/arm-linaro-gcc-6.1/bin/arm-linux-gnueabihf-"
 
 # Modules environtment
@@ -24,7 +24,7 @@ SRCDIR="$PWD/"
 MODULEDIR="$PWD/AnyKernel3/modules/system/lib/modules/"
 PRIMA="$PWD/AnyKernel3/modules/vendor/lib/modules/wlan.ko"
 PRONTO="$PWD/AnyKernel3/modules/vendor/lib/modules/pronto/pronto_wlan.ko"
-STRIP="$PWD/aarch64-linaro-gcc-6.1/bin/$(echo "$(find "$PWD/aarch64-linaro-gcc-6.1/bin" -type f -name "aarch64-*-gcc")" | awk -F '/' '{print $NF}' |\
+STRIP="$PWD/aarch64-cortex_a53-linux-gnueabi-uber/bin/$(echo "$(find "$PWD/aarch64-cortex_a53-linux-gnueabi-uber/bin" -type f -name "aarch64-*-gcc")" | awk -F '/' '{print $NF}' |\
 			sed -e 's/gcc/strip/')"
 
 # Export
@@ -50,7 +50,7 @@ while true; do
 	if [ "$choice" == "1" ]; then
 		echo -e "\n(i) Cloning toolcahins if folder not exist..."
 		git clone https://gitlab.com/Vijaymalav564/arm-linaro-gcc-6.1.git
-		git clone https://gitlab.com/Vijaymalav564/aarch64-linaro-gcc-6.1.git
+		git clone https://github.com/SmokeyMcBong/aarch64-cortex_a53-linux-gnueabi-uber
 		echo -e ""
 		make  O=out $CONFIG $THREAD &>/dev/null
 		make  O=out $THREAD & pid=$!

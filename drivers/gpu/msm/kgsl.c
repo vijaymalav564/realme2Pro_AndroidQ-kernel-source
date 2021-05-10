@@ -42,10 +42,6 @@
 #include "kgsl_sync.h"
 #include "kgsl_compat.h"
 #include "kgsl_pool.h"
-#ifdef CONFIG_PRODUCT_REALME_RMX1801
-/* Xiaori.Yuan@PSW.MM.Display.GPU.Log, 2017/11/25  Add for keylog */
-#include <soc/oppo/mmkey_log.h>
-#endif /*CONFIG_PRODUCT_REALME_RMX1801*/
 
 #undef MODULE_PARAM_PREFIX
 #define MODULE_PARAM_PREFIX "kgsl."
@@ -4586,8 +4582,7 @@ kgsl_get_unmapped_area(struct file *file, unsigned long addr,
 		if (IS_ERR_VALUE(val))
 			KGSL_DRV_ERR_RATELIMIT(device,
 				"get_unmapped_area: pid %d addr %lx pgoff %lx len %ld failed error %d\n",
-				pid_nr(private->pid), addr,
-				pgoff, len, (int) val);
+				private->pid, addr, pgoff, len, (int) val);
 	} else {
 		 val = _get_svm_area(private, entry, addr, len, flags);
 		 if (IS_ERR_VALUE(val))

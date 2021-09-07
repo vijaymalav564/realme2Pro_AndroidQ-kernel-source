@@ -9,80 +9,80 @@ typedef int (*rtnl_dumpit_func)(struct sk_buff *, struct netlink_callback *);
 typedef u16 (*rtnl_calcit_func)(struct sk_buff *, struct nlmsghdr *);
 
 int __rtnl_register(int protocol, int msgtype,
-		    rtnl_doit_func, rtnl_dumpit_func, rtnl_calcit_func);
+	    rtnl_doit_func, rtnl_dumpit_func, rtnl_calcit_func);
 void rtnl_register(int protocol, int msgtype,
-		   rtnl_doit_func, rtnl_dumpit_func, rtnl_calcit_func);
+	   rtnl_doit_func, rtnl_dumpit_func, rtnl_calcit_func);
 int rtnl_unregister(int protocol, int msgtype);
 void rtnl_unregister_all(int protocol);
 
 static inline int rtnl_msg_family(const struct nlmsghdr *nlh)
 {
-	if (nlmsg_len(nlh) >= sizeof(struct rtgenmsg))
-		return ((struct rtgenmsg *) nlmsg_data(nlh))->rtgen_family;
-	else
-		return AF_UNSPEC;
+if (nlmsg_len(nlh) >= sizeof(struct rtgenmsg))
+	return ((struct rtgenmsg *) nlmsg_data(nlh))->rtgen_family;
+else
+	return AF_UNSPEC;
 }
 
 /**
- *	struct rtnl_link_ops - rtnetlink link operations
- *
- *	@list: Used internally
- *	@kind: Identifier
- *	@netns_refund: Physical device, move to init_net on netns exit
- *	@maxtype: Highest device specific netlink attribute number
- *	@policy: Netlink policy for device specific attribute validation
- *	@validate: Optional validation function for netlink/changelink parameters
- *	@priv_size: sizeof net_device private space
- *	@setup: net_device setup function
- *	@newlink: Function for configuring and registering a new device
- *	@changelink: Function for changing parameters of an existing device
- *	@dellink: Function to remove a device
- *	@get_size: Function to calculate required room for dumping device
- *		   specific netlink attributes
- *	@fill_info: Function to dump device specific netlink attributes
- *	@get_xstats_size: Function to calculate required room for dumping device
- *			  specific statistics
- *	@fill_xstats: Function to dump device specific statistics
- *	@get_num_tx_queues: Function to determine number of transmit queues
- *			    to create when creating a new device.
- *	@get_num_rx_queues: Function to determine number of receive queues
- *			    to create when creating a new device.
- *	@get_link_net: Function to get the i/o netns of the device
- */
+*	struct rtnl_link_ops - rtnetlink link operations
+*
+*	@list: Used internally
+*	@kind: Identifier
+*	@netns_refund: Physical device, move to init_net on netns exit
+*	@maxtype: Highest device specific netlink attribute number
+*	@policy: Netlink policy for device specific attribute validation
+*	@validate: Optional validation function for netlink/changelink parameters
+*	@priv_size: sizeof net_device private space
+*	@setup: net_device setup function
+*	@newlink: Function for configuring and registering a new device
+*	@changelink: Function for changing parameters of an existing device
+*	@dellink: Function to remove a device
+*	@get_size: Function to calculate required room for dumping device
+*		   specific netlink attributes
+*	@fill_info: Function to dump device specific netlink attributes
+*	@get_xstats_size: Function to calculate required room for dumping device
+*			  specific statistics
+*	@fill_xstats: Function to dump device specific statistics
+*	@get_num_tx_queues: Function to determine number of transmit queues
+*			    to create when creating a new device.
+*	@get_num_rx_queues: Function to determine number of receive queues
+*			    to create when creating a new device.
+*	@get_link_net: Function to get the i/o netns of the device
+*/
 struct rtnl_link_ops {
-	struct list_head	list;
+struct list_head	list;
 
-	const char		*kind;
+const char		*kind;
 
-	size_t			priv_size;
-	void			(*setup)(struct net_device *dev);
+size_t			priv_size;
+void			(*setup)(struct net_device *dev);
 
-	unsigned int		maxtype;
-	const struct nla_policy	*policy;
-	int			(*validate)(struct nlattr *tb[],
-					    struct nlattr *data[]);
+int			maxtype;
+const struct nla_policy	*policy;
+int			(*validate)(struct nlattr *tb[],
+				    struct nlattr *data[]);
 
-	int			(*newlink)(struct net *src_net,
-					   struct net_device *dev,
-					   struct nlattr *tb[],
-					   struct nlattr *data[]);
-	int			(*changelink)(struct net_device *dev,
-					      struct nlattr *tb[],
-					      struct nlattr *data[]);
-	void			(*dellink)(struct net_device *dev,
-					   struct list_head *head);
+int			(*newlink)(struct net *src_net,
+				   struct net_device *dev,
+				   struct nlattr *tb[],
+				   struct nlattr *data[]);
+int			(*changelink)(struct net_device *dev,
+				      struct nlattr *tb[],
+				      struct nlattr *data[]);
+void			(*dellink)(struct net_device *dev,
+				   struct list_head *head);
 
-	size_t			(*get_size)(const struct net_device *dev);
-	int			(*fill_info)(struct sk_buff *skb,
-					     const struct net_device *dev);
+size_t			(*get_size)(const struct net_device *dev);
+int			(*fill_info)(struct sk_buff *skb,
+				     const struct net_device *dev);
 
-	size_t			(*get_xstats_size)(const struct net_device *dev);
-	int			(*fill_xstats)(struct sk_buff *skb,
-					       const struct net_device *dev);
-	unsigned int		(*get_num_tx_queues)(void);
-	unsigned int		(*get_num_rx_queues)(void);
+size_t			(*get_xstats_size)(const struct net_device *dev);
+int			(*fill_xstats)(struct sk_buff *skb,
+				       const struct net_device *dev);
+unsigned int		(*get_num_tx_queues)(void);
+unsigned int		(*get_num_rx_queues)(void);
 	bool			netns_refund;
-	unsigned int		slave_maxtype;
+	int			slave_maxtype;
 	const struct nla_policy	*slave_policy;
 	int			(*slave_validate)(struct nlattr *tb[],
 						  struct nlattr *data[]);

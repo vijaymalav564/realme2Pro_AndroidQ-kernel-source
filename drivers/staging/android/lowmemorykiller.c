@@ -374,7 +374,7 @@ static int lmk_vmpressure_notifier(struct notifier_block *nb,
 		other_free = global_page_state(NR_FREE_PAGES);
 #ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*Huacai.Zhou@PSW.Tech.Kernel.Performance, 2019-02-18, do not kill precess when memory is greater than 1GB*/
-		if ((other_free + other_file) <  totalram_pages/almk_totalram_ratio)
+		if ((other_free + other_file) <  totalram_pages()/almk_totalram_ratio)
 			atomic_set(&shift_adj, 1);
 #else
 		atomic_set(&shift_adj, 1);
@@ -721,7 +721,7 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 #ifdef CONFIG_PRODUCT_REALME_RMX1801
 /*huacai.zhou@PSW.BSP.Kernel.MM, 2019/12/03, add aggressive lmk to speed up memory free*/
 		if (agrlmk_enable &&
-			((other_free + other_file) < totalram_pages/agrlmk_totalram_ratio)) {
+			((other_free + other_file) < totalram_pages()/agrlmk_totalram_ratio)) {
 				if ((swap_pages * agrlmk_swap_ratio1 < total_swap_pages))
 					to_be_aggressive++;
 			}

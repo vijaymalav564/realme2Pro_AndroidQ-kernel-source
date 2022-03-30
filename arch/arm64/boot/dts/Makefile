@@ -18,8 +18,8 @@ dts-dirs += mediatek
 #dts-dirs += 16118
 #dts-dirs += 17011
 #dts-dirs += 17021
-dts-dirs += 17081
-dts-dirs += 17085
+#dts-dirs += 17081
+#dts-dirs += 17085
 #dts-dirs += 17086
 dts-dirs += 18321
 #endif

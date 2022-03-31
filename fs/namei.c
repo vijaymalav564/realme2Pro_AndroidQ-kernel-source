@@ -1114,9 +1114,9 @@ static int may_create_in_sticky(umode_t dir_mode, kuid_t dir_uid,
 {
 	if ((!sysctl_protected_fifos && S_ISFIFO(inode->i_mode)) ||
 	    (!sysctl_protected_regular && S_ISREG(inode->i_mode)) ||
-		likely(!(dir_mode & S_ISVTX)) ||
-		uid_eq(inode->i_uid, dir_uid) ||
-		uid_eq(current_fsuid(), inode->i_uid))
+	    likely(!(dir_mode & S_ISVTX)) ||
+	    uid_eq(inode->i_uid, dir_uid) ||
+	    uid_eq(current_fsuid(), inode->i_uid))
 		return 0;
 
 	if (likely(dir_mode & 0002) ||
@@ -1462,7 +1462,7 @@ static int follow_dotdot_rcu(struct nameidata *nd)
 			nd->path.dentry = parent;
 			nd->seq = seq;
 			if (unlikely(!path_connected(&nd->path)))
-				return -ENOENT;
+				return -ECHILD;
 			break;
 		} else {
 			struct mount *mnt = real_mount(nd->path.mnt);

@@ -907,7 +907,7 @@ struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *prog)
 
 	bpf_flush_icache(header, ctx.image + ctx.idx);
 
-	set_memory_ro((unsigned long)header, header->pages);
+//	set_memory_ro((unsigned long)header, header->pages);
 	prog->bpf_func = (void *)ctx.image;
 	prog->jited = 1;
 
@@ -928,7 +928,7 @@ void bpf_jit_free(struct bpf_prog *prog)
 	if (!prog->jited)
 		goto free_filter;
 
-	set_memory_rw(addr, header->pages);
+//	set_memory_rw(addr, header->pages);
 	bpf_jit_binary_free(header);
 
 free_filter:
